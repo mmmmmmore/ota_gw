@@ -1,0 +1,2 @@
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/edit_cache.dir
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/rebuild_cache.dir

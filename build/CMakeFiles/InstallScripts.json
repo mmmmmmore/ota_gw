@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
