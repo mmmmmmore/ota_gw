@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart_Vehicle_Control</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #video-container {
+      width: 320px;
+      height: 240px;
+      background-color: #ccc;
+      margin: 0 auto;
+      border: 2px solid #333;
+    }
+
+    #controls {
+      margin: 10px;
+    }
+
+    #joystick {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      background-color: #eee;
+      border: 2px solid #333;
+      border-radius: 50%;
+      touch-action: none;
+    }
+
+    #knob {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+      top: 90px;
+      left: 90px;
+      cursor: pointer;
+    }
+
+    #joystick-controls {
+      margin-top: 10px;
+    }
+
+    #joystick-controls button {
+      margin: 5px;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    /* OTA 区域样式 */
+    #ota-section {
+      margin-top: 30px;
+      padding: 10px;
+      border-top: 2px dashed #666;
+    }
+
+    #ota-progress {
+      width: 80%;
+      height: 20px;
+      background-color: #ccc; /* 默认灰色背景 */
+      border: 1px solid #333;
+      margin: 10px auto;
+      position: relative;
+    }
+
+    #ota-bar {
+      width: 0%;
+      height: 100%;
+      background-color: green; /* 完成后绿色 */
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Camera_Zone</h2>
+  <div id="video-container">
+    <img id="video" src="" width="320" height="240" alt="Camera Feed" />
+  </div>
+
+  <div id="controls">
+    <button onclick="startStream()">Start</button>
+    <button onclick="stopStream()">Stop</button>
+  </div>
+
+  <h2>Direction_Ctrl</h2>
+  <div id="joystick">
+    <div id="knob"></div>
+  </div>
+
+  <div id="joystick-controls">
+    <button onclick="requestControl()">Control</button>
+    <button onclick="releaseControl()">Release</button>
+  </div>
+
+  <!-- OTA 控制区 -->
+  <h2>OTA_Update</h2>
+  <div id="ota-section">
+    <button onclick="startOTA()">OTA_Start</button>
+    <div id="ota-progress">
+      <div id="ota-bar"></div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    let streamActive = false;
+    let hasControl = false;
+    const currentUUID = generateUUID();
+
+    function generateUUID() {
+      return 'xxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    function startStream() {
+      fetch('/start').then(() => {
+        video.src = '/stream';
+        streamActive = true;
+      });
+    }
+
+    function stopStream() {
+      fetch('/stop').then(() => {
+        video.src = '';
+        streamActive = false;
+      });
+    }
+
+    const joystick = document.getElementById('joystick');
+    const knob = document.getElementById('knob');
+    const radius = 100;
+    const knobRadius = 10;
+
+    function updateKnob(dx, dy) {
+      if (!hasControl) return;
+
+      const distance = Math.min(Math.sqrt(dx * dx + dy * dy), radius - knobRadius);
+      const angle = Math.atan2(dy, dx);
+
+      const x = radius + distance * Math.cos(angle) - knobRadius;
+      const y = radius + distance * Math.sin(angle) - knobRadius;
+
+      knob.style.left = `${x}px`;
+      knob.style.top = `${y}px`;
+
+      const degree = Math.round(angle * (180 / Math.PI));
+      const normalizedDistance = Math.round((distance / (radius - knobRadius)) * 100);
+
+      fetch('/joystick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uuid: currentUUID,
+          angle: degree,
+          distance: normalizedDistance
+        })
+      });
+    }
+
+    function resetKnob() {
+      knob.style.left = `${radius - knobRadius}px`;
+      knob.style.top = `${radius - knobRadius}px`;
+
+      if (!hasControl) return;
+
+      fetch('/joystick', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uuid: currentUUID,
+          angle: 0,
+          distance: 0
+        })
+      });
+    }
+
+    knob.onmousedown = function (e) {
+      e.preventDefault();
+      if (!hasControl) return;
+
+      document.onmousemove = function (eMove) {
+        const rect = joystick.getBoundingClientRect();
+        const centerX = rect.left + radius;
+        const centerY = rect.top + radius;
+        const dx = eMove.clientX - centerX;
+        const dy = eMove.clientY - centerY;
+        updateKnob(dx, dy);
+      };
+      document.onmouseup = function () {
+        document.onmousemove = null;
+        document.onmouseup = null;
+        resetKnob();
+      };
+    };
+
+    knob.addEventListener('touchstart', function (e) {
+      if (!hasControl) return;
+      e.preventDefault();
+    }, { passive: false });
+
+    knob.addEventListener('touchmove', function (e) {
+      if (!hasControl) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      const rect = joystick.getBoundingClientRect();
+      const centerX = rect.left + radius;
+      const centerY = rect.top + radius;
+      const dx = touch.clientX - centerX;
+      const dy = touch.clientY - centerY;
+      updateKnob(dx, dy);
+    }, { passive: false });
+
+    knob.addEventListener('touchend', function () {
+      if (!hasControl) return;
+      resetKnob();
+    }, { passive: false });
+
+    function requestControl() {
+      fetch('/control/request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uuid: currentUUID })
+      }).then(response => response.json())
+        .then(data => {
+          if (data.granted) {
+            hasControl = true;
+            alert('Control granted.');
+          } else {
+            hasControl = false;
+            alert(`Control denied. Current owner: ${data.current_owner}`);
+          }
+        });
+    }
+
+    function releaseControl() {
+      fetch('/control/release', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uuid: currentUUID })
+      }).then(response => response.json())
+        .then(data => {
+          hasControl = false;
+          alert('Control released.');
+        });
+    }
+
+    function startOTA() {
+      fetch('/ota')
+        .then(response => {
+          if (response.ok) {
+            alert('OTA update started.');
+            otaTimer = setInterval(pollOTAStatus, 2000); 
+          } else {
+            alert('Failed to start OTA.');
+          }
+        })
+        .catch(error => {
+          console.error('OTA error:', error);
+          alert('OTA request failed.');
+        });
+    }
+
+    // 轮询 OTA 状态
+    function pollOTAStatus() {
+      fetch('/ota/status')
+        .then(response => response.json())
+        .then(data => {
+          const bar = document.getElementById('ota-bar');
+          if (data.result === 1) {
+            bar.style.width = '100%';
+            bar.style.backgroundColor = 'green';
+            clearInterval(otaTimer);
+          } else if (data.result === -1) {
+            bar.style.width = '100%';
+            bar.style.backgroundColor = 'red';
+            clearInterval(otaTimer);
+          } else {
+            bar.style.width = '50%';
+            bar.style.backgroundColor = '#ccc'; // 进行中或 idle
+          }
+        })
+        .catch(err => {
+          console.error('OTA status error:', err);
+          clearInterval(otaTimer);
+      });
+    }
+
+    // 每 2 秒查询一次结果
+    setInterval(pollOTAStatus, 2000);
+  </script>
+
+</body>
+</html>

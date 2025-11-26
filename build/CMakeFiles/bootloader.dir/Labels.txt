@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/bootloader
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/bootloader.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/bootloader-complete.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

@@ -1,0 +1,8 @@
+{
+  "project": "esp32_wifi_control",
+  "latest_version": "1.0.2",
+  "firmware_url": "http://192.168.4.2/esp32_wifi_control_v1.0.2.bin",
+  "checksum": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3", 
+  "release_date": "2025-11-06",
+  "notes": "优化摄像头采集和电机控制逻辑"
+}

@@ -1,3 +1,0 @@
-Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=/Users/maochun/.espressif/python_env/idf6.0_py3.13_env/bin/python -DESP_PLATFORM=1 -DIDF_TARGET=esp32s3 -DCCACHE_ENABLE=0 /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw
--- Found Git: /usr/bin/git (found version "2.37.1 (Apple Git-137.1)")
--- Configuring incomplete, errors occurred!
