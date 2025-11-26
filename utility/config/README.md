@@ -1,0 +1,1 @@
+this function for configuration for different remarks
