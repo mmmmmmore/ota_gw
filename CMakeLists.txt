@@ -25,7 +25,7 @@ set(PROJECT_VER "2.0.1" CACHE STRING "Project version")
 # 2.0.1 as big change version, add ota feature
 
 # 定义项目名称和版本
-project(esp32_wifi_control VERSION ${PROJECT_VER})
+project(ota_gw VERSION ${PROJECT_VER})
 
 # SPIFFS 构建规则（如果启用）
 spiffs_create_partition_image(spiffs spiffs FLASH_IN_PROJECT "spiffs")

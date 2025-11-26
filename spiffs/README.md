@@ -1,0 +1,1 @@
+spiffs for the web page, matching with the partition config
