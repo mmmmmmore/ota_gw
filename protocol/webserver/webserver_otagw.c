@@ -4,9 +4,10 @@
 
 static const char *TAG = "WEB_OTAGW";
 
-// 全局保存当前任务信息
+// 全局保存当前任务信息和进度
 static char current_task[512] = {0};
 static bool task_pending = false;
+static int current_progress = 0; // 0~100
 
 // 接收 OTA Server 推送任务
 static esp_err_t ota_task_handler(httpd_req_t *req) {
@@ -17,6 +18,7 @@ static esp_err_t ota_task_handler(httpd_req_t *req) {
     }
     current_task[ret] = '\0';
     task_pending = true;
+    current_progress = 0; // 新任务进度归零
 
     ESP_LOGI(TAG, "Received OTA task: %s", current_task);
 
@@ -35,6 +37,15 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// 提供任务进度信息
+static esp_err_t progress_info_handler(httpd_req_t *req) {
+    char buf[64];
+    snprintf(buf, sizeof(buf), "{\"progress\":%d}", current_progress);
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_sendstr(req, buf);
+    return ESP_OK;
+}
+
 // 接收用户选择 Accept/Deny
 static esp_err_t user_response_handler(httpd_req_t *req) {
     char buf[64];
@@ -50,6 +61,8 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     if (strcmp(buf, "Accept") == 0) {
         ESP_LOGI(TAG, "User accepted OTA task, notify ota_handler...");
         // TODO: 调用 ota_handler_process(current_task);
+        // 模拟进度更新
+        current_progress = 10;
         task_pending = false;
     } else {
         ESP_LOGI(TAG, "User denied OTA task, reporting to OTA Server...");
@@ -66,6 +79,7 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
         esp_http_client_cleanup(client);
 
         task_pending = false;
+        current_progress = 0;
     }
 
     httpd_resp_sendstr(req, "Response received");
@@ -89,6 +103,14 @@ static void register_uri_handlers(httpd_handle_t server) {
         .user_ctx  = NULL
     };
     httpd_register_uri_handler(server, &task_info_uri);
+
+    httpd_uri_t progress_info_uri = {
+        .uri       = "/progress_info",
+        .method    = HTTP_GET,
+        .handler   = progress_info_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &progress_info_uri);
 
     httpd_uri_t user_response_uri = {
         .uri       = "/ota_user_response",
