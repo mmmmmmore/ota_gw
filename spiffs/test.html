@@ -1,0 +1,83 @@
+<!-- 版本查询 -->
+<div id="version" class="section hidden">
+  <h2>版本查询</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Client 名称</th>
+        <th>当前版本</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody id="client-list">
+      <tr>
+        <td>Client_1</td>
+        <td>v1.0.0</td>
+        <td><button id="checkUpdateBtn">检查更新</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <!-- 新增测试按钮 -->
+  <button id="simulateOtaBtn">模拟 OTA 推送</button>
+</div>
+
+<!-- 弹窗 -->
+<div id="modal">
+  <h3>版本更新信息</h3>
+  <div id="taskInfo"></div>
+  <button onclick="sendResponse('Accept')">Accept</button>
+  <button onclick="sendResponse('Deny')">Deny</button>
+  <div id="progressBar"><div></div></div>
+  <div id="progressText"></div>
+</div>
+
+<script>
+  // 默认检查更新按钮不可用
+  let checkBtn = document.getElementById('checkUpdateBtn');
+  checkBtn.disabled = true;
+  checkBtn.style.backgroundColor = "grey";
+  checkBtn.style.cursor = "not-allowed";
+
+  // 模拟 OTA 推送按钮逻辑
+  document.getElementById('simulateOtaBtn').onclick = function() {
+    checkBtn.disabled = false;
+    checkBtn.classList.add('active');
+    checkBtn.style.backgroundColor = "green";
+    checkBtn.style.cursor = "pointer";
+    checkBtn.onclick = showModal;
+    alert("模拟 OTA 推送任务已到达，可以点击检查更新");
+  };
+
+  function showModal() {
+    document.getElementById('modal').style.display = 'block';
+    document.getElementById('taskInfo').innerText = "模拟版本更新: v1.0.0 → v1.1.0";
+  }
+
+  function sendResponse(choice) {
+    if (choice === 'Accept') {
+      startProgressSimulation();
+    } else {
+      alert("用户拒绝升级");
+      document.getElementById('modal').style.display = 'none';
+    }
+  }
+
+  function startProgressSimulation() {
+    let progressBar = document.getElementById('progressBar').firstElementChild;
+    let progressText = document.getElementById('progressText');
+    let progress = 0;
+
+    let interval = setInterval(() => {
+      progress += 5; // 每次增加 5%
+      progressBar.style.width = progress + "%";
+      progressText.innerText = "进度: " + progress + "%";
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        alert("升级成功！");
+        document.getElementById('modal').style.display = 'none';
+      }
+    }, 1000); // 每秒更新一次，20 秒完成
+  }
+</script>
