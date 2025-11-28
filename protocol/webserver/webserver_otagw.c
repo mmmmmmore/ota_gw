@@ -1,6 +1,9 @@
 #include "webserver_otagw.h"
 #include "esp_log.h"
 #include "esp_http_client.h"
+#include "ota_handler.h"  // 引入 ota_handler 提供的状态表接口
+
+
 
 static const char *TAG = "WEB_OTAGW";
 
@@ -38,13 +41,36 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
 }
 
 // 提供任务进度信息
+
+
+// 提供所有 Client 的进度和状态信息
 static esp_err_t progress_info_handler(httpd_req_t *req) {
-    char buf[64];
-    snprintf(buf, sizeof(buf), "{\"progress\":%d}", current_progress);
+    int count = 0;
+    client_status_t *clients = ota_handler_get_status(&count);
+
+    cJSON *root = cJSON_CreateArray();
+    for (int i = 0; i < count; i++) {
+        cJSON *item = cJSON_CreateObject();
+        cJSON_AddStringToObject(item, "client", clients[i].client_name);
+        cJSON_AddNumberToObject(item, "progress", clients[i].progress);
+        cJSON_AddStringToObject(item, "partition",
+            clients[i].partition == PARTITION_A ? "A" : "B");
+        cJSON_AddBoolToObject(item, "upgrading", clients[i].upgrading);
+        cJSON_AddStringToObject(item, "result",
+            clients[i].last_result ? "success" : "fail");
+        cJSON_AddItemToArray(root, item);
+    }
+
+    char *json_str = cJSON_PrintUnformatted(root);
     httpd_resp_set_type(req, "application/json");
-    httpd_resp_sendstr(req, buf);
+    httpd_resp_sendstr(req, json_str);
+
+    free(json_str);
+    cJSON_Delete(root);
     return ESP_OK;
 }
+
+
 
 // 接收用户选择 Accept/Deny
 static esp_err_t user_response_handler(httpd_req_t *req) {
