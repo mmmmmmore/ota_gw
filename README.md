@@ -49,3 +49,30 @@ ota_handler 更新状态表 & 模拟进度
 Webserver 提供进度接口 (/progress_info)
         ↓
 Webserver 转发结果给 OTA Server (/ota_result)
+
+
+
+
+
+Web Server：触发 OTA 升级请求，发送任务 JSON 给 GW。
+
+GW ota_handler：接收 Web 的任务，生成 OTA 任务 JSON。
+
+GW ota_dispatch：决定哪些 Client 需要执行任务。
+
+GW tcp_server：通过 TCP 下发任务 JSON 给 Client。
+
+Client ota_handler：执行 OTA 升级，完成后上报结果 JSON。
+
+GW tcp_server → ota_dispatch → ota_handler：接收结果，更新 Client 状态，并最终汇总反馈给 Web。
+
+
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/71ede548-7f17-445f-801d-e976e371f1dd" />
+
+
+
+
+
+
+
