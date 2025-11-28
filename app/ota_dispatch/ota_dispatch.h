@@ -1,0 +1,23 @@
+#ifndef OTA_DISPATCH_H
+#define OTA_DISPATCH_H
+
+#include "esp_err.h"
+#include "client_register.h"
+
+// OTA 任务结构
+typedef struct {
+    char version[32];
+    char url[128];
+    char features[64]; // 可选功能集描述
+} ota_task_t;
+
+// 初始化 OTA Dispatcher
+void ota_dispatch_init(void);
+
+// 向指定 Client 下发 OTA 任务
+esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task);
+
+// 广播 OTA 任务给所有在线 Client
+esp_err_t ota_dispatch_broadcast(ota_task_t *task);
+
+#endif // OTA_DISPATCH_H
