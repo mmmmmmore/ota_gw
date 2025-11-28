@@ -1,12 +1,14 @@
 #include "ota_handler.h"
 #include "esp_log.h"
 #include "cJSON.h"
+#include "esp_timer.h"
 #include <string.h>
 
 static const char *TAG = "OTA_HANDLER";
 
-// 假设最多支持 4 个 Client
 #define MAX_CLIENTS 4
+#define OTA_TIMEOUT_MS 60000  // 1分钟超时
+
 static client_status_t clients[MAX_CLIENTS];
 
 void ota_handler_init(void) {
@@ -16,6 +18,7 @@ void ota_handler_init(void) {
         clients[i].upgrading = false;
         clients[i].progress = 0;
         clients[i].last_result = false;
+        clients[i].start_time = 0;
     }
     ESP_LOGI(TAG, "OTA Handler initialized, all clients on Partition A");
 }
@@ -38,6 +41,8 @@ void ota_handler_process(const char *task_json) {
         if (strcmp(clients[i].client_name, client) == 0) {
             clients[i].upgrading = true;
             clients[i].progress = 0;
+            clients[i].last_result = false;
+            clients[i].start_time = esp_timer_get_time() / 1000; // 毫秒
             ESP_LOGI(TAG, "Client %s starts upgrading...", client);
             break;
         }
@@ -46,15 +51,22 @@ void ota_handler_process(const char *task_json) {
     cJSON_Delete(root);
 }
 
-// 模拟进度更新
 void ota_handler_update_progress(void) {
+    uint64_t now = esp_timer_get_time() / 1000; // 毫秒
     for (int i = 0; i < MAX_CLIENTS; i++) {
         if (clients[i].upgrading) {
             if (clients[i].progress < 100) {
-                clients[i].progress += 10; // 每次增加 10%
-                ESP_LOGI(TAG, "Client %s progress: %d%%", clients[i].client_name, clients[i].progress);
+                // 检查超时
+                if (now - clients[i].start_time > OTA_TIMEOUT_MS) {
+                    clients[i].upgrading = false;
+                    clients[i].last_result = false;
+                    ESP_LOGW(TAG, "Client %s OTA TIMEOUT, upgrade FAILED", clients[i].client_name);
+                } else {
+                    clients[i].progress += 10; // 模拟进度
+                    ESP_LOGI(TAG, "Client %s progress: %d%%", clients[i].client_name, clients[i].progress);
+                }
             } else {
-                // 升级完成，模拟成功
+                // 升级完成
                 clients[i].upgrading = false;
                 clients[i].last_result = true;
                 clients[i].partition = PARTITION_B;
@@ -64,7 +76,6 @@ void ota_handler_update_progress(void) {
     }
 }
 
-// 获取状态表
 client_status_t *ota_handler_get_status(int *count) {
     *count = MAX_CLIENTS;
     return clients;
