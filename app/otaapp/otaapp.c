@@ -7,6 +7,8 @@ static const char *TAG = "OTA_APP_MGMT";
 
 void ota_dispatch_init(void) {
     ESP_LOGI(TAG, "OTA Dispatcher initialized");
+    tcp_server_set_rx_callback(tcp_server_rx_handler);
+    
 }
 
 //1130 update below
@@ -155,6 +157,7 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
+
 
 
 
