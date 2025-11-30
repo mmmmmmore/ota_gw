@@ -13,32 +13,63 @@ static bool task_pending = false;
 static int current_progress = 0; // 0~100
 
 // 接收 OTA Server 推送任务
-static esp_err_t ota_task_handler(httpd_req_t *req) {
-    int ret = httpd_req_recv(req, current_task, sizeof(current_task) - 1);
-    if (ret <= 0) {
-        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Receive error");
-        return ESP_FAIL;
-    }
-    current_task[ret] = '\0';
-    task_pending = true;
-    current_progress = 0; // 新任务进度归零
-
-    ESP_LOGI(TAG, "Received OTA task: %s", current_task);
-
-    httpd_resp_sendstr(req, "OTA task received");
-    return ESP_OK;
-}
+//static esp_err_t ota_task_handler(httpd_req_t *req) {
+//    int ret = httpd_req_recv(req, current_task, sizeof(current_task) - 1);
+//    if (ret <= 0) {
+//        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Receive error");
+//        return ESP_FAIL;
+//    }
+//    current_task[ret] = '\0';
+//    task_pending = true;
+//    current_progress = 0; // 新任务进度归零
+//
+//    ESP_LOGI(TAG, "Received OTA task: %s", current_task);
+//
+//   httpd_resp_sendstr(req, "OTA task received");
+//    return ESP_OK;
+//}
 
 // 提供任务信息给 UI 页面
 static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
-    if (task_pending) {
-        httpd_resp_sendstr(req, current_task);
+    ota_task_t *task = otaapp_get_pending_task();
+    if (task) {
+        cJSON *root = cJSON_CreateObject();
+        cJSON_AddStringToObject(root, "version", task->version);
+        cJSON_AddStringToObject(root, "url", task->url);
+        cJSON_AddStringToObject(root, "features", task->features);
+        char *json_str = cJSON_PrintUnformatted(root);
+        httpd_resp_sendstr(req, json_str);
+        free(json_str);
+        cJSON_Delete(root);
     } else {
         httpd_resp_sendstr(req, "{}");
     }
     return ESP_OK;
 }
+
+
+static esp_err_t user_response_handler(httpd_req_t *req) {
+    char buf[64];
+    int ret = httpd_req_recv(req, buf, sizeof(buf) - 1);
+    if (ret <= 0) {
+        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Receive error");
+        return ESP_FAIL;
+    }
+    buf[ret] = '\0';
+
+    bool accepted = (strcmp(buf, "Accept") == 0);
+    ota_task_t *task = otaapp_get_pending_task();
+    if (task) {
+        ota_dispatch_user_response(task->mac, task, accepted);
+    }
+
+    httpd_resp_sendstr(req, "Response received");
+    return ESP_OK;
+}
+
+
+
 
 // 提供任务进度信息
 
@@ -71,57 +102,8 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
 }
 
 
-
-// 接收用户选择 Accept/Deny
-static esp_err_t user_response_handler(httpd_req_t *req) {
-    char buf[64];
-    int ret = httpd_req_recv(req, buf, sizeof(buf) - 1);
-    if (ret <= 0) {
-        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Receive error");
-        return ESP_FAIL;
-    }
-    buf[ret] = '\0';
-
-    ESP_LOGI(TAG, "User response: %s", buf);
-
-    if (strcmp(buf, "Accept") == 0) {
-        ESP_LOGI(TAG, "User accepted OTA task, notify ota_handler...");
-        // TODO: 调用 ota_handler_process(current_task);
-        // 模拟进度更新
-        current_progress = 10;
-        task_pending = false;
-    } else {
-        ESP_LOGI(TAG, "User denied OTA task, reporting to OTA Server...");
-        // 将拒绝结果转发给 OTA Server
-        esp_http_client_config_t config = {
-            .url = "http://<OTA_SERVER_IP>:8080/ota_result",
-            .method = HTTP_METHOD_POST,
-        };
-        esp_http_client_handle_t client = esp_http_client_init(&config);
-        esp_http_client_set_header(client, "Content-Type", "application/json");
-        const char *deny_msg = "{\"result\":\"deny\"}";
-        esp_http_client_set_post_field(client, deny_msg, strlen(deny_msg));
-        esp_http_client_perform(client);
-        esp_http_client_cleanup(client);
-
-        task_pending = false;
-        current_progress = 0;
-    }
-
-    httpd_resp_sendstr(req, "Response received");
-    return ESP_OK;
-}
-
 // 注册路由
 static void register_uri_handlers(httpd_handle_t server) {
-    httpd_uri_t ota_task_uri = {
-        .uri       = "/ota_task",
-        .method    = HTTP_POST,
-        .handler   = ota_task_handler,
-        .user_ctx  = NULL
-    };
-    httpd_register_uri_handler(server, &ota_task_uri);
-
     httpd_uri_t task_info_uri = {
         .uri       = "/task_info",
         .method    = HTTP_GET,
