@@ -1,5 +1,5 @@
-#ifndef WIFIAP_H
-#define WIFIAP_H
+#ifndef WIFI_AP_H
+#define WIFI_AP_H
 
 #include "esp_wifi.h"
 #include "esp_event.h"
@@ -8,4 +8,4 @@
 // 初始化 WiFi SoftAP
 void wifi_init_softap(void);
 
-#endif // WIFIAP_H
+#endif // WIFI_AP_H

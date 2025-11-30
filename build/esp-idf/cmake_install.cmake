@@ -579,17 +579,22 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/espressif__esp_new_jpeg/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/client_register/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/espressif__esp_jpeg/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/ota_dispatch/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/motor_handler/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/ledapp/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/common_gpio/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
@@ -599,12 +604,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/control_mgmt/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/init/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/tcp_server/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
@@ -619,27 +619,17 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/ov7670_handler/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/init/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/sccb/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/espressif__esp_jpeg/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/jpeg/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/common_gpio/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/camera/cmake_install.cmake")
+  include("/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/espressif__esp_new_jpeg/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

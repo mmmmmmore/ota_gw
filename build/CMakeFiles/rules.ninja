@@ -1878,7 +1878,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_wifi_provisioning_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_espressif__esp_jpeg_unscanned_
+rule C_COMPILER____idf_client_register_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -1888,7 +1888,7 @@ rule C_COMPILER____idf_espressif__esp_jpeg_unscanned_
 #############################################
 # Rule for linking C static library.
 
-rule C_STATIC_LIBRARY_LINKER____idf_espressif__esp_jpeg_
+rule C_STATIC_LIBRARY_LINKER____idf_client_register_
   command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
   description = Linking C static library $TARGET_FILE
   restat = $RESTAT
@@ -1897,7 +1897,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_espressif__esp_jpeg_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_motor_handler_unscanned_
+rule C_COMPILER____idf_ota_dispatch_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -1907,7 +1907,45 @@ rule C_COMPILER____idf_motor_handler_unscanned_
 #############################################
 # Rule for linking C static library.
 
-rule C_STATIC_LIBRARY_LINKER____idf_motor_handler_
+rule C_STATIC_LIBRARY_LINKER____idf_ota_dispatch_
+  command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_ledapp_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_ledapp_
+  command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
+  description = Linking C static library $TARGET_FILE
+  restat = $RESTAT
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER____idf_common_gpio_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for linking C static library.
+
+rule C_STATIC_LIBRARY_LINKER____idf_common_gpio_
   command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
   description = Linking C static library $TARGET_FILE
   restat = $RESTAT
@@ -1935,7 +1973,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_wifi_ap_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_control_mgmt_unscanned_
+rule C_COMPILER____idf_tcp_server_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -1945,26 +1983,7 @@ rule C_COMPILER____idf_control_mgmt_unscanned_
 #############################################
 # Rule for linking C static library.
 
-rule C_STATIC_LIBRARY_LINKER____idf_control_mgmt_
-  command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
-rule C_COMPILER____idf_init_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_init_
+rule C_STATIC_LIBRARY_LINKER____idf_tcp_server_
   command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
   description = Linking C static library $TARGET_FILE
   restat = $RESTAT
@@ -2021,7 +2040,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_webserver_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_ov7670_handler_unscanned_
+rule C_COMPILER____idf_init_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -2031,7 +2050,7 @@ rule C_COMPILER____idf_ov7670_handler_unscanned_
 #############################################
 # Rule for linking C static library.
 
-rule C_STATIC_LIBRARY_LINKER____idf_ov7670_handler_
+rule C_STATIC_LIBRARY_LINKER____idf_init_
   command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
   description = Linking C static library $TARGET_FILE
   restat = $RESTAT
@@ -2040,7 +2059,7 @@ rule C_STATIC_LIBRARY_LINKER____idf_ov7670_handler_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER____idf_sccb_unscanned_
+rule C_COMPILER____idf_espressif__esp_jpeg_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -2050,64 +2069,7 @@ rule C_COMPILER____idf_sccb_unscanned_
 #############################################
 # Rule for linking C static library.
 
-rule C_STATIC_LIBRARY_LINKER____idf_sccb_
-  command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
-rule C_COMPILER____idf_jpeg_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_jpeg_
-  command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
-rule C_COMPILER____idf_common_gpio_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_common_gpio_
-  command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
-  description = Linking C static library $TARGET_FILE
-  restat = $RESTAT
-
-
-#############################################
-# Rule for compiling C files.
-
-rule C_COMPILER____idf_camera_unscanned_
-  depfile = $DEP_FILE
-  deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
-# Rule for linking C static library.
-
-rule C_STATIC_LIBRARY_LINKER____idf_camera_
+rule C_STATIC_LIBRARY_LINKER____idf_espressif__esp_jpeg_
   command = $PRE_LINK && /usr/local/bin/cmake -E rm -f $TARGET_FILE && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ar qc $TARGET_FILE $LINK_FLAGS $in && /Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/xtensa-esp32s3-elf-ranlib $TARGET_FILE && /usr/local/bin/cmake -E touch $TARGET_FILE && $POST_BUILD
   description = Linking C static library $TARGET_FILE
   restat = $RESTAT
