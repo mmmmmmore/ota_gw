@@ -9,6 +9,37 @@ void ota_dispatch_init(void) {
     ESP_LOGI(TAG, "OTA Dispatcher initialized");
 }
 
+// below for handler json info from tcp_server. 
+esp_err_t ota_dispatch_handle_json(const char *json_str) {
+    cJSON *root = cJSON_Parse(json_str);
+    if (!root) {
+        ESP_LOGE(TAG, "Invalid JSON received: %s", json_str);
+        return ESP_FAIL;
+    }
+
+    // 提取任务信息
+    ota_task_t task;
+    memset(&task, 0, sizeof(task));
+    strncpy(task.version, cJSON_GetObjectItem(root, "version")->valuestring, sizeof(task.version)-1);
+    strncpy(task.url, cJSON_GetObjectItem(root, "url")->valuestring, sizeof(task.url)-1);
+    strncpy(task.features, cJSON_GetObjectItem(root, "features")->valuestring, sizeof(task.features)-1);
+
+    // 提取目标设备
+    cJSON *mac_item = cJSON_GetObjectItem(root, "mac");
+    if (mac_item && mac_item->valuestring) {
+        ota_dispatch_send_task(mac_item->valuestring, &task);
+    } else {
+        ESP_LOGW(TAG, "No MAC specified, broadcasting task");
+        ota_dispatch_broadcast(&task);
+    }
+
+    cJSON_Delete(root);
+    return ESP_OK;
+}
+
+
+
+
 esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
     client_info_t *client = client_register_find(mac);
     if (!client || client->status == CLIENT_OFFLINE) {
@@ -45,3 +76,4 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
+
