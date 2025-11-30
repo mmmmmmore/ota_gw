@@ -5,39 +5,15 @@
 #include "otaapp.h"
 #include "cJSON.h"
 
-
 #define PARTITION_A 0
 #define PARTITION_B 1
 
-
 static const char *TAG = "WEB_OTAGW";
-
-
 
 // 全局保存当前任务信息和进度
 static char current_task[512] = {0};
 static bool task_pending = false;
 static int current_progress = 0; // 0~100
-
-
-
-
-// 接收 OTA Server 推送任务
-//static esp_err_t ota_task_handler(httpd_req_t *req) {
-//    int ret = httpd_req_recv(req, current_task, sizeof(current_task) - 1);
-//    if (ret <= 0) {
-//        httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Receive error");
-//        return ESP_FAIL;
-//    }
-//    current_task[ret] = '\0';
-//    task_pending = true;
-//    current_progress = 0; // 新任务进度归零
-//
-//    ESP_LOGI(TAG, "Received OTA task: %s", current_task);
-//
-//   httpd_resp_sendstr(req, "OTA task received");
-//    return ESP_OK;
-//}
 
 // 提供任务信息给 UI 页面
 static esp_err_t task_info_handler(httpd_req_t *req) {
@@ -58,7 +34,6 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-
 static esp_err_t user_response_handler(httpd_req_t *req) {
     char buf[64];
     int ret = httpd_req_recv(req, buf, sizeof(buf) - 1);
@@ -78,16 +53,10 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-
-
-
-// 提供任务进度信息
-
-
 // 提供所有 Client 的进度和状态信息
 static esp_err_t progress_info_handler(httpd_req_t *req) {
     int count = 0;
-    client_status_t *clients = ota_handler_get_status(&count);
+    client_status_info_t *clients = ota_handler_get_status(&count);
 
     cJSON *root = cJSON_CreateArray();
     for (int i = 0; i < count; i++) {
@@ -110,7 +79,6 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     cJSON_Delete(root);
     return ESP_OK;
 }
-
 
 // 注册路由
 static void register_uri_handlers(httpd_handle_t server) {
