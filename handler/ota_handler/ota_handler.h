@@ -1,33 +1,26 @@
 #ifndef OTA_HANDLER_H
 #define OTA_HANDLER_H
 
-#include <stdbool.h>
+#include "esp_err.h"
+#include "client_register.h"
+#include "otaapp.h"
 
-// Client 分区状态
-typedef enum {
-    PARTITION_A,
-    PARTITION_B
-} client_partition_t;
-
-// Client 状态表
+// Client 状态结构
 typedef struct {
     char client_name[32];
-    client_partition_t partition;
-    bool upgrading;
-    int progress; // 0~100
-    bool last_result; // true=成功, false=失败
+    int progress;          // 0~100
+    int partition;         // PARTITION_A / PARTITION_B
+    bool upgrading;        // 是否正在升级
+    bool last_result;      // 上次结果：true=success, false=fail
 } client_status_t;
 
-// 初始化 OTA Handler
-void ota_handler_init(void);
+// 下发任务给指定 Client ECU
+esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task);
 
-// 处理来自 Webserver 的 OTA 通知
-void ota_handler_process(const char *task_json);
+// 处理来自 Client ECU 的上报消息
+void ota_handler_process_message(int client_sock, const char *json_str);
 
-// 模拟进度更新（供定时器或任务调用）
-void ota_handler_update_progress(void);
-
-// 获取 Client 状态表（供 Webserver 查询）
-client_status_t *ota_handler_get_status(int *count);
+// 获取所有 Client 的状态信息（供 webserver 查询）
+client_status_t* ota_handler_get_status(int *count);
 
 #endif // OTA_HANDLER_H
