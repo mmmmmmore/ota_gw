@@ -14,7 +14,9 @@ static const char *TAG = "wifi_ap";
 #define WIFI_PASS CONFIG_WIFI_SOFTAP_PASSWORD
 
 // OTA Server 的 MAC 地址（示例，需替换为真实值）
-static const uint8_t ota_server_mac[6] = {0xAA,0xBB,0xCC,0xDD,0xEE,0xFF};
+static const uint8_t ota_server_mac[6] = {0xA4,0x5E,0x60,0xC5,0x69,0x75};   // mac address for the MBP.. 
+
+
 
 
 static void wifi_event_handler(void* arg, esp_event_base_t event_base,
