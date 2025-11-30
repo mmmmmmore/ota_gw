@@ -20,4 +20,7 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task);
 // 广播 OTA 任务给所有在线 Client
 esp_err_t ota_dispatch_broadcast(ota_task_t *task);
 
+//resolve the OTA task json from tcp server
+esp_err_t ota_dispatch_handle_json(const char *json_str);
+
 #endif // OTAAPP_H   //ota_dispatch

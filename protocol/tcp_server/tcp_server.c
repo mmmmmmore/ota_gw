@@ -4,6 +4,7 @@
 #include "lwip/netdb.h"
 #include <string.h>
 #include <unistd.h>
+#include "otaapp.h"
 
 static const char *TAG = "GW_TCP_SERVER";
 static tcp_server_rx_callback_t rx_callback = NULL;
@@ -79,6 +80,8 @@ static void tcp_server_task(void *pvParameters) {
                 ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
                 if (rx_callback) {
                     rx_callback(client_sock, rx_buffer);
+                    ESP_LOGI(TAG, "Forward OTA task json to otaapp")
+                    ota_dispatch_handle_json(rx_buffer);
                 }
             }
         }
