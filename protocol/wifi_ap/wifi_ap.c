@@ -15,7 +15,29 @@ static const char *TAG = "wifi_ap";
 // OTA Server 的 MAC 地址（示例，需替换为真实值）
 static const uint8_t ota_server_mac[6] = {0xAA,0xBB,0xCC,0xDD,0xEE,0xFF};
 
-void wifi_init_softap(void)
+
+static void wifi_event_handler(void* arg, esp_event_base_t event_base,
+                               int32_t event_id, void* event_data) {
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STACONNECTED) {
+        wifi_event_ap_staconnected_t* event = (wifi_event_ap_staconnected_t*) event_data;
+        ESP_LOGI("wifi_ap", "Client connected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
+                 event->mac[0], event->mac[1], event->mac[2],
+                 event->mac[3], event->mac[4], event->mac[5],
+                 event->aid);
+    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
+        wifi_event_ap_stadisconnected_t* event = (wifi_event_ap_stadisconnected_t*) event_data;
+        ESP_LOGI("wifi_ap", "Client disconnected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
+                 event->mac[0], event->mac[1], event->mac[2],
+                 event->mac[3], event->mac[4], event->mac[5],
+                 event->aid);
+    }
+}
+
+
+
+
+
+esp_err_t wifi_init_softap(void)
 {
     esp_err_t err;
 
@@ -37,19 +59,23 @@ void wifi_init_softap(void)
 
     // 初始化 WiFi 驱动
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    err = esp_wifi_init(&cfg);
-    if (err != ESP_OK) {
-        ESP_LOGE(TAG, "esp_wifi_init failed: %s", esp_err_to_name(err));
-        return;
-    }
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
+    // 注册事件回调
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
+                                                        ESP_EVENT_ANY_ID,
+                                                        &wifi_event_handler,
+                                                        NULL,
+                                                        NULL));
+
+    
     // 配置 SoftAP 参数
     wifi_config_t wifi_config = {
         .ap = {
             .ssid = WIFI_SSID,
             .ssid_len = strlen(WIFI_SSID),
             .password = WIFI_PASS,
-            .max_connection = 8,
+            .max_connection = 6,
             .authmode = WIFI_AUTH_WPA_WPA2_PSK
         },
     };
@@ -98,4 +124,10 @@ void wifi_init_softap(void)
     esp_netif_dhcps_start(netif);
 
     ESP_LOGI(TAG, "DHCP server started with OTA Server fixed IP 192.168.4.2");
+    ESP_LOGI(TAG, "OTA Server MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+         ota_server_mac[0], ota_server_mac[1], ota_server_mac[2],
+         ota_server_mac[3], ota_server_mac[4], ota_server_mac[5]);
+
+    return ESP_OK;
 }
+
