@@ -12,7 +12,7 @@ static int client_count = 0;
 // 下发任务给指定 Client ECU
 esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
     client_info_t *client = client_register_find(mac);
-    if (!client || client->status == CLIENT_OFFLINE) {
+    if (!client || client->state == CLIENT_OFFLINE) {
         ESP_LOGW(TAG, "Client %s not found or offline", mac);
         return ESP_FAIL;
     }
