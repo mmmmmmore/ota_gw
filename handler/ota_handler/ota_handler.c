@@ -1,82 +1,76 @@
 #include "ota_handler.h"
+#include "tcp_server.h"
 #include "esp_log.h"
 #include "cJSON.h"
-#include "esp_timer.h"
-#include <string.h>
 
 static const char *TAG = "OTA_HANDLER";
 
-#define MAX_CLIENTS 4
-#define OTA_TIMEOUT_MS 60000  // 1分钟超时
+// 全局保存 Client 状态表
+static client_status_t client_status_list[MAX_CLIENTS];
+static int client_count = 0;
 
-static client_status_t clients[MAX_CLIENTS];
-
-void ota_handler_init(void) {
-    for (int i = 0; i < MAX_CLIENTS; i++) {
-        snprintf(clients[i].client_name, sizeof(clients[i].client_name), "Client_%d", i+1);
-        clients[i].partition = PARTITION_A;
-        clients[i].upgrading = false;
-        clients[i].progress = 0;
-        clients[i].last_result = false;
-        clients[i].start_time = 0;
+// 下发任务给指定 Client ECU
+esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
+    client_info_t *client = client_register_find(mac);
+    if (!client || client->status == CLIENT_OFFLINE) {
+        ESP_LOGW(TAG, "Client %s not found or offline", mac);
+        return ESP_FAIL;
     }
-    ESP_LOGI(TAG, "OTA Handler initialized, all clients on Partition A");
+
+    // 构造 JSON
+    cJSON *root = cJSON_CreateObject();
+    cJSON_AddStringToObject(root, "task", "ota_update");
+    cJSON_AddStringToObject(root, "version", task->version);
+    cJSON_AddStringToObject(root, "url", task->url);
+    cJSON_AddStringToObject(root, "features", task->features);
+
+    char *json_str = cJSON_PrintUnformatted(root);
+    esp_err_t ret = tcp_server_send(client->sock, json_str);
+
+    cJSON_Delete(root);
+    free(json_str);
+
+    if (ret == ESP_OK) {
+        client->status = CLIENT_UPDATING;
+        ESP_LOGI(TAG, "OTA task sent to %s (IP=%s)", mac, client->ip);
+    }
+    return ret;
 }
 
-void ota_handler_process(const char *task_json) {
-    cJSON *root = cJSON_Parse(task_json);
+// 处理来自 Client ECU 的上报消息
+void ota_handler_process_message(int client_sock, const char *json_str) {
+    ESP_LOGI(TAG, "Processing ECU message from sock %d: %s", client_sock, json_str);
+
+    cJSON *root = cJSON_Parse(json_str);
     if (!root) {
-        ESP_LOGE(TAG, "Invalid JSON task");
+        ESP_LOGE(TAG, "Invalid ECU JSON: %s", json_str);
         return;
     }
 
-    const char *client = cJSON_GetObjectItem(root, "client")->valuestring;
-    const char *version = cJSON_GetObjectItem(root, "version")->valuestring;
-    const char *url = cJSON_GetObjectItem(root, "url")->valuestring;
+    const char *mac = cJSON_GetObjectItem(root, "mac")->valuestring;
+    int progress = cJSON_GetObjectItem(root, "progress")->valueint;
+    const char *result = cJSON_GetObjectItem(root, "result")->valuestring;
 
-    ESP_LOGI(TAG, "OTA Task: client=%s, version=%s, url=%s", client, version, url);
+    client_info_t *client = client_register_find(mac);
+    if (client) {
+        // 更新状态表
+        client_status_t *status = &client_status_list[client_count++];
+        strncpy(status->client_name, mac, sizeof(status->client_name)-1);
+        status->progress = progress;
+        status->upgrading = (progress < 100);
+        status->last_result = (strcmp(result, "success") == 0);
 
-    // 找到对应 Client
-    for (int i = 0; i < MAX_CLIENTS; i++) {
-        if (strcmp(clients[i].client_name, client) == 0) {
-            clients[i].upgrading = true;
-            clients[i].progress = 0;
-            clients[i].last_result = false;
-            clients[i].start_time = esp_timer_get_time() / 1000; // 毫秒
-            ESP_LOGI(TAG, "Client %s starts upgrading...", client);
-            break;
-        }
+        ESP_LOGI(TAG, "Client %s progress=%d result=%s", mac, progress, result);
+
+        // 上报给 otaapp
+        otaapp_report_result(mac, status->last_result);
     }
 
     cJSON_Delete(root);
 }
 
-void ota_handler_update_progress(void) {
-    uint64_t now = esp_timer_get_time() / 1000; // 毫秒
-    for (int i = 0; i < MAX_CLIENTS; i++) {
-        if (clients[i].upgrading) {
-            if (clients[i].progress < 100) {
-                // 检查超时
-                if (now - clients[i].start_time > OTA_TIMEOUT_MS) {
-                    clients[i].upgrading = false;
-                    clients[i].last_result = false;
-                    ESP_LOGW(TAG, "Client %s OTA TIMEOUT, upgrade FAILED", clients[i].client_name);
-                } else {
-                    clients[i].progress += 10; // 模拟进度
-                    ESP_LOGI(TAG, "Client %s progress: %d%%", clients[i].client_name, clients[i].progress);
-                }
-            } else {
-                // 升级完成
-                clients[i].upgrading = false;
-                clients[i].last_result = true;
-                clients[i].partition = PARTITION_B;
-                ESP_LOGI(TAG, "Client %s upgrade SUCCESS, switched to Partition B", clients[i].client_name);
-            }
-        }
-    }
-}
-
-client_status_t *ota_handler_get_status(int *count) {
-    *count = MAX_CLIENTS;
-    return clients;
+// 获取所有 Client 的状态信息
+client_status_t* ota_handler_get_status(int *count) {
+    *count = client_count;
+    return client_status_list;
 }
