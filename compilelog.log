@@ -1,19 +1,107 @@
 
-esptool.py v4.10.dev2
-Creating esp32s3 image...
-Merged 2 ELF sections
-Successfully created esp32s3 image.
-Generated /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin
-[1090/1091] cd /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build && /Users/maochun/.espressif/p...artition_table/partition-table.bin /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin
-FAILED: [code=1] CMakeFiles/app_check_size /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/app_check_size 
-cd /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build && /Users/maochun/.espressif/python_env/idf6.0_py3.13_env/bin/python /Users/maochun/esp32prj/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/partition_table/partition-table.bin /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin
-Error: app partition is too small for binary ota_gw.bin size 0xd3c10:
-  - Part 'app' 0/0 @ 0x10000 size 0x60000 (overflow 0x73c10)
-ninja: build stopped: subcommand failed.
-ninja failed with exit code 1, output of the command is in the /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stderr_output_42890 and /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stdout_output_42890
-maochun@MMMBP ota_gw % 
-maochun@MMMBP ota_gw % 
-maochun@MMMBP ota_gw % ls -l build/*.bin
--rw-r--r--  1 maochun  staff    867344 Nov 30 16:38 build/ota_gw.bin
--rw-r--r--  1 maochun  staff  13041664 Nov 30 16:36 build/spiffs.bin
-maochun@MMMBP ota_gw % 
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5 SoCs
+-- Project sdkconfig file /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- App "ota_gw" version: 2.0.1
+Traceback (most recent call last):
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
+    main()
+    ~~~~^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
+    target = ParttoolTarget(**target_args)
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
+    partition_table, _ = gen.PartitionTable.from_file(f)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
+    return cls.from_csv(str_data), False
+           ~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
+    raise InputError(
+    ...<2 lines>...
+    )
+gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
+Traceback (most recent call last):
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
+    main()
+    ~~~~^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
+    target = ParttoolTarget(**target_args)
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
+    partition_table, _ = gen.PartitionTable.from_file(f)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
+    return cls.from_csv(str_data), False
+           ~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
+    raise InputError(
+    ...<2 lines>...
+    )
+gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
+-- USING O3
+-- Adding linker script /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.wdt.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script /Users/maochun/esp32prj/esp-idf/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+Traceback (most recent call last):
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
+    main()
+    ~~~~^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
+    target = ParttoolTarget(**target_args)
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
+    partition_table, _ = gen.PartitionTable.from_file(f)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
+    return cls.from_csv(str_data), False
+           ~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
+    raise InputError(
+    ...<2 lines>...
+    )
+gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
+Traceback (most recent call last):
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
+    main()
+    ~~~~^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
+    target = ParttoolTarget(**target_args)
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
+    partition_table, _ = gen.PartitionTable.from_file(f)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
+    return cls.from_csv(str_data), False
+           ~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
+    raise InputError(
+    ...<2 lines>...
+    )
+gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
+Traceback (most recent call last):
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
+    main()
+    ~~~~^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
+    target = ParttoolTarget(**target_args)
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
+    partition_table, _ = gen.PartitionTable.from_file(f)
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
+    return cls.from_csv(str_data), False
+           ~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
+    raise InputError(
+    ...<2 lines>...
+    )
