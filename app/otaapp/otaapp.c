@@ -9,6 +9,30 @@ void ota_dispatch_init(void) {
     ESP_LOGI(TAG, "OTA Dispatcher initialized");
 }
 
+
+void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted) {
+    if (accepted) {
+        ESP_LOGI(TAG, "User accepted OTA task for %s", mac);
+        ota_handler_send_task(mac, task);  // 通知 ECU 执行
+    } else {
+        ESP_LOGW(TAG, "User rejected OTA task for %s", mac);
+        // 构造反馈 JSON
+        cJSON *root = cJSON_CreateObject();
+        cJSON_AddStringToObject(root, "task", "ota_update");
+        cJSON_AddStringToObject(root, "status", "rejected");
+        cJSON_AddStringToObject(root, "version", task->version);
+        char *json_str = cJSON_PrintUnformatted(root);
+
+        // 反馈给 OTA Server
+        tcp_server_send(/*ota_server_sock*/, json_str);
+
+        cJSON_Delete(root);
+        free(json_str);
+    }
+}
+
+
+
 // below for handler json info from tcp_server. 
 esp_err_t ota_dispatch_handle_json(const char *json_str) {
     cJSON *root = cJSON_Parse(json_str);
@@ -76,4 +100,5 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
+
 
