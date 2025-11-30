@@ -80,8 +80,8 @@ static void tcp_server_task(void *pvParameters) {
                 ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
                 if (rx_callback) {
                     rx_callback(client_sock, rx_buffer);
-                    ESP_LOGI(TAG, "Forward OTA task json to otaapp")
-                    ota_dispatch_handle_json(rx_buffer);
+                    //ESP_LOGI(TAG, "Forward OTA task json to otaapp")
+                    //ota_dispatch_handle_json(rx_buffer);
                 }
             }
         }
@@ -93,3 +93,4 @@ esp_err_t tcp_server_start(uint16_t port) {
     xTaskCreate(tcp_server_task, "tcp_server_task", 4096, (void*)(intptr_t)port, 5, NULL);
     return ESP_OK;
 }
+
