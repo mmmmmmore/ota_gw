@@ -3,5 +3,5 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES 
         driver common_gpio 
-        webserver wifi_ap 
+        webserver wifi_ap tcp_server
     )
