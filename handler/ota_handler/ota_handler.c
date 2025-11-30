@@ -6,7 +6,7 @@
 static const char *TAG = "OTA_HANDLER";
 
 // 全局保存 Client 状态表
-static client_status_t client_status_list[MAX_CLIENTS];
+static client_status_info_t client_status_list[MAX_CLIENTS];
 static int client_count = 0;
 
 // 下发任务给指定 Client ECU
@@ -31,7 +31,7 @@ esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
     free(json_str);
 
     if (ret == ESP_OK) {
-        client->status = CLIENT_UPDATING;
+        client->state = CLIENT_UPDATING;
         ESP_LOGI(TAG, "OTA task sent to %s (IP=%s)", mac, client->ip);
     }
     return ret;
@@ -54,7 +54,7 @@ void ota_handler_process_message(int client_sock, const char *json_str) {
     client_info_t *client = client_register_find(mac);
     if (client) {
         // 更新状态表
-        client_status_t *status = &client_status_list[client_count++];
+        client_status_info_t *status = &client_status_list[client_count++];
         strncpy(status->client_name, mac, sizeof(status->client_name)-1);
         status->progress = progress;
         status->upgrading = (progress < 100);
@@ -70,7 +70,8 @@ void ota_handler_process_message(int client_sock, const char *json_str) {
 }
 
 // 获取所有 Client 的状态信息
-client_status_t* ota_handler_get_status(int *count) {
+client_status_info_t* ota_handler_get_status(int *count) {
     *count = client_count;
     return client_status_list;
 }
+
