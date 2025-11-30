@@ -82,6 +82,24 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
 
 // 注册路由
 static void register_uri_handlers(httpd_handle_t server) {
+        // index.html
+    httpd_uri_t index_uri = {
+        .uri       = "/index.html",
+        .method    = HTTP_GET,
+        .handler   = static_file_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &index_uri);
+
+    // favicon.ico
+    httpd_uri_t favicon_uri = {
+        .uri       = "/favicon.ico",
+        .method    = HTTP_GET,
+        .handler   = static_file_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &favicon_uri);
+
     httpd_uri_t task_info_uri = {
         .uri       = "/task_info",
         .method    = HTTP_GET,
