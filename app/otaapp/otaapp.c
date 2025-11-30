@@ -9,6 +9,34 @@ void ota_dispatch_init(void) {
     ESP_LOGI(TAG, "OTA Dispatcher initialized");
 }
 
+//1130 update below
+// 全局保存当前待确认任务
+static ota_task_t pending_task;
+static bool has_pending_task = false;
+
+// 设置待确认任务（由 tcp_server 调用）
+void otaapp_set_pending_task(ota_task_t *task) {
+    if (task) {
+        pending_task = *task;   // 拷贝任务内容
+        has_pending_task = true;
+    }
+}
+
+// 获取待确认任务（由 webserver 调用）
+ota_task_t* otaapp_get_pending_task(void) {
+    if (has_pending_task) {
+        return &pending_task;
+    }
+    return NULL;
+}
+
+// 清除待确认任务（用户响应后调用）
+void otaapp_clear_pending_task(void) {
+    has_pending_task = false;
+}
+
+// 1130 update above
+
 
 void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted) {
     if (accepted) {
@@ -100,5 +128,6 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
+
 
 
