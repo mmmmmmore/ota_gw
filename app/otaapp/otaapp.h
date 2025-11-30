@@ -27,5 +27,17 @@ esp_err_t ota_dispatch_handle_json(const char *json_str);
 void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted);
 
 
+//ota task mgmt
+// 设置待确认任务
+void otaapp_set_pending_task(ota_task_t *task);
+
+// 获取待确认任务
+ota_task_t* otaapp_get_pending_task(void);
+
+// 清除待确认任务
+void otaapp_clear_pending_task(void);
+
+
 #endif // OTAAPP_H   //ota_dispatch
+
 
