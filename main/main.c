@@ -13,21 +13,44 @@
 
 
 
+#include <dirent.h>   // 用于目录遍历
+#include "esp_log.h"
+
 void init_spiffs(){
-    esp_vfs_spiffs_conf_t conf ={
+    esp_vfs_spiffs_conf_t conf = {
         .base_path = "/spiffs",
         .partition_label = "spiffs",
-        .max_files =5,
+        .max_files = 10,
         .format_if_mount_failed = true
-    } ;
-    
+    };
+
     esp_err_t ret = esp_vfs_spiffs_register(&conf);
-    if (ret != ESP_OK){
-        ESP_LOGE("SPIFFS:","Failed to mount or format filesystem : %s", esp_err_to_name(ret));
-    }else{
-        ESP_LOGI("SPIFFS:","SPIFFS mounted successfully");
+    if (ret != ESP_OK) {
+        ESP_LOGE("SPIFFS", "Failed to mount or format filesystem : %s", esp_err_to_name(ret));
+    } else {
+        ESP_LOGI("SPIFFS", "SPIFFS mounted successfully");
+
+        // 打印分区信息
+        size_t total = 0, used = 0;
+        ret = esp_spiffs_info(conf.partition_label, &total, &used);
+        if (ret == ESP_OK) {
+            ESP_LOGI("SPIFFS", "Partition size: total=%d, used=%d", total, used);
+        }
+
+        // 遍历 /spiffs 下的文件和子目录
+        DIR *dir = opendir("/spiffs");
+        if (dir != NULL) {
+            struct dirent *ent;
+            while ((ent = readdir(dir)) != NULL) {
+                ESP_LOGI("SPIFFS", "File: %s", ent->d_name);
+            }
+            closedir(dir);
+        } else {
+            ESP_LOGE("SPIFFS", "Failed to open /spiffs directory");
+        }
     }
 }
+
 
 void app_main(void) {
     esp_err_t ret = nvs_flash_init();
