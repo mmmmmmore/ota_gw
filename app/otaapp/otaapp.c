@@ -138,7 +138,7 @@ esp_err_t ota_dispatch_handle_json(const char *json_str) {
 
 esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
     client_info_t *client = client_register_find(mac);
-    if (!client || client->status == CLIENT_OFFLINE) {
+    if (!client || client->state == CLIENT_OFFLINE) {
         ESP_LOGW(TAG, "Client %s not found or offline", mac);
         return ESP_FAIL;
     }
@@ -157,7 +157,7 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
     free(json_str);
 
     if (ret == ESP_OK) {
-        client->status = CLIENT_UPDATING;
+        client->state = CLIENT_UPDATING;
         ESP_LOGI(TAG, "OTA task sent to %s (IP=%s)", mac, client->ip);
     }
     return ret;
@@ -166,7 +166,7 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
 esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     for (int i = 0; i < MAX_CLIENTS; i++) {
         client_info_t *client = client_register_find(client_list[i].mac);
-        if (client && client->status == CLIENT_ONLINE) {
+        if (client && client->state == CLIENT_ONLINE) {
             ota_dispatch_send_task(client->mac, task);
         }
     }

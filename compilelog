@@ -1,35 +1,16 @@
-
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c: In function 'user_response_handler':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:65:40: error: 'ota_task_t' has no member named 'mac'
-   65 |         ota_dispatch_user_response(task->mac, task, accepted);
-      |                                        ^~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c: In function 'progress_info_handler':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:86:59: error: request for member 'client_name' in something not a structure or union
-   86 |         cJSON_AddStringToObject(item, "client", clients[i].client_name);
-      |                                                           ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:87:61: error: request for member 'progress' in something not a structure or union
-   87 |         cJSON_AddNumberToObject(item, "progress", clients[i].progress);
-      |                                                             ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:89:23: error: request for member 'partition' in something not a structure or union
-   89 |             clients[i].partition == PARTITION_A ? "A" : "B");
-      |                       ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:89:37: error: 'PARTITION_A' undeclared (first use in this function)
-   89 |             clients[i].partition == PARTITION_A ? "A" : "B");
-      |                                     ^~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:89:37: note: each undeclared identifier is reported only once for each function it appears in
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:90:60: error: request for member 'upgrading' in something not a structure or union
-   90 |         cJSON_AddBoolToObject(item, "upgrading", clients[i].upgrading);
-      |                                                            ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:92:23: error: request for member 'last_result' in something not a structure or union
-   92 |             clients[i].last_result ? "success" : "fail");
-      |                       ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c: At top level:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:14:12: warning: 'current_progress' defined but not used [-Wunused-variable]
-   14 | static int current_progress = 0; // 0~100
-      |            ^~~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:13:13: warning: 'task_pending' defined but not used [-Wunused-variable]
-   13 | static bool task_pending = false;
-      |             ^~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:12:13: warning: 'current_task' defined but not used [-Wunused-variable]
-   12 | static char current_task[512] = {0};
-      |             ^~~~~~~~~~~~
+In file included from /Users/maochun/esp32prj/esp-idf/components/esp_wifi/include/esp_wifi.h:53,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.h:4,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:80:58: error: 'WIFI_ENENT' undeclared (first use in this function); did you mean 'WIFI_EVENT'?
+   80 |     ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_ENENT,
+      |                                                          ^~~~~~~~~~
+/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
+  116 |         esp_err_t err_rc_ = (x);                                        \
+      |                              ^
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:80:58: note: each undeclared identifier is reported only once for each function it appears in
+   80 |     ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_ENENT,
+      |                                                          ^~~~~~~~~~
+/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
+  116 |         esp_err_t err_rc_ = (x);                                        \
+      |                              ^
