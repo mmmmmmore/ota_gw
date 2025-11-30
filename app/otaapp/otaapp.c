@@ -2,6 +2,8 @@
 #include "tcp_server.h"
 #include "esp_log.h"
 #include "cJSON.h"
+#include "ota_handler.h"
+#include "client_register.h"
 
 static const char *TAG = "OTA_APP_MGMT";
 

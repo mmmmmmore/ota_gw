@@ -4,6 +4,10 @@
 #include "esp_err.h"
 #include <stdbool.h>
 
+#define MAX_CLIENTS 6 //max client number
+
+
+
 // Client 状态枚举
 typedef enum {
     CLIENT_OFFLINE = 0,
@@ -35,5 +39,8 @@ client_info_t* client_register_find(const char *mac);
 
 // 打印所有 Client 信息
 void client_register_dump(void);
+
+extern client_info_t client_list[MAX_CLIENTS];
+
 
 #endif // CLIENT_REGISTER_H

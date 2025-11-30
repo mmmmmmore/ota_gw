@@ -6,13 +6,13 @@
 #include "otaapp.h"
 
 // Client 状态结构
-typedef struct {
-    char client_name[32];
-    int progress;          // 0~100
-    int partition;         // PARTITION_A / PARTITION_B
-    bool upgrading;        // 是否正在升级
-    bool last_result;      // 上次结果：true=success, false=fail
-} client_status_t;
+//typedef struct {
+//    char client_name[32];
+//    int progress;          // 0~100
+//    int partition;         // PARTITION_A / PARTITION_B
+//    bool upgrading;        // 是否正在升级
+//    bool last_result;      // 上次结果：true=success, false=fail
+//} client_status_t;
 
 // 下发任务给指定 Client ECU
 esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task);

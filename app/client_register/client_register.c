@@ -2,7 +2,7 @@
 #include "esp_log.h"
 #include <string.h>
 
-#define MAX_CLIENTS 10
+//#define MAX_CLIENTS 10
 static const char *TAG = "CLIENT_REGISTER";
 
 static client_info_t client_list[MAX_CLIENTS];
