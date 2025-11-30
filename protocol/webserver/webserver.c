@@ -80,9 +80,8 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-
 static esp_err_t static_file_handler(httpd_req_t *req) {
-    char filepath[64] = "/spiffs";
+    char filepath[128] = "/spiffs";
     strlcat(filepath, req->uri, sizeof(filepath));
 
     FILE *f = fopen(filepath, "r");
@@ -92,19 +91,12 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
     }
 
     // 根据扩展名设置 MIME 类型
-    if (strstr(filepath, ".html")) {
-        httpd_resp_set_type(req, "text/html");
-    } else if (strstr(filepath, ".css")) {
-        httpd_resp_set_type(req, "text/css");
-    } else if (strstr(filepath, ".js")) {
-        httpd_resp_set_type(req, "application/javascript");
-    } else if (strstr(filepath, ".png")) {
-        httpd_resp_set_type(req, "image/png");
-    } else if (strstr(filepath, ".ico")) {
-        httpd_resp_set_type(req, "image/x-icon");
-    } else {
-        httpd_resp_set_type(req, "text/plain");
-    }
+    if (strstr(filepath, ".html")) httpd_resp_set_type(req, "text/html");
+    else if (strstr(filepath, ".css")) httpd_resp_set_type(req, "text/css");
+    else if (strstr(filepath, ".js")) httpd_resp_set_type(req, "application/javascript");
+    else if (strstr(filepath, ".png")) httpd_resp_set_type(req, "image/png");
+    else if (strstr(filepath, ".ico")) httpd_resp_set_type(req, "image/x-icon");
+    else httpd_resp_set_type(req, "text/plain");
 
     char buffer[512];
     size_t read_bytes;
@@ -118,8 +110,17 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
 
 
 
+
 // 注册路由
 static void register_uri_handlers(httpd_handle_t server) {
+    httpd_uri_t static_uri = {
+    .uri       = "/*",   // 通配符，匹配所有静态资源
+    .method    = HTTP_GET,
+    .handler   = static_file_handler,
+    .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &static_uri);
+    
         // index.html
     httpd_uri_t index_uri = {
         .uri       = "/index.html",
