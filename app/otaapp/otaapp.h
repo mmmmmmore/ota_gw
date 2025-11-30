@@ -41,7 +41,13 @@ void otaapp_clear_pending_task(void);
 void tcp_server_rx_handler(int client_sock, const char *data);
 
 
+// ota result report interface
+// 上报 Client ECU 的执行结果给 otaapp
+void otaapp_report_result(const char *mac, bool success);
+
+
 #endif // OTAAPP_H   //ota_dispatch
+
 
 
 
