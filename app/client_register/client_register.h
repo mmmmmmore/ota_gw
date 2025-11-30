@@ -10,11 +10,11 @@
 
 // Client 状态枚举
 typedef enum {
-    CLIENT_OFFLINE = 0,
-    CLIENT_ONLINE,
-    CLIENT_UPDATING,
-    CLIENT_SUCCESS,
-    CLIENT_FAIL
+    char client_name[32];
+    int progress;       //0--100
+    int partition;      //PARTITION_A PARTITION_B
+    bool upgrading;     //upgrade or not
+    bool last_result;   //last result
 } client_status_t;
 
 // Client 信息结构体

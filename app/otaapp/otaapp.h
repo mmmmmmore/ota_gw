@@ -6,6 +6,7 @@
 
 // OTA 任务结构
 typedef struct {
+    char mac[18];
     char version[32];
     char url[128];
     char features[64]; // 可选功能集描述

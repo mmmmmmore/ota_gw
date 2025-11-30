@@ -6,12 +6,21 @@
 #include "cJSON.h"
 
 
+#define PARTITION_A 0
+#define PARTITION_B 1
+
+
 static const char *TAG = "WEB_OTAGW";
+
+
 
 // 全局保存当前任务信息和进度
 static char current_task[512] = {0};
 static bool task_pending = false;
 static int current_progress = 0; // 0~100
+
+
+
 
 // 接收 OTA Server 推送任务
 //static esp_err_t ota_task_handler(httpd_req_t *req) {
