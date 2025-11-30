@@ -80,9 +80,13 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
         cJSON_AddStringToObject(root, "version", task->version);
         char *json_str = cJSON_PrintUnformatted(root);
 
-        // 反馈给 OTA Server
-        tcp_server_send(/*ota_server_sock*/, json_str);
-
+        // 获取 OTA Server socket 并反馈
+        int ota_sock = tcp_server_get_ota_sock();
+        if (ota_sock >= 0) {
+            tcp_server_send(ota_sock, json_str);
+        } else {
+            ESP_LOGW(TAG, "No OTA Server socket available, cannot send reject result");
+        }
         cJSON_Delete(root);
         free(json_str);
     }
@@ -165,4 +169,5 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
+
 
