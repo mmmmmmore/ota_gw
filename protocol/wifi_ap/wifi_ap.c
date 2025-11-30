@@ -77,11 +77,17 @@ esp_err_t wifi_init_softap(void)
     ESP_ERROR_CHECK(esp_wifi_start());
 
 
-    ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_ENENT,
-                                                         ESP_EVENT_ANY_ID,
-                                                        &wifi_event_handler,
-                                                        NULL,
-                                                        NULL));
+    ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_EVENT,
+                                                     WIFI_EVENT_AP_STACONNECTED,
+                                                     &wifi_event_handler,
+                                                     NULL,
+                                                     NULL));
+
+    ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_EVENT,
+                                                     WIFI_EVENT_AP_STADISCONNECTED,
+                                                     &wifi_event_handler,
+                                                     NULL,
+                                                     NULL));
 
     ESP_LOGI(TAG, "WiFi SoftAP started. SSID:%s password:%s channel:%d",
              wifi_config.ap.ssid, wifi_config.ap.password, wifi_config.ap.channel);
@@ -99,4 +105,5 @@ esp_err_t wifi_init_softap(void)
 
     return ESP_OK;
 }
+
 
