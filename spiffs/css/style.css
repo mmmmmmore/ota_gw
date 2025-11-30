@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #111;
+  color: #eee;
+  display: flex;
+  height: 100vh;
+}
+.sidebar {
+  width: 200px;
+  background-color: #222;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+.menu-item {
+  padding: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+.menu-item:hover {
+  background-color: #444;
+}
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #1a1a1a;
+}
+.hidden { display: none; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+table, th, td { border: 1px solid #555; }
+th, td { padding: 8px; text-align: center; }
+button {
+  padding: 6px 12px;
+  background-color: grey;
+  color: #fff;
+  border: none;
+  cursor: not-allowed;
+}
+button.active {
+  background-color: green;
+  cursor: pointer;
+}
+#modal {
+  display: none;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  width: 40%;
+  background: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 20px;
+}
+#progressBar {
+  width: 100%;
+  background-color: #ddd;
+  margin-top: 10px;
+}
+#progressBar div {
+  height: 20px;
+  width: 0%;
+  background-color: green;
+  text-align: center;
+  color: white;
+}
