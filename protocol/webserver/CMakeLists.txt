@@ -7,4 +7,5 @@ idf_component_register(
         esp_wifi esp_http_server nvs_flash driver  
         init ota_handler
         common_gpio json
+        otaapp
         )

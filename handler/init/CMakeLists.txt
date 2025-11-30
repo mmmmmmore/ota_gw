@@ -3,5 +3,6 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES 
         driver common_gpio 
-        webserver wifi_ap tcp_server
+        client_register otaapp ledapp
+        webserver wifi_ap tcp_server ota_handler
     )

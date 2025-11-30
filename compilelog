@@ -1,0 +1,67 @@
+Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:40:11: error: conflicting types for 'wifi_init_softap'; have 'esp_err_t(void)' {aka 'int(void)'}
+   40 | esp_err_t wifi_init_softap(void)
+      |           ^~~~~~~~~~~~~~~~
+In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.h:9:6: note: previous declaration of 'wifi_init_softap' with type 'void(void)'
+    9 | void wifi_init_softap(void);
+      |      ^~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:48:9: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
+   48 |         return;
+      |         ^~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:40:11: note: declared here
+   40 | esp_err_t wifi_init_softap(void)
+      |           ^~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:54:9: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
+   54 |         return;
+      |         ^~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:40:11: note: declared here
+   40 | esp_err_t wifi_init_softap(void)
+      |           ^~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:90:9: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
+   90 |         return;
+      |         ^~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:40:11: note: declared here
+   40 | esp_err_t wifi_init_softap(void)
+      |           ^~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:96:9: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
+   96 |         return;
+      |         ^~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:40:11: note: declared here
+   40 | esp_err_t wifi_init_softap(void)
+      |           ^~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:102:9: error: 'return' with no value, in function returning non-void [-Wreturn-mismatch]
+  102 |         return;
+      |         ^~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:40:11: note: declared here
+   40 | esp_err_t wifi_init_softap(void)
+      |           ^~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:109:5: error: implicit declaration of function 'IP4_ADDR' [-Wimplicit-function-declaration]
+  109 |     IP4_ADDR(&ip_info.ip, 192, 168, 4, 1);   // GW 自身 IP
+      |     ^~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:118:5: error: implicit declaration of function 'esp_netif_dhcps_offer_option'; did you mean 'esp_netif_dhcps_option'? [-Wimplicit-function-declaration]
+  118 |     esp_netif_dhcps_offer_option(netif, ESP_NETIF_OPT_MAC, ota_server_mac, sizeof(ota_server_mac));
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |     esp_netif_dhcps_option
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:118:41: error: 'ESP_NETIF_OPT_MAC' undeclared (first use in this function); did you mean 'ESP_NETIF_OP_MAX'?
+  118 |     esp_netif_dhcps_offer_option(netif, ESP_NETIF_OPT_MAC, ota_server_mac, sizeof(ota_server_mac));
+      |                                         ^~~~~~~~~~~~~~~~~
+      |                                         ESP_NETIF_OP_MAX
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:118:41: note: each undeclared identifier is reported only once for each function it appears in
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:121:41: error: 'ESP_NETIF_OPT_IP' undeclared (first use in this function); did you mean 'ESP_NETIF_OP_MAX'?
+  121 |     esp_netif_dhcps_offer_option(netif, ESP_NETIF_OPT_IP, &ota_server_ip, sizeof(ota_server_ip));
+      |                                         ^~~~~~~~~~~~~~~~
+      |                                         ESP_NETIF_OP_MAX
+
+
+
+       In function 'tcp_server_task':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:76:80: error: passing argument 3 of 'accept' from incompatible pointer type [-Wincompatible-pointer-types]
+   76 |         int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
+      |                                                                                ^~~~~~~~~
+      |                                                                                |
+      |                                                                                uint * {aka unsigned int *}
+In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:3:
+/Users/maochun/esp32prj/esp-idf/components/lwip/include/lwip/sockets.h:37:65: note: expected 'socklen_t *' {aka 'long unsigned int *'} but argument is of type 'uint *' {aka 'unsigned int *'}
+   37 | static inline int accept(int s,struct sockaddr *addr,socklen_t *addrlen)
+      |                                                      ~~~~~~~~~~~^~~~~~~

@@ -5,15 +5,12 @@
 #include "esp_netif.h"
 #include "esp_event.h"
 #include "esp_spiffs.h"
-//#include "camera.h"
 #include "common_gpio.h"
-#include "jpeg.h"
-#include "ov7670_handler.h"
 #include "init.h"
-#include "sccb.h"
-//#include "spiffs.h"
 #include "esp_psram.h"
 #include "esp_heap_caps.h"
+#include "ota_handler.h"
+
 
 
 
@@ -68,16 +65,13 @@ void app_main(void) {
     //ESP_ERROR_CHECK(esp_event_loop_create_default());
 
     check_psram_status();
-    
+    init_spiffs();
+    // 启动 HTTP 服务
 
     platform_init();
     //camera_init();
     // 初始化摄像头（GPIO + SCCB + 寄存器配置）
     //ov7670_config();
-
-    init_spiffs();
-    // 启动 HTTP 服务器
-    start_webserver();
 
     printf("系统初始化完成，等待客户端连接...\n");
 }
