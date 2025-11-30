@@ -1,5 +1,5 @@
-#ifndef OTA_DISPATCH_H
-#define OTA_DISPATCH_H
+#ifndef OTAAPP_H
+#define OTAAPP_H
 
 #include "esp_err.h"
 #include "client_register.h"
@@ -20,4 +20,4 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task);
 // 广播 OTA 任务给所有在线 Client
 esp_err_t ota_dispatch_broadcast(ota_task_t *task);
 
-#endif // OTA_DISPATCH_H
+#endif // OTAAPP_H   //ota_dispatch
