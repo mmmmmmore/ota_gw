@@ -5,7 +5,7 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 # 添加额外组件目录
 set(EXTRA_COMPONENT_DIRS 
         app/client_register
-        app/ota_dispatch
+        app/otaapp
         app/ledapp
         components/common_gpio
         protocol/webserver

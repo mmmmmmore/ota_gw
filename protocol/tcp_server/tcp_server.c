@@ -5,7 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 
-static const char *TAG = "TCP_SERVER";
+static const char *TAG = "GW_TCP_SERVER";
 static tcp_server_rx_callback_t rx_callback = NULL;
 
 void tcp_server_set_rx_callback(tcp_server_rx_callback_t cb) {
@@ -56,7 +56,7 @@ static void tcp_server_task(void *pvParameters) {
     ESP_LOGI(TAG, "TCP Server listening on port %d", port);
 
     while (1) {
-        struct sockaddr_in6 source_addr;
+        struct sockaddr_in source_addr;
         uint addr_len = sizeof(source_addr);
         int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
         if (client_sock < 0) {

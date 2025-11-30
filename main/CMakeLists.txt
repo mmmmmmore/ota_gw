@@ -3,7 +3,7 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES 
         esp_wifi esp_http_server nvs_flash driver 
-        client_register ota_dispatch ledapp
+        client_register otaapp ledapp
         common_gpio init
         webserver wifi_ap tcp_server
         spiffs 
