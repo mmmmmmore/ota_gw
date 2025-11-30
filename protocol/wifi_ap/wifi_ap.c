@@ -22,36 +22,21 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
         wifi_event_ap_staconnected_t* event = (wifi_event_ap_staconnected_t*) event_data;
         ESP_LOGI("wifi_ap", "Client connected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
                  event->mac[0], event->mac[1], event->mac[2],
-                 event->mac[3], event->mac[4], event->mac[5],
-                 event->aid);
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
-        wifi_event_ap_stadisconnected_t* event = (wifi_event_ap_stadisconnected_t*) event_data;
-        ESP_LOGI("wifi_ap", "Client disconnected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
-                 event->mac[0], event->mac[1], event->mac[2],
-                 event->mac[3], event->mac[4], event->mac[5],
-                 event->aid);
-    }
-}
-
-
-
-
-static void wifi_event_handler(void* arg, esp_event_base_t event_base,
-                               int32_t event_id, void* event_data) {
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STACONNECTED) {
-        wifi_event_ap_staconnected_t* event = (wifi_event_ap_staconnected_t*) event_data;
-        ESP_LOGI(TAG, "New device connected: MAC=%02x:%02x:%02x:%02x:%02x:%02x, AID=%d",
-                 event->mac[0], event->mac[1], event->mac[2],
                  event->mac[3], event->mac[4], event->mac[5], event->aid);
 
         // 判断是否为 OTA Server
         if (memcmp(event->mac, ota_server_mac, 6) == 0) {
-            ESP_LOGI(TAG, "OTA Server detected, assigning fixed IP 192.168.4.2");
-            // 设置静态租约（不同 IDF 版本 API 不同，这里用伪代码表示）
-            // esp_netif_dhcps_set_option(netif, MAC=ota_server_mac, IP=192.168.4.2);
+            ESP_LOGI("wifi_ap", "OTA Server detected, assigning fixed IP 192.168.4.2");
+            // TODO: 调用 DHCP API 设置静态租约
         } else {
-            ESP_LOGI(TAG, "Normal client, DHCP will assign IP >= 192.168.4.3");
+            ESP_LOGI("wifi_ap", "Normal client, DHCP will assign IP >= 192.168.4.3");
         }
+
+    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
+        wifi_event_ap_stadisconnected_t* event = (wifi_event_ap_stadisconnected_t*) event_data;
+        ESP_LOGI("wifi_ap", "Client disconnected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
+                 event->mac[0], event->mac[1], event->mac[2],
+                 event->mac[3], event->mac[4], event->mac[5], event->aid);
     }
 }
 
@@ -106,3 +91,4 @@ esp_err_t wifi_init_softap(void)
 
     return ESP_OK;
 }
+
