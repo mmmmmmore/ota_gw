@@ -35,8 +35,6 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
 
 
 
-// OTA Server 的目标 MAC 地址（示例）
-static const uint8_t ota_server_mac[6] = {0xAC, 0xDE, 0x48, 0x00, 0x11, 0x22};
 
 static void wifi_event_handler(void* arg, esp_event_base_t event_base,
                                int32_t event_id, void* event_data) {
