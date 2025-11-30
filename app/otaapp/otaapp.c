@@ -170,4 +170,30 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     return ESP_OK;
 }
 
+//ota handler report result to otaapp 
+void otaapp_report_result(const char *mac, bool success) {
+    ESP_LOGI(TAG, "Reporting result from client %s: %s", 
+             mac, success ? "success" : "fail");
+
+    // 构造反馈 JSON
+    cJSON *root = cJSON_CreateObject();
+    cJSON_AddStringToObject(root, "task", "ota_update");
+    cJSON_AddStringToObject(root, "mac", mac);
+    cJSON_AddStringToObject(root, "result", success ? "success" : "fail");
+
+    char *json_str = cJSON_PrintUnformatted(root);
+
+    // 获取 OTA Server socket 并反馈
+    int ota_sock = tcp_server_get_ota_sock();
+    if (ota_sock >= 0) {
+        tcp_server_send(ota_sock, json_str);
+    } else {
+        ESP_LOGW(TAG, "No OTA Server socket available, cannot report result");
+    }
+
+    cJSON_Delete(root);
+    free(json_str);
+}
+
+
 
