@@ -23,4 +23,9 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task);
 //resolve the OTA task json from tcp server
 esp_err_t ota_dispatch_handle_json(const char *json_str);
 
+//user response for the ota task
+void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted);
+
+
 #endif // OTAAPP_H   //ota_dispatch
+
