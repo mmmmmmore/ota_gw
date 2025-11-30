@@ -86,6 +86,7 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
         cJSON_Delete(root);
         free(json_str);
     }
+    otaapp_clear_pending_task(); // 清除任务
 }
 
 
@@ -98,26 +99,33 @@ esp_err_t ota_dispatch_handle_json(const char *json_str) {
         return ESP_FAIL;
     }
 
-    // 提取任务信息
     ota_task_t task;
     memset(&task, 0, sizeof(task));
-    strncpy(task.version, cJSON_GetObjectItem(root, "version")->valuestring, sizeof(task.version)-1);
-    strncpy(task.url, cJSON_GetObjectItem(root, "url")->valuestring, sizeof(task.url)-1);
-    strncpy(task.features, cJSON_GetObjectItem(root, "features")->valuestring, sizeof(task.features)-1);
 
-    // 提取目标设备
-    cJSON *mac_item = cJSON_GetObjectItem(root, "mac");
-    if (mac_item && mac_item->valuestring) {
-        ota_dispatch_send_task(mac_item->valuestring, &task);
-    } else {
-        ESP_LOGW(TAG, "No MAC specified, broadcasting task");
-        ota_dispatch_broadcast(&task);
+    cJSON *ver = cJSON_GetObjectItem(root, "version");
+    if (ver && ver->valuestring) {
+        strncpy(task.version, ver->valuestring, sizeof(task.version)-1);
     }
+
+    cJSON *url = cJSON_GetObjectItem(root, "url");
+    if (url && url->valuestring) {
+        strncpy(task.url, url->valuestring, sizeof(task.url)-1);
+    }
+
+    cJSON *features = cJSON_GetObjectItem(root, "features");
+    if (features && features->valuestring) {
+        strncpy(task.features, features->valuestring, sizeof(task.features)-1);
+    }
+
+    // 保存为 pending_task，等待用户确认
+    otaapp_set_pending_task(&task);
+
+    ESP_LOGI(TAG, "OTA task parsed and pending user confirmation: version=%s, url=%s",
+             task.version, task.url);
 
     cJSON_Delete(root);
     return ESP_OK;
 }
-
 
 
 
@@ -157,8 +165,4 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
-
-
-
-
 
