@@ -36,15 +36,16 @@ spiffs_create_partition_image(spiffs spiffs FLASH_IN_PROJECT "spiffs")
 # ====== 固件重命名规则 ======
 # 依赖于生成的 bin 文件，而不是 elf
 add_custom_command(
-    OUTPUT ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin
+    TARGET ${CMAKE_PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin
             ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin
-    DEPENDS ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin
     COMMENT "Renaming firmware to ${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin"
 )
+
 
 add_custom_target(rename_firmware ALL
     DEPENDS ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin
 )
+
 
