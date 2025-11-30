@@ -9,6 +9,7 @@ idf_component_register(
         mbedtls
         common_gpio  
         webserver wifi_ap tcp_server
+        cJSON
     EMBED_TXTFILES 
         "server_cert.pem"
         )

@@ -8,4 +8,5 @@ idf_component_register(
         init ota_handler
         common_gpio json
         otaapp
+        cJSON
         )

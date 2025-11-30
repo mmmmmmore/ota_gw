@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "otaapp.h"
+#include "cJSON.h"
 
 static const char *TAG = "GW_TCP_SERVER";
 static tcp_server_rx_callback_t rx_callback = NULL;

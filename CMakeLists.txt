@@ -14,6 +14,7 @@ set(EXTRA_COMPONENT_DIRS
         handler/init 
         handler/ota_handler
         spiffs 
+        utility/cJSON
         )
 
 # ====== 新增版本号配置 ======

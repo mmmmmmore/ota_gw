@@ -4,6 +4,7 @@
 #include "cJSON.h"
 #include "ota_handler.h"
 #include "client_register.h"
+#include "cJSON.h"
 
 static const char *TAG = "OTA_APP_MGMT";
 

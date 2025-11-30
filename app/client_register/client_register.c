@@ -1,6 +1,7 @@
 #include "client_register.h"
 #include "esp_log.h"
 #include <string.h>
+#include "cJSON.h"
 
 //#define MAX_CLIENTS 10
 static const char *TAG = "CLIENT_REGISTER";

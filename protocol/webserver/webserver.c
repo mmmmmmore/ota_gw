@@ -3,7 +3,7 @@
 #include "esp_http_client.h"
 #include "ota_handler.h"  // 引入 ota_handler 提供的状态表接口
 #include "otaapp.h"
-
+#include "cJSON.h"
 
 
 static const char *TAG = "WEB_OTAGW";
