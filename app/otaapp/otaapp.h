@@ -37,7 +37,11 @@ ota_task_t* otaapp_get_pending_task(void);
 // 清除待确认任务
 void otaapp_clear_pending_task(void);
 
+// tcp_server 的统一回调函数，由 otaapp 提供
+void tcp_server_rx_handler(int client_sock, const char *data);
+
 
 #endif // OTAAPP_H   //ota_dispatch
+
 
 
