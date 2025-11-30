@@ -65,3 +65,32 @@ In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/p
 /Users/maochun/esp32prj/esp-idf/components/lwip/include/lwip/sockets.h:37:65: note: expected 'socklen_t *' {aka 'long unsigned int *'} but argument is of type 'uint *' {aka 'unsigned int *'}
    37 | static inline int accept(int s,struct sockaddr *addr,socklen_t *addrlen)
       |                                                      ~~~~~~~~~~~^~~~~~~
+
+
+No:1130-1345
+
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'tcp_server_rx_handler':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:50:9: error: implicit declaration of function 'ota_handler_process_message' [-Wimplicit-function-declaration]
+   50 |         ota_handler_process_message(client_sock, data);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'ota_dispatch_user_response':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:73:9: error: implicit declaration of function 'ota_handler_send_task' [-Wimplicit-function-declaration]
+   73 |         ota_handler_send_task(mac, task);  // 通知 ECU 执行
+      |         ^~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'ota_dispatch_broadcast':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:164:25: error: 'MAX_CLIENTS' undeclared (first use in this function)
+  164 |     for (int i = 0; i < MAX_CLIENTS; i++) {
+      |                         ^~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:164:25: note: each undeclared identifier is reported only once for each function it appears in
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:165:54: error: 'client_list' undeclared (first use in this function)
+  165 |         client_info_t *client = client_register_find(client_list[i].mac);
+
+
+  /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:83:5: error: implicit declaration of function 'IP4_ADDR' [-Wimplicit-function-declaration]
+   83 |     IP4_ADDR(&ip_info.ip, 192, 168, 4, 1);
+      |     ^~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: At top level:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:19:13: warning: 'wifi_event_handler' defined but not used [-Wunused-function]
+   19 | static void wifi_event_handler(void* arg, esp_event_base_t event_base,
+      |             ^~~~~~~~~~~~~~~~~~

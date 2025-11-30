@@ -1,5 +1,5 @@
-#ifndef WEBSERVER_OTAGW_H
-#define WEBSERVER_OTAGW_H
+#ifndef WEBSERVER_H
+#define WEBSERVER_H
 
 #include "esp_http_server.h"
 
