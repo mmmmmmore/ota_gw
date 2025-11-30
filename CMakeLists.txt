@@ -33,15 +33,18 @@ spiffs_create_partition_image(spiffs spiffs FLASH_IN_PROJECT "spiffs")
 # 编译完成后，将生成的固件文件重命名为带版本号的文件
 # ====== 固件重命名规则 ======
 # 只有在主固件 bin 存在时才复制并加版本号
+# ====== 固件重命名规则 ======
+# 依赖于生成的 bin 文件，而不是 elf
 add_custom_command(
-    TARGET ${CMAKE_PROJECT_NAME}.elf POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E echo "Checking firmware outputs..."
+    OUTPUT ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin
             ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_BINARY_DIR}/spiffs.bin
-            ${CMAKE_BINARY_DIR}/spiffs_v${PROJECT_VER}.bin
-    COMMENT "Renaming firmware images with version suffix"
+    DEPENDS ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.bin
+    COMMENT "Renaming firmware to ${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin"
+)
+
+add_custom_target(rename_firmware ALL
+    DEPENDS ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}_v${PROJECT_VER}.bin
 )
 
