@@ -3,7 +3,7 @@
 #include "esp_log.h"
 #include "cJSON.h"
 
-static const char *TAG = "OTA_DISPATCH";
+static const char *TAG = "OTA_APP_MGMT";
 
 void ota_dispatch_init(void) {
     ESP_LOGI(TAG, "OTA Dispatcher initialized");
@@ -33,6 +33,33 @@ ota_task_t* otaapp_get_pending_task(void) {
 // 清除待确认任务（用户响应后调用）
 void otaapp_clear_pending_task(void) {
     has_pending_task = false;
+}
+
+
+// tcp_server 的统一回调函数
+void tcp_server_rx_handler(int client_sock, const char *data) {
+    ESP_LOGI(TAG, "Received data from sock %d: %s", client_sock, data);
+
+    // 尝试解析 JSON
+    cJSON *root = cJSON_Parse(data);
+    if (!root) {
+        ESP_LOGW(TAG, "Invalid JSON, maybe ECU message");
+        // 如果是 ECU 状态上报，交给 ota_handler
+        ota_handler_process_message(client_sock, data);
+        return;
+    }
+
+    // 判断是否是 OTA Server 的任务
+    cJSON *task_item = cJSON_GetObjectItem(root, "task");
+    if (task_item && strcmp(task_item->valuestring, "ota_update") == 0) {
+        ESP_LOGI(TAG, "Forwarding OTA task to otaapp");
+        ota_dispatch_handle_json(data);   // 保存并调度任务
+    } else {
+        ESP_LOGI(TAG, "Forwarding ECU message to ota_handler");
+        ota_handler_process_message(client_sock, data);
+    }
+
+    cJSON_Delete(root);
 }
 
 // 1130 update above
@@ -128,6 +155,7 @@ esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
     }
     return ESP_OK;
 }
+
 
 
 
