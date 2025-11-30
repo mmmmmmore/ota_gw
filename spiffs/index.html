@@ -2,72 +2,62 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>OTA Gateway HUT UI</title>
+  <title>GW OTA Gateway</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <!-- 左侧菜单栏 -->
   <div class="sidebar">
-    <div class="menu-item" onclick="showContent('Navigation')">Navigation</div>
-    <div class="menu-item" onclick="showContent('radio')">radio</div>
-    <div class="menu-item" onclick="showContent('game')">Game</div>
-    <div class="menu-item" onclick="showContent('system')">System</div>
-    <div class="menu-item" onclick="showContent('version')">Update</div>
+    <h2>GW Gateway</h2>
+    <div class="menu-item" onclick="showSection('navigation')">Navigation</div>
+    <div class="menu-item" onclick="showSection('radio')">Radio</div>
+    <div class="menu-item" onclick="showSection('game')">Game</div>
+    <div class="menu-item" onclick="showSection('system')">System</div>
+    <div class="menu-item" onclick="showSection('update')">Update</div>
   </div>
 
-  <!-- 右侧功能区 -->
+  <!-- 主内容区 -->
   <div class="content">
-    <div id="Navigation" class="section">
-      <h2>Navigation</h2>
-      <img src="/assets/Navigation.png" alt="Location Navigation">
+    <!-- Navigation -->
+    <div id="navigation" class="section">
+      <h3>Navigation</h3>
+      <img src="/assets/Navigation.png" alt="Navigation">
     </div>
 
+    <!-- Radio -->
     <div id="radio" class="section hidden">
-      <h2>radio</h2>
-      <img src="/assets/radio.png" alt="Radio">
+      <h3>Radio</h3>
+      <img src="/assets/Radio.png" alt="Radio">
     </div>
 
+    <!-- Game -->
     <div id="game" class="section hidden">
-      <h2>Game</h2>
+      <h3>Game</h3>
       <img src="/assets/Game.png" alt="Game">
     </div>
 
+    <!-- System -->
     <div id="system" class="section hidden">
-      <h2>System Information</h2>
-      <p>Current Version: 1.0.0</p>
-      <p>Description: 网关节点, 负责OTA任务转发与状态管理。</p>
+      <h3>System Information</h3>
+      <p>当前网关状态：负责 OTA 任务转发与设备管理。</p>
     </div>
 
-    <!-- 版本查询 -->
-    <div id="version" class="section hidden">
-      <h2>版本查询</h2>
+    <!-- Update -->
+    <div id="update" class="section hidden">
+      <h3>设备更新</h3>
       <table>
         <thead>
           <tr>
-            <th>Client 名称</th>
+            <th>设备名称</th>
             <th>当前版本</th>
             <th>操作</th>
           </tr>
         </thead>
-        <tbody id="client-list">
-          <tr>
-            <td>Client_1</td>
-            <td>v1.0.0</td>
-            <td><button id="checkUpdateBtn">检查更新</button></td>
-          </tr>
+        <tbody id="update-tbody">
+          <!-- 动态填充，后续与 app/client_register 对接 -->
         </tbody>
       </table>
     </div>
-  </div>
-
-  <!-- 弹窗 -->
-  <div id="modal">
-    <h3>版本更新信息</h3>
-    <div id="taskInfo"></div>
-    <button onclick="sendResponse('Accept')">Accept</button>
-    <button onclick="sendResponse('Deny')">Reject</button>
-    <div id="progressBar"><div></div></div>
-    <div id="progressText"></div>
   </div>
 
   <script src="/js/app.js"></script>
