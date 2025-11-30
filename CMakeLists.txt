@@ -4,16 +4,14 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 
 # 添加额外组件目录
 set(EXTRA_COMPONENT_DIRS 
-        components/camera
+        app/client_register
+        app/ota_dispatch
+        app/ledapp
         components/common_gpio
-        components/jpeg
-        components/sccb
         protocol/webserver
         protocol/wifi_ap 
-        protocol/control_mgmt
-        handler/init
-        handler/ov7670_handler 
-        handler/motor_handler
+        protocol/tcp_server
+        handler/init 
         handler/ota_handler
         spiffs 
         )

@@ -3,9 +3,9 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES 
         esp_wifi esp_http_server nvs_flash driver 
-        camera jpeg sccb common_gpio
-        ov7670_handler motor_handler init
-        webserver wifi_ap 
+        client_register ota_dispatch ledapp
+        common_gpio init
+        webserver wifi_ap tcp_server
         spiffs 
         esp_system esp_psram
 )
