@@ -6,6 +6,6 @@
 #include "esp_log.h"
 
 // 初始化 WiFi SoftAP
-void wifi_init_softap(void);
+esp_err_t wifi_init_softap(void);
 
 #endif // WIFI_AP_H

@@ -72,7 +72,7 @@ static void tcp_server_task(void *pvParameters) {
 
     while (1) {
         struct sockaddr_in source_addr;
-        uint addr_len = sizeof(source_addr);
+        socklen_t addr_len = sizeof(source_addr);
         int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
         if (client_sock < 0) {
             ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
