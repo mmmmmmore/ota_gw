@@ -8,10 +8,24 @@
 
 static const char *TAG = "GW_TCP_SERVER";
 static tcp_server_rx_callback_t rx_callback = NULL;
+static int ota_server_sock = -1;
+
 
 void tcp_server_set_rx_callback(tcp_server_rx_callback_t cb) {
     rx_callback = cb;
 }
+
+void tcp_server_set_ota_sock(int sock) {
+    ota_server_sock = sock;
+    ESP_LOGI(TAG, "OTA Server socket set: %d", sock);
+}
+
+int tcp_server_get_ota_sock(void) {
+    return ota_server_sock;
+}
+
+
+
 
 esp_err_t tcp_server_send(int client_sock, const char *json_str) {
     if (client_sock < 0) return ESP_FAIL;
@@ -65,6 +79,12 @@ static void tcp_server_task(void *pvParameters) {
             continue;
         }
         ESP_LOGI(TAG, "Client connected, sock=%d", client_sock);
+        // 如果这是 OTA Server 的连接，可以在这里设置
+        // 简单做法：假设 OTA Server 总是第一个连接
+        if (ota_server_sock < 0) {
+            tcp_server_set_ota_sock(client_sock);
+        }
+        
 
         char rx_buffer[512];
         while (1) {
@@ -80,12 +100,15 @@ static void tcp_server_task(void *pvParameters) {
                 ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
                 if (rx_callback) {
                     rx_callback(client_sock, rx_buffer);
-                    //ESP_LOGI(TAG, "Forward OTA task json to otaapp")
-                    //ota_dispatch_handle_json(rx_buffer);
                 }
             }
         }
         close(client_sock);
+        // 如果 OTA Server 断开，清空句柄
+        if (client_sock == ota_server_sock) {
+            ota_server_sock = -1;
+            ESP_LOGW(TAG, "OTA Server disconnected");
+        }
     }
 }
 
@@ -93,4 +116,5 @@ esp_err_t tcp_server_start(uint16_t port) {
     xTaskCreate(tcp_server_task, "tcp_server_task", 4096, (void*)(intptr_t)port, 5, NULL);
     return ESP_OK;
 }
+
 
