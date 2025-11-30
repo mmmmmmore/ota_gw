@@ -1,0 +1,132 @@
+
+ELF file SHA256: d7053f80a
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037c4d5
+--- 0x4037c4d5: esp_restart_noos at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:164
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x1588
+load:0x403c8700,len:0xd7c
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x2f80
+entry 0x403c8908
+--- 0x403c8908: call_start_cpu0 at /Users/maochun/esp32prj/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+I (29) boot: ESP-IDF v6.0-dev-2039-g2044fba6e7 2nd stage bootloader
+I (29) boot: compile time Nov 30 2025 16:58:02
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v0.2
+I (34) boot: efuse block revision: v1.3
+I (37) boot.esp32s3: Boot SPI Speed : 80MHz
+I (41) boot.esp32s3: SPI Mode       : DIO
+I (45) boot.esp32s3: SPI Flash Size : 16MB
+I (49) boot: Enabling RNG early entropy source...
+I (53) boot: Partition Table:
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00005000
+I (69) boot:  1 otadata          OTA data         01 00 0000e000 00002000
+I (75) boot:  2 app0             OTA app          00 10 00010000 00400000
+I (82) boot:  3 app1             OTA app          00 11 00410000 00400000
+I (88) boot:  4 spiffs           Unknown data     01 82 00810000 00770000
+I (95) boot: End of partition table
+I (98) esp_image: segment 0: paddr=00010020 vaddr=3c0a0020 size=1e5bch (124348) map
+I (128) esp_image: segment 1: paddr=0002e5e4 vaddr=3fc98a00 size=01a34h (  6708) load
+I (130) esp_image: segment 2: paddr=00030020 vaddr=42000020 size=9bf10h (638736) map
+I (246) esp_image: segment 3: paddr=000cbf38 vaddr=3fc9a434 size=03370h ( 13168) load
+I (249) esp_image: segment 4: paddr=000cf2b0 vaddr=40374000 size=1490ch ( 84236) load
+I (269) esp_image: segment 5: paddr=000e3bc4 vaddr=50000000 size=00020h (    32) load
+I (278) boot: Loaded app from partition at offset 0x10000
+I (278) boot: Disabling RNG early entropy source...
+E (288) quad_psram: PSRAM chip is not connected, or wrong PSRAM line mode
+E (288) esp_psram: PSRAM enabled but initialization failed. Bailing out.
+E cpu_start: Failed to init external RAM; continuing without it.
+E (295) quad_psram: PSRAM chip is not connected, or wrong PSRAM line mode
+E (302) esp_psram: PSRAM enabled but initialization failed. Bailing out.
+I (308) cpu_start: Multicore app
+I (323) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (325) cpu_start: Pro cpu start user code
+I (325) cpu_start: cpu freq: 160000000 Hz
+I (325) app_init: Application information:
+I (329) app_init: Project name:     ota_gw
+I (333) app_init: App version:      2.0.1
+I (337) app_init: Compile time:     Nov 30 2025 16:57:28
+I (342) app_init: ELF file SHA256:  d7053f80a...
+I (346) app_init: ESP-IDF:          v6.0-dev-2039-g2044fba6e7
+I (351) efuse_init: Min chip rev:     v0.0
+I (355) efuse_init: Max chip rev:     v0.99 
+I (359) efuse_init: Chip rev:         v0.2
+I (363) heap_init: Initializing. RAM available for dynamic allocation:
+I (370) heap_init: At 3FCA18D8 len 00047E38 (287 KiB): RAM
+I (374) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (380) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (385) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (394) spi_flash: detected chip: boya
+I (394) spi_flash: flash io: dio
+W (397) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`
+I (407) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (413) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (420) main_task: Started on CPU0
+I (450) main_task: Calling app_main()
+ESP32S3 Boot Success...
+I (480) pp: pp rom version: e7ae62f
+I (480) net80211: net80211 rom version: e7ae62f
+I (500) wifi:wifi driver task: 3fca6670, prio:23, stack:6656, core=0
+I (510) wifi:wifi firmware version: df85326
+I (510) wifi:wifi certification version: v7.0
+I (510) wifi:config NVS flash: enabled
+I (510) wifi:config nano formatting: disabled
+I (510) wifi:Init data frame dynamic rx buffer num: 32
+I (520) wifi:Init static rx mgmt buffer num: 5
+I (520) wifi:Init management short buffer num: 32
+I (530) wifi:Init dynamic tx buffer num: 32
+I (530) wifi:Init static tx FG buffer num: 2
+I (540) wifi:Init static rx buffer size: 1600
+I (540) wifi:Init static rx buffer num: 10
+I (540) wifi:Init dynamic rx buffer num: 32
+I (550) wifi_init: rx ba win: 6
+I (550) wifi_init: accept mbox: 6
+I (550) wifi_init: tcpip mbox: 32
+I (560) wifi_init: udp mbox: 6
+I (560) wifi_init: tcp mbox: 6
+I (560) wifi_init: tcp tx win: 5760
+I (560) wifi_init: tcp rx win: 5760
+I (570) wifi_init: tcp mss: 1440
+I (570) wifi_init: WiFi IRAM OP enabled
+I (570) wifi_init: WiFi RX IRAM OP enabled
+I (590) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
+I (640) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
+I (650) wifi:Total power save buffer number: 16
+I (650) wifi:Init max length of beacon: 752/752
+I (650) wifi:Init max length of beacon: 752/752
+I (660) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (660) wifi_ap: WiFi SoftAP started. SSID:OTA-GW password:WIFI_PASS channel:1
+ESP_ERROR_CHECK failed: esp_err_t 0x5007 (ESP_ERR_ESP_NETIF_DHCP_NOT_STOPPED) at 0x4200d284
+--- 0x4200d284: wifi_init_softap at /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:100
+file: "./protocol/wifi_ap/wifi_ap.c" line 100
+func: wifi_init_softap
+expression: esp_netif_set_ip_info(netif, &ip_info)
+
+abort() was called at PC 0x4037c2f3 on core 0
+--- 0x4037c2f3: _esp_error_check_failed at /Users/maochun/esp32prj/esp-idf/components/esp_system/esp_err.c:49
+
+
+Backtrace: 0x4037c335:0x3fca5140 0x4037c2fd:0x3fca5160 0x40382515:0x3fca5180 0x4037c2f3:0x3fca51f0 0x4200d284:0x3fca5220 0x4200c4e4:0x3fca53b0 0x42007c74:0x3fca53d0 0x42098d0e:0x3fca5400
+--- 0x4037c335: panic_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/panic.c:480
+--- 0x4037c2fd: esp_system_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/esp_system_chip.c:87
+--- 0x40382515: abort at /Users/maochun/esp32prj/esp-idf/components/newlib/src/abort.c:38
+--- 0x4037c2f3: _esp_error_check_failed at /Users/maochun/esp32prj/esp-idf/components/esp_system/esp_err.c:49
+--- 0x4200d284: wifi_init_softap at /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:100
+--- 0x4200c4e4: app_main at /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/main/main.c:40
+--- 0x42007c74: main_task at /Users/maochun/esp32prj/esp-idf/components/freertos/app_startup.c:208
+--- 0x42098d0e: vPortTaskWrapper at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+
+
+
+
+ELF file SHA256: d7053f80a
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
