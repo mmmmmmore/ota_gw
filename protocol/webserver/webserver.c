@@ -80,6 +80,44 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+
+static esp_err_t static_file_handler(httpd_req_t *req) {
+    char filepath[64] = "/spiffs";
+    strlcat(filepath, req->uri, sizeof(filepath));
+
+    FILE *f = fopen(filepath, "r");
+    if (!f) {
+        httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "File not found");
+        return ESP_FAIL;
+    }
+
+    // 根据扩展名设置 MIME 类型
+    if (strstr(filepath, ".html")) {
+        httpd_resp_set_type(req, "text/html");
+    } else if (strstr(filepath, ".css")) {
+        httpd_resp_set_type(req, "text/css");
+    } else if (strstr(filepath, ".js")) {
+        httpd_resp_set_type(req, "application/javascript");
+    } else if (strstr(filepath, ".png")) {
+        httpd_resp_set_type(req, "image/png");
+    } else if (strstr(filepath, ".ico")) {
+        httpd_resp_set_type(req, "image/x-icon");
+    } else {
+        httpd_resp_set_type(req, "text/plain");
+    }
+
+    char buffer[512];
+    size_t read_bytes;
+    while ((read_bytes = fread(buffer, 1, sizeof(buffer), f)) > 0) {
+        httpd_resp_send_chunk(req, buffer, read_bytes);
+    }
+    fclose(f);
+    httpd_resp_send_chunk(req, NULL, 0); // 结束响应
+    return ESP_OK;
+}
+
+
+
 // 注册路由
 static void register_uri_handlers(httpd_handle_t server) {
         // index.html
