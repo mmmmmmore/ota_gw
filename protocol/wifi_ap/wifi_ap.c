@@ -42,7 +42,6 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
 }
 
 
-
 esp_err_t wifi_init_softap(void)
 {
     // 初始化网络接口和事件循环
@@ -62,7 +61,7 @@ esp_err_t wifi_init_softap(void)
             .ssid = WIFI_SSID,
             .ssid_len = strlen(WIFI_SSID),
             .channel = 1,
-            .password = "WIFI_PASS",
+            .password = WIFI_PASS,   // 使用宏，而不是字面字符串
             .max_connection = 6,
             .authmode = WIFI_AUTH_WPA_WPA2_PSK
         },
@@ -75,7 +74,6 @@ esp_err_t wifi_init_softap(void)
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
-
 
     ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_EVENT,
                                                      WIFI_EVENT_AP_STACONNECTED,
@@ -92,6 +90,9 @@ esp_err_t wifi_init_softap(void)
     ESP_LOGI(TAG, "WiFi SoftAP started. SSID:%s password:%s channel:%d",
              wifi_config.ap.ssid, wifi_config.ap.password, wifi_config.ap.channel);
 
+    // 停止 DHCP 服务
+    ESP_ERROR_CHECK(esp_netif_dhcps_stop(netif));
+
     // 设置网关 IP 信息
     esp_netif_ip_info_t ip_info;
     IP4_ADDR(&ip_info.ip, 192, 168, 4, 1);
@@ -99,11 +100,12 @@ esp_err_t wifi_init_softap(void)
     IP4_ADDR(&ip_info.netmask, 255, 255, 255, 0);
     ESP_ERROR_CHECK(esp_netif_set_ip_info(netif, &ip_info));
 
-    // 停止并重新启动 DHCP 服务，应用新的 IP 配置
-    ESP_ERROR_CHECK(esp_netif_dhcps_stop(netif));
+    // 重新启动 DHCP 服务
     ESP_ERROR_CHECK(esp_netif_dhcps_start(netif));
 
     return ESP_OK;
 }
+
+
 
 
