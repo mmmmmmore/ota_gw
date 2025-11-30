@@ -3,74 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>OTA Gateway HUT UI</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #eee;
-      display: flex;
-      height: 100vh;
-    }
-    .sidebar {
-      width: 200px;
-      background-color: #222;
-      display: flex;
-      flex-direction: column;
-      padding-top: 20px;
-    }
-    .menu-item {
-      padding: 15px;
-      cursor: pointer;
-      border-bottom: 1px solid #333;
-    }
-    .menu-item:hover {
-      background-color: #444;
-    }
-    .content {
-      flex: 1;
-      padding: 20px;
-      background-color: #1a1a1a;
-    }
-    .hidden { display: none; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    table, th, td { border: 1px solid #555; }
-    th, td { padding: 8px; text-align: center; }
-    button {
-      padding: 6px 12px;
-      background-color: grey;
-      color: #fff;
-      border: none;
-      cursor: not-allowed;
-    }
-    button.active {
-      background-color: green;
-      cursor: pointer;
-    }
-    #modal {
-      display: none;
-      position: fixed;
-      top: 30%;
-      left: 30%;
-      width: 40%;
-      background: #fff;
-      color: #000;
-      border: 1px solid #ccc;
-      padding: 20px;
-    }
-    #progressBar {
-      width: 100%;
-      background-color: #ddd;
-      margin-top: 10px;
-    }
-    #progressBar div {
-      height: 20px;
-      width: 0%;
-      background-color: green;
-      text-align: center;
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <!-- 左侧菜单栏 -->
@@ -86,17 +19,17 @@
   <div class="content">
     <div id="Navigation" class="section">
       <h2>Navigation</h2>
-      <img src="Navigation.png" alt="Location Navigation">
+      <img src="/assets/Navigation.png" alt="Location Navigation">
     </div>
 
     <div id="radio" class="section hidden">
       <h2>radio</h2>
-      <img src="radio.png" alt="Radio">
+      <img src="/assets/radio.png" alt="Radio">
     </div>
 
     <div id="game" class="section hidden">
       <h2>Game</h2>
-      <img src="Game.png" alt="Game">
+      <img src="/assets/Game.png" alt="Game">
     </div>
 
     <div id="system" class="section hidden">
@@ -137,71 +70,6 @@
     <div id="progressText"></div>
   </div>
 
-  <script>
-    function showContent(sectionId) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
-      document.getElementById(sectionId).classList.remove('hidden');
-    }
-
-    // 定时检查是否有任务
-    async function pollTask() {
-      let res = await fetch('/task_info');
-      let data = await res.json();
-      if (Object.keys(data).length > 0) {
-        let btn = document.getElementById('checkUpdateBtn');
-        btn.classList.add('active');
-        btn.disabled = false;
-        btn.onclick = showModal;
-      }
-    }
-
-    function showModal() {
-      document.getElementById('modal').style.display = 'block';
-      loadTaskInfo();
-    }
-
-    async function loadTaskInfo() {
-      let res = await fetch('/task_info');
-      let data = await res.json();
-      document.getElementById('taskInfo').innerText = JSON.stringify(data, null, 2);
-    }
-
-    async function sendResponse(choice) {
-      await fetch('/ota_user_response', {
-        method: 'POST',
-        body: choice
-      });
-      if (choice === 'Accept') {
-        startProgressPolling();
-      } else {
-        alert("用户拒绝升级");
-        document.getElementById('modal').style.display = 'none';
-      }
-    }
-
-    async function startProgressPolling() {
-      let progressBar = document.getElementById('progressBar').firstElementChild;
-      let progressText = document.getElementById('progressText');
-
-      let interval = setInterval(async () => {
-        let res = await fetch('/progress_info');
-        let data = await res.json();
-
-        // 假设只展示第一个 Client 的进度
-        let client = data[0];
-        progressBar.style.width = client.progress + "%";
-        progressText.innerText = "进度: " + client.progress + "%";
-
-        if (client.progress >= 100) {
-          clearInterval(interval);
-          alert("升级成功！");
-          document.getElementById('modal').style.display = 'none';
-        }
-      }, 2000);
-    }
-
-    // 每5秒检查是否有新任务
-    setInterval(pollTask, 5000);
-  </script>
+  <script src="/js/app.js"></script>
 </body>
 </html>
