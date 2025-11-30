@@ -1,7 +1,11 @@
- -u esp_vfs_include_nullfs_register && cd /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build && /usr/local/bin/cmake -E echo Checking\ firmware\ outputs... && /usr/local/bin/cmake -E copy_if_different /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw_v2.0.1.bin && /usr/local/bin/cmake -E copy_if_different /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/spiffs.bin /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/spiffs_v2.0.1.bin
-Checking firmware outputs...
-Error copying file (if different) from "/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin" to "/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw_v2.0.1.bin".
-ninja: build stopped: subcommand failed.
-ninja failed with exit code 1, output of the command is in the /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stderr_output_23851 and /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stdout_output_23851
-maochun@MMMBP ota_gw % ls build/*.bin
-build/ota_data_initial.bin      build/spiffs.bin
+maochun@MMMBP ota_gw % ls -l spiffs/*.png
+-rw-r--r--  1 maochun  staff   161256 Nov 26 19:00 spiffs/Game.png
+-rw-r--r--  1 maochun  staff   860646 Nov 26 19:00 spiffs/Navigation.png
+-rw-r--r--  1 maochun  staff  1617990 Nov 26 19:00 spiffs/radio.png
+maochun@MMMBP ota_gw % 
+maochun@MMMBP ota_gw % 
+maochun@MMMBP ota_gw % ls -l build/*.bin
+-rw-r--r--  1 maochun  staff      8192 Nov 30 15:48 build/ota_data_initial.bin
+-rw-r--r--  1 maochun  staff  13041664 Nov 30 15:55 build/spiffs.bin
+maochun@MMMBP ota_gw % ls -l build/*.elf
+-rwxr-xr-x  1 maochun  staff  9669356 Nov 30 15:55 build/ota_gw.elf
