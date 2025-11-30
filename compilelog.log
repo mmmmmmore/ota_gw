@@ -1,6 +1,19 @@
--- Generating done (2.2s)
--- Build files have been written to: /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build
-Running ninja in directory /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build
-Executing "ninja all"...
-ninja: error: 'ota_gw.bin', needed by 'ota_gw_v2.0.1.bin', missing and no known rule to make it
-ninja failed with exit code 1, output of the command is in the /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stderr_output_41992 and /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stdout_output_41992
+
+esptool.py v4.10.dev2
+Creating esp32s3 image...
+Merged 2 ELF sections
+Successfully created esp32s3 image.
+Generated /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin
+[1090/1091] cd /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build && /Users/maochun/.espressif/p...artition_table/partition-table.bin /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin
+FAILED: [code=1] CMakeFiles/app_check_size /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/CMakeFiles/app_check_size 
+cd /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build && /Users/maochun/.espressif/python_env/idf6.0_py3.13_env/bin/python /Users/maochun/esp32prj/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/partition_table/partition-table.bin /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/ota_gw.bin
+Error: app partition is too small for binary ota_gw.bin size 0xd3c10:
+  - Part 'app' 0/0 @ 0x10000 size 0x60000 (overflow 0x73c10)
+ninja: build stopped: subcommand failed.
+ninja failed with exit code 1, output of the command is in the /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stderr_output_42890 and /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stdout_output_42890
+maochun@MMMBP ota_gw % 
+maochun@MMMBP ota_gw % 
+maochun@MMMBP ota_gw % ls -l build/*.bin
+-rw-r--r--  1 maochun  staff    867344 Nov 30 16:38 build/ota_gw.bin
+-rw-r--r--  1 maochun  staff  13041664 Nov 30 16:36 build/spiffs.bin
+maochun@MMMBP ota_gw % 
