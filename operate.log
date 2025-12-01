@@ -1,61 +1,27 @@
 
-I (1318) main_task: Returned from app_main()
-I (8958) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (8958) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
-I (8978) wifi_ap: Client connected: MAC=A4:5E:60:C5:69:75, AID=1
-I (8978) wifi_ap: OTA Server detected, assigning fixed IP 192.168.4.2
-I (9038) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
-I (9038) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-I (9118) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
-I (22538) GW_TCP_SERVER: Client connected, sock=60, ip =192.168.4.2, port=56398 
-I (22538) GW_TCP_SERVER: OTA Server socket set: 60
-I (22538) GW_TCP_SERVER: Start Receiving data from client 60
-W (22548) GW_TCP_SERVER: Client disconnected
-I (22548) GW_TCP_SERVER: Closing client socket 60 
-W (22558) GW_TCP_SERVER: OTA Server disconnected
-I (22558) GW_TCP_SERVER: Client connected, sock=60, ip =192.168.4.2, port=56399 
-I (22568) GW_TCP_SERVER: OTA Server socket set: 60
-I (22568) GW_TCP_SERVER: Start Receiving data from client 60
-I (22578) GW_TCP_SERVER: Received 227 bytes from client 60: {"task_id": "20251201_135447_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_135447", "status": "pending"}
-I (22598) OTA_APP_MGMT: Received data from sock 60: {"task_id": "20251201_135447_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_135447", "status": "pending"}
-I (22628) OTA_APP_MGMT: Recognized OTA Server task JSON, forwarding to otaapp
-I (22638) OTA_APP_MGMT: Task stored as pending: version=v2.1.4 url= features=
-I (22638) OTA_APP_MGMT: OTA task parsed and pending user confirmation: version=v2.1.4, url=
-I (22648) GW_TCP_SERVER: Start Receiving data from client 60
-I (22688) OTA_APP_MGMT: Returning pending task: version=v2.1.4 url=
-W (27538) GW_TCP_SERVER: Client disconnected
-I (27538) GW_TCP_SERVER: Closing client socket 60 
-W (27548) GW_TCP_SERVER: OTA Server disconnected
-I (27548) GW_TCP_SERVER: Client connected, sock=60, ip =192.168.4.2, port=56406 
-I (27548) GW_TCP_SERVER: OTA Server socket set: 60
-I (27558) GW_TCP_SERVER: Start Receiving data from client 60
-W (27558) GW_TCP_SERVER: Client disconnected
-I (27568) GW_TCP_SERVER: Closing client socket 60 
-W (27568) GW_TCP_SERVER: OTA Server disconnected
-I (27578) GW_TCP_SERVER: Client connected, sock=60, ip =192.168.4.2, port=56407 
-I (27578) GW_TCP_SERVER: OTA Server socket set: 60
-I (27588) GW_TCP_SERVER: Start Receiving data from client 60
-I (27588) GW_TCP_SERVER: Received 227 bytes from client 60: {"task_id": "20251201_135448_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_135448", "status": "pending"}
-I (27618) OTA_APP_MGMT: Received data from sock 60: {"task_id": "20251201_135448_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_135448", "status": "pending"}
-I (27638) OTA_APP_MGMT: Recognized OTA Server task JSON, forwarding to otaapp
-I (27648) OTA_APP_MGMT: Task stored as pending: version=v2.1.4 url= features=
-I (27648) OTA_APP_MGMT: OTA task parsed and pending user confirmation: version=v2.1.4, url=
-I (27658) GW_TCP_SERVER: Start Receiving data from client 60
-W (29308) GW_TCP_SERVER: Client disconnected
-I (29308) GW_TCP_SERVER: Closing client socket 60 
-W (29308) GW_TCP_SERVER: OTA Server disconnected
-I (43108) OTA_APP_MGMT: Returning pending task: version=v2.1.4 url=
-I (43108) OTA_APP_MGMT: User accepted OTA task for , version=v2.1.4
-W (43108) OTA_HANDLER: Client  not found or offline
-I (43118) OTA_APP_MGMT: Pending task cleared
-I (44988) OTA_APP_MGMT: No pending task available
-I (1092588) wifi:<ba-del>idx:2, tid:6
-I (1092588) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:89, winSize:64
-I (1092668) wifi:<ba-del>idx:3, tid:0
-I (1092668) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:2290, winSize:64
-I (1174358) wifi:station: a4:5e:60:c5:69:75 leave, AID = 1, reason = 8, bss_flags is 691299, bss:0x3fca3878
-I (1174358) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (1174368) wifi:<ba-del>idx:3, tid:0
-I (1174368) wifi:<ba-del>idx:2, tid:6
-I (1174368) wifi_ap: Client disconnected: MAC=A4:5E:60:C5:69:75, AID=1
-I (1174378) wifi:new:<1,1>, old:<1,0>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (1308) main_task: Returned from app_main()
+I (12948) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (12948) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
+I (12978) wifi_ap: Client connected: MAC=A4:5E:60:C5:69:75, AID=1
+I (12978) wifi_ap: OTA Server detected, assigning fixed IP 192.168.4.2
+I (13008) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (13008) wifi:I (13008) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (34228) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.2, port=50108 
+I (34228) GW_TCP_SERVER: OTA Server socket set: 58
+I (34228) GW_TCP_SERVER: Start Receiving data from client 58
+W (34238) GW_TCP_SERVER: Client disconnected
+I (34238) GW_TCP_SERVER: Closing client socket 58 
+W (34248) GW_TCP_SERVER: OTA Server disconnected
+I (34248) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.2, port=50109 
+I (34258) GW_TCP_SERVER: OTA Server socket set: 58
+I (34258) GW_TCP_SERVER: Start Receiving data from client 58
+I (34268) GW_TCP_SERVER: Received 227 bytes from client 58: {"task_id": "20251201_143440_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_143440", "status": "pending"}
+I (34288) OTA_APP_MGMT: Received data from sock 58: {"task_id": "20251201_143440_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_143440", "status": "pending"}
+I (34318) OTA_APP_MGMT: Recognized OTA Server task JSON, forwarding to otaapp
+I (34318) OTA_APP_MGMT: Task stored as pending: version=v2.1.4 url=http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin features=
+I (34338) OTA_APP_MGMT: OTA task parsed and pending user confirmation: version=v2.1.4, url=http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin
+I (34348) GW_TCP_SERVER: Start Receiving data from client 58
+W (39338) GW_TCP_SERVER: Client disconnected
+I (39338) GW_TCP_SERVER: Closing client socket 58 
+W (39338) GW_TCP_SERVER: OTA Server disconnected
