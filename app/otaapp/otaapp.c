@@ -72,17 +72,46 @@ void tcp_server_rx_handler(int client_sock, const char *data) {
 }
 
 
-// ---------- 用户响应 ----------
+// ---------- 用户Accept之后对目标ECU做更新 ----------
 void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted) {
     if (accepted) {
-        ESP_LOGI(TAG, "User accepted OTA task for %s, version=%s", mac, task->version);
-        ota_handler_send_task(mac, task);  // 通知 ECU 执行
-    } else {
-        ESP_LOGW(TAG, "User rejected OTA task for %s, version=%s", mac, task->version);
+        ESP_LOGI(TAG, "User accepted OTA task %s for client %s", task->task_id, mac);
 
-        // 构造反馈 JSON
+        client_info_t *client = client_register_find(mac);
+        if (!client || client->state == CLIENT_OFFLINE) {
+            ESP_LOGW(TAG, "Client %s not found or offline, cannot send OTA task", mac);
+            otaapp_clear_pending_task();
+            return;
+        }
+
+        // 构造下发给 ECU 的 JSON
         cJSON *root = cJSON_CreateObject();
-        cJSON_AddStringToObject(root, "task", "ota_update");
+        cJSON_AddStringToObject(root, "task_id", task->task_id);
+        cJSON_AddStringToObject(root, "device_name", task->device_name);
+        cJSON_AddStringToObject(root, "client_id", task->client_id);
+        cJSON_AddStringToObject(root, "version", task->version);
+        cJSON_AddStringToObject(root, "url", task->url);
+
+        char *json_str = cJSON_PrintUnformatted(root);
+        ESP_LOGI(TAG, "Sending OTA task to ECU %s (IP=%s): %s", mac, client->ip, json_str);
+
+        esp_err_t ret = tcp_server_send(client->sock, json_str);
+
+        cJSON_Delete(root);
+        free(json_str);
+
+        if (ret == ESP_OK) {
+            client->state = CLIENT_UPDATING;
+            ESP_LOGI(TAG, "Client %s state updated to UPDATING", mac);
+        } else {
+            ESP_LOGE(TAG, "Failed to send OTA task to client %s", mac);
+        }
+    } else {
+        ESP_LOGW(TAG, "User rejected OTA task %s for client %s", task->task_id, mac);
+
+        // 构造反馈 JSON 给 OTA Server
+        cJSON *root = cJSON_CreateObject();
+        cJSON_AddStringToObject(root, "task_id", task->task_id);
         cJSON_AddStringToObject(root, "status", "rejected");
         cJSON_AddStringToObject(root, "version", task->version);
         char *json_str = cJSON_PrintUnformatted(root);
@@ -97,8 +126,10 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
         cJSON_Delete(root);
         free(json_str);
     }
+
     otaapp_clear_pending_task(); // 清除任务
 }
+
 
 // ---------- 处理 OTA Server 下发的任务 ----------
 esp_err_t ota_dispatch_handle_json(const char *json_str) {
@@ -214,4 +245,5 @@ void otaapp_report_result(const char *mac, bool success) {
     cJSON_Delete(root);
     free(json_str);
 }
+
 
