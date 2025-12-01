@@ -59,4 +59,13 @@ function sendUserResponse(decision, mac) {
   });
 }
 
+// 给刷新按钮绑定事件
+document.addEventListener('DOMContentLoaded', () => {
+  const refreshBtn = document.getElementById('refresh-btn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', () => {
+      loadPendingTask();
+    });
+  }
+});
 
