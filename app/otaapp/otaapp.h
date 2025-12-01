@@ -6,10 +6,13 @@
 
 // OTA 任务结构
 typedef struct {
-    char mac[18];
+    char task_id[64];
+    char device_name[64];
+    char client_id[32];
     char version[32];
     char url[128];
     char features[64]; // 可选功能集描述
+    char mac[18];
 } ota_task_t;
 
 // 初始化 OTA Dispatcher
