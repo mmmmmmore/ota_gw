@@ -1,107 +1,22 @@
 
--- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5 SoCs
--- Project sdkconfig file /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/sdkconfig
--- Compiler supported targets: xtensa-esp-elf
--- App "ota_gw" version: 2.0.1
-Traceback (most recent call last):
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
-    main()
-    ~~~~^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
-    target = ParttoolTarget(**target_args)
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
-    partition_table, _ = gen.PartitionTable.from_file(f)
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
-    return cls.from_csv(str_data), False
-           ~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
-    raise InputError(
-    ...<2 lines>...
-    )
-gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
-Traceback (most recent call last):
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
-    main()
-    ~~~~^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
-    target = ParttoolTarget(**target_args)
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
-    partition_table, _ = gen.PartitionTable.from_file(f)
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
-    return cls.from_csv(str_data), False
-           ~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
-    raise InputError(
-    ...<2 lines>...
-    )
-gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
--- USING O3
--- Adding linker script /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/esp_system/ld/memory.ld
--- Adding linker script /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/esp-idf/esp_system/ld/sections.ld.in
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.wdt.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
--- Adding linker script /Users/maochun/esp32prj/esp-idf/components/soc/esp32s3/ld/esp32s3.peripherals.ld
-Traceback (most recent call last):
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
-    main()
-    ~~~~^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
-    target = ParttoolTarget(**target_args)
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
-    partition_table, _ = gen.PartitionTable.from_file(f)
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
-    return cls.from_csv(str_data), False
-           ~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
-    raise InputError(
-    ...<2 lines>...
-    )
-gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
-Traceback (most recent call last):
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
-    main()
-    ~~~~^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
-    target = ParttoolTarget(**target_args)
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
-    partition_table, _ = gen.PartitionTable.from_file(f)
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
-    return cls.from_csv(str_data), False
-           ~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
-    raise InputError(
-    ...<2 lines>...
-    )
-gen_esp32part.InputError: CSV Error at line 5: Partitions overlap. Partition sets offset 0x41000. Previous partition ends 0x410000
-Traceback (most recent call last):
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 411, in <module>
-    main()
-    ~~~~^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 380, in main
-    target = ParttoolTarget(**target_args)
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/parttool.py", line 96, in __init__
-    partition_table, _ = gen.PartitionTable.from_file(f)
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 208, in from_file
-    return cls.from_csv(str_data), False
-           ~~~~~~~~~~~~^^^^^^^^^^
-  File "/Users/maochun/esp32prj/esp-idf/components/partition_table/gen_esp32part.py", line 253, in from_csv
-    raise InputError(
-    ...<2 lines>...
-    )
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c: In function 'ota_handler_send_task':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:24:60: error: the comparison will always evaluate as 'true' for the address of 'version' will never be NULL [-Werror=address]
+   24 |     cJSON_AddStringToObject(root, "version", task->version ? task->version : "");
+      |                                                            ^
+In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.h:6,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:10:10: note: 'version' declared here
+   10 |     char version[32];
+      |          ^~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:25:52: error: the comparison will always evaluate as 'true' for the address of 'url' will never be NULL [-Werror=address]
+   25 |     cJSON_AddStringToObject(root, "url", task->url ? task->url : "");
+      |                                                    ^
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:11:10: note: 'url' declared here
+   11 |     char url[128];
+      |          ^~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:26:62: error: the comparison will always evaluate as 'true' for the address of 'features' will never be NULL [-Werror=address]
+   26 |     cJSON_AddStringToObject(root, "features", task->features ? task->features : "");
+      |                                                              ^
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:12:10: note: 'features' declared here
+   12 |     char features[64]; // 可选功能集描述
+      |          ^~~~~~~~
