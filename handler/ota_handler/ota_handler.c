@@ -21,9 +21,14 @@ esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
     // 构造 JSON
     cJSON *root = cJSON_CreateObject();
     cJSON_AddStringToObject(root, "task", "ota_update");
-    cJSON_AddStringToObject(root, "version", task->version ? task->version : "");
-    cJSON_AddStringToObject(root, "url", task->url ? task->url : "");
-    cJSON_AddStringToObject(root, "features", task->features ? task->features : "");
+
+    // 使用 strlen 检查是否为空字符串，避免传入未初始化内容
+    cJSON_AddStringToObject(root, "version",
+        (strlen(task->version) > 0) ? task->version : "");
+    cJSON_AddStringToObject(root, "url",
+        (strlen(task->url) > 0) ? task->url : "");
+    cJSON_AddStringToObject(root, "features",
+        (strlen(task->features) > 0) ? task->features : "");
 
     char *json_str = cJSON_PrintUnformatted(root);
     esp_err_t ret = tcp_server_send(client->sock, json_str);
@@ -56,7 +61,7 @@ static void ota_handler_process_task(int sock, cJSON *root) {
     ESP_LOGI(TAG, "Received OTA task from Server: task_id=%s version=%s url=%s",
              task_id, version, url);
 
-    // TODO: 保存任务并分发给 Client
+    // TODO: 保存任务并分发给 Client ECU
 }
 
 // 处理来自 Client ECU 的进度 JSON
