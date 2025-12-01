@@ -1,21 +1,52 @@
 #include "webserver.h"
 #include "esp_log.h"
-#include "esp_http_client.h"
-#include "ota_handler.h"  // 引入 ota_handler 提供的状态表接口
-#include "otaapp.h"
+#include "esp_http_server.h"
 #include "cJSON.h"
+#include "ota_handler.h"
+#include "otaapp.h"
 
 #define PARTITION_A 0
 #define PARTITION_B 1
 
 static const char *TAG = "WEB_OTAGW";
 
-// 全局保存当前任务信息和进度
-static char current_task[512] = {0};
-static bool task_pending = false;
-static int current_progress = 0; // 0~100
+// -------------------- 静态文件处理 --------------------
+static esp_err_t static_file_handler(httpd_req_t *req) {
+    char filepath[128] = "/spiffs";
 
-// 提供任务信息给 UI 页面
+    // 如果请求是根路径，返回 index.html
+    if (strcmp(req->uri, "/") == 0) {
+        strlcat(filepath, "/index.html", sizeof(filepath));
+    } else {
+        strlcat(filepath, req->uri, sizeof(filepath));
+    }
+
+    FILE *f = fopen(filepath, "r");
+    if (!f) {
+        ESP_LOGW(TAG, "File not found: %s", filepath);
+        httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "File not found");
+        return ESP_FAIL;
+    }
+
+    // 根据扩展名设置 MIME 类型
+    if (strstr(filepath, ".html")) httpd_resp_set_type(req, "text/html");
+    else if (strstr(filepath, ".css")) httpd_resp_set_type(req, "text/css");
+    else if (strstr(filepath, ".js")) httpd_resp_set_type(req, "application/javascript");
+    else if (strstr(filepath, ".png")) httpd_resp_set_type(req, "image/png");
+    else if (strstr(filepath, ".ico")) httpd_resp_set_type(req, "image/x-icon");
+    else httpd_resp_set_type(req, "text/plain");
+
+    char buffer[512];
+    size_t read_bytes;
+    while ((read_bytes = fread(buffer, 1, sizeof(buffer), f)) > 0) {
+        httpd_resp_send_chunk(req, buffer, read_bytes);
+    }
+    fclose(f);
+    httpd_resp_send_chunk(req, NULL, 0); // 结束响应
+    return ESP_OK;
+}
+
+// -------------------- 任务信息接口 --------------------
 static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     ota_task_t *task = otaapp_get_pending_task();
@@ -34,6 +65,7 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// -------------------- 用户响应接口 --------------------
 static esp_err_t user_response_handler(httpd_req_t *req) {
     char buf[64];
     int ret = httpd_req_recv(req, buf, sizeof(buf) - 1);
@@ -53,7 +85,7 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-// 提供所有 Client 的进度和状态信息
+// -------------------- 进度信息接口 --------------------
 static esp_err_t progress_info_handler(httpd_req_t *req) {
     int count = 0;
     client_status_info_t *clients = ota_handler_get_status(&count);
@@ -80,65 +112,19 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-static esp_err_t static_file_handler(httpd_req_t *req) {
-    char filepath[128] = "/spiffs";
-    strlcat(filepath, req->uri, sizeof(filepath));
-
-    FILE *f = fopen(filepath, "r");
-    if (!f) {
-        httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "File not found");
-        return ESP_FAIL;
-    }
-
-    // 根据扩展名设置 MIME 类型
-    if (strstr(filepath, ".html")) httpd_resp_set_type(req, "text/html");
-    else if (strstr(filepath, ".css")) httpd_resp_set_type(req, "text/css");
-    else if (strstr(filepath, ".js")) httpd_resp_set_type(req, "application/javascript");
-    else if (strstr(filepath, ".png")) httpd_resp_set_type(req, "image/png");
-    else if (strstr(filepath, ".ico")) httpd_resp_set_type(req, "image/x-icon");
-    else httpd_resp_set_type(req, "text/plain");
-
-    char buffer[512];
-    size_t read_bytes;
-    while ((read_bytes = fread(buffer, 1, sizeof(buffer), f)) > 0) {
-        httpd_resp_send_chunk(req, buffer, read_bytes);
-    }
-    fclose(f);
-    httpd_resp_send_chunk(req, NULL, 0); // 结束响应
-    return ESP_OK;
-}
-
-
-
-
-// 注册路由
+// -------------------- 路由注册 --------------------
 static void register_uri_handlers(httpd_handle_t server) {
+    // 静态文件通配符
     httpd_uri_t static_uri = {
-    .uri       = "/*",   // 通配符，匹配所有静态资源
-    .method    = HTTP_GET,
-    .handler   = static_file_handler,
-    .user_ctx  = NULL
+        .uri       = "/*",
+        .method    = HTTP_GET,
+        .handler   = static_file_handler,
+        .user_ctx  = NULL
     };
+    static_uri.uri_match_fn = httpd_uri_match_wildcard;
     httpd_register_uri_handler(server, &static_uri);
-    
-        // index.html
-    httpd_uri_t index_uri = {
-        .uri       = "/index.html",
-        .method    = HTTP_GET,
-        .handler   = static_file_handler,
-        .user_ctx  = NULL
-    };
-    httpd_register_uri_handler(server, &index_uri);
 
-    // favicon.ico
-    httpd_uri_t favicon_uri = {
-        .uri       = "/favicon.ico",
-        .method    = HTTP_GET,
-        .handler   = static_file_handler,
-        .user_ctx  = NULL
-    };
-    httpd_register_uri_handler(server, &favicon_uri);
-
+    // API 路由
     httpd_uri_t task_info_uri = {
         .uri       = "/task_info",
         .method    = HTTP_GET,
@@ -164,6 +150,7 @@ static void register_uri_handlers(httpd_handle_t server) {
     httpd_register_uri_handler(server, &user_response_uri);
 }
 
+// -------------------- 启动/停止 --------------------
 httpd_handle_t start_webserver_otagw(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     httpd_handle_t server = NULL;
