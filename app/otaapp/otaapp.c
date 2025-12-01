@@ -116,7 +116,7 @@ esp_err_t ota_dispatch_handle_json(const char *json_str) {
         strncpy(task.version, ver->valuestring, sizeof(task.version)-1);
     }
 
-    cJSON *url = cJSON_GetObjectItem(root, "url");
+    cJSON *url = cJSON_GetObjectItem(root, "firmware_url");
     if (url && url->valuestring) {
         strncpy(task.url, url->valuestring, sizeof(task.url)-1);
     }
