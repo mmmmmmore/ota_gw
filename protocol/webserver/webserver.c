@@ -55,9 +55,13 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
     ota_task_t *task = otaapp_get_pending_task();
     if (task) {
         cJSON *root = cJSON_CreateObject();
+        cJSON_AddStringToObject(root, "task_id", task->task_id);
+        cJSON_AddStringToObject(root, "device_name", task->device_name);
+        cJSON_AddStringToObject(root, "client_id", task->client_id);
         cJSON_AddStringToObject(root, "version", task->version);
         cJSON_AddStringToObject(root, "url", task->url);
         cJSON_AddStringToObject(root, "features", task->features);
+
         // 如果 ota_task_t 中有 task_id，可以一并返回
         // cJSON_AddStringToObject(root, "task_id", task->task_id);
 
