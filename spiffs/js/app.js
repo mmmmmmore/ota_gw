@@ -22,10 +22,12 @@ function loadPendingTask() {
             <td>${task.task_id || '-'}</td>
             <td>${task.device_name || '-'}</td>
             <td>${task.client_id || '-'}</td>
+            <td>${task.version}</td>
+            <td><a href="${task.url}" target="_blank">${task.url}</a></td>
             <td>${task.features || '-'}</td>
             <td>
-              <button onclick="sendUserResponse('accept', '${task.mac || ''}')">接受</button>
-              <button onclick="sendUserResponse('reject', '${task.mac || ''}')">拒绝</button>
+              <button onclick="sendUserResponse('accept', '${task.client_id}')">接受</button>
+              <button onclick="sendUserResponse('reject', '${task.client_id}')">拒绝</button>
             </td>
           </tr>
         `;
@@ -57,4 +59,5 @@ function sendUserResponse(decision, mac) {
     console.error('提交响应失败', err);
   });
 }
+
 
