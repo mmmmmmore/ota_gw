@@ -15,7 +15,7 @@ void platform_init(void) {
     ledc_init();
     
     //start the tcp server
-    tcp_server_start(8080);
+    tcp_server_start(9001);
 
     //start ota app
     ota_dispatch_init();

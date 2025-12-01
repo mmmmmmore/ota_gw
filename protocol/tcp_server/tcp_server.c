@@ -41,6 +41,7 @@ esp_err_t tcp_server_send(int client_sock, const char *json_str) {
 
 static void tcp_server_task(void *pvParameters) {
     int port = (int)(intptr_t)pvParameters;
+    ESP_LOGI(TAG, "tcp_server_task started on port %d", port);
     struct sockaddr_in dest_addr;
     dest_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     dest_addr.sin_family = AF_INET;
@@ -52,6 +53,8 @@ static void tcp_server_task(void *pvParameters) {
         vTaskDelete(NULL);
         return;
     }
+    ESP_LOGI(TAG, "Socket created in listen_socket : %d", listen_sock);
+
 
     int err = bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
     if (err < 0) {
@@ -60,6 +63,7 @@ static void tcp_server_task(void *pvParameters) {
         vTaskDelete(NULL);
         return;
     }
+    ESP_LOGI(TAG, "Socket bound to port : %d", port);
 
     err = listen(listen_sock, 5);
     if (err < 0) {
@@ -79,7 +83,7 @@ static void tcp_server_task(void *pvParameters) {
             ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
             continue;
         }
-        ESP_LOGI(TAG, "Client connected, sock=%d", client_sock);
+        ESP_LOGI(TAG, "Client connected, sock=%d, ip =%s, port=%d ", client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
         // 如果这是 OTA Server 的连接，可以在这里设置
         // 简单做法：假设 OTA Server 总是第一个连接
         if (ota_server_sock < 0) {
@@ -89,6 +93,7 @@ static void tcp_server_task(void *pvParameters) {
 
         char rx_buffer[512];
         while (1) {
+            ESP_LOGI(TAG, "Start Receiving data from client %d", client_sock);
             int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if (len < 0) {
                 ESP_LOGE(TAG, "recv failed: errno %d", errno);
@@ -104,6 +109,8 @@ static void tcp_server_task(void *pvParameters) {
                 }
             }
         }
+
+        ESP_LOGI(TAG, "Closing client socket %d ", client_sock);
         close(client_sock);
         // 如果 OTA Server 断开，清空句柄
         if (client_sock == ota_server_sock) {
@@ -114,7 +121,11 @@ static void tcp_server_task(void *pvParameters) {
 }
 
 esp_err_t tcp_server_start(uint16_t port) {
-    xTaskCreate(tcp_server_task, "tcp_server_task", 4096, (void*)(intptr_t)port, 5, NULL);
+    ESP_LOGI(TAG, "start tcp server task on port %d ", port);  //init function, start
+    if (xTaskCreate(tcp_server_task, "tcp_server_task", 4096, (void*)(intptr_t)port, 5, NULL) != pdPASS ){
+        ESP_LOGE(TAG, "Failed to create tcp server task");
+        return ESP_FAIL;
+    }
     return ESP_OK;
 }
 
