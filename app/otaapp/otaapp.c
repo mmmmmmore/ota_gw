@@ -24,6 +24,7 @@ void otaapp_set_pending_task(ota_task_t *task) {
     if (task) {
         pending_task = *task;   // 拷贝任务内容
         has_pending_task = true;
+        ESP_LOGI(TAG, "Task %s stored as pending, waiting for user decision", task->task_id);
     }
 }
 
@@ -197,6 +198,7 @@ void otaapp_report_result(const char *mac, bool success) {
     cJSON_Delete(root);
     free(json_str);
 }
+
 
 
 
