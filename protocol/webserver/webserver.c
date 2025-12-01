@@ -16,7 +16,6 @@ static const char *TAG = "WEB_OTAGW";
 static esp_err_t static_file_handler(httpd_req_t *req) {
     char filepath[192] = "/spiffs";
 
-    // 根路径返回 index.html
     if (strcmp(req->uri, "/") == 0) {
         strlcat(filepath, "/index.html", sizeof(filepath));
     } else {
@@ -30,7 +29,6 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
         return ESP_FAIL;
     }
 
-    // MIME 类型
     if (strstr(filepath, ".html")) httpd_resp_set_type(req, "text/html");
     else if (strstr(filepath, ".css")) httpd_resp_set_type(req, "text/css");
     else if (strstr(filepath, ".js")) httpd_resp_set_type(req, "application/javascript");
@@ -51,7 +49,7 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-// ---------- 任务信息 ----------
+// ---------- 待确认任务信息 ----------
 static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     ota_task_t *task = otaapp_get_pending_task();
@@ -60,6 +58,9 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
         cJSON_AddStringToObject(root, "version", task->version);
         cJSON_AddStringToObject(root, "url", task->url);
         cJSON_AddStringToObject(root, "features", task->features);
+        // 如果 ota_task_t 中有 task_id，可以一并返回
+        // cJSON_AddStringToObject(root, "task_id", task->task_id);
+
         char *json_str = cJSON_PrintUnformatted(root);
         httpd_resp_sendstr(req, json_str);
         free(json_str);
@@ -72,7 +73,7 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
 
 // ---------- 用户响应 ----------
 static esp_err_t user_response_handler(httpd_req_t *req) {
-    char buf[64];
+    char buf[256];
     int ret = httpd_req_recv(req, buf, sizeof(buf) - 1);
     if (ret <= 0) {
         httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "Receive error");
@@ -80,14 +81,33 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     }
     buf[ret] = '\0';
 
-    bool accepted = (strcmp(buf, "Accept") == 0);
-    ota_task_t *task = otaapp_get_pending_task();
-    if (task) {
-        ota_dispatch_user_response(task->mac, task, accepted);
+    cJSON *root = cJSON_Parse(buf);
+    if (!root) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Invalid JSON");
+        return ESP_FAIL;
     }
 
-    httpd_resp_set_type(req, "text/plain");
-    httpd_resp_sendstr(req, "Response received");
+    cJSON *decision_item = cJSON_GetObjectItem(root, "decision");
+    cJSON *mac_item = cJSON_GetObjectItem(root, "mac");
+
+    if (!cJSON_IsString(decision_item) || !cJSON_IsString(mac_item)) {
+        httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Missing fields");
+        cJSON_Delete(root);
+        return ESP_FAIL;
+    }
+
+    const char *decision = decision_item->valuestring;
+    const char *mac = mac_item->valuestring;
+    bool accepted = (strcmp(decision, "accept") == 0);
+
+    ota_task_t *task = otaapp_get_pending_task();
+    if (task) {
+        ota_dispatch_user_response(mac, task, accepted);
+    }
+
+    cJSON_Delete(root);
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_sendstr(req, "{\"status\":\"ok\"}");
     return ESP_OK;
 }
 
@@ -119,7 +139,6 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
 
 // ---------- 路由注册 ----------
 static void register_uri_handlers(httpd_handle_t server) {
-    // 静态资源：用通配符处理所有 GET（index、css、js、assets、favicon 等）
     httpd_uri_t static_all = {
         .uri       = "/*",
         .method    = HTTP_GET,
@@ -128,7 +147,6 @@ static void register_uri_handlers(httpd_handle_t server) {
     };
     httpd_register_uri_handler(server, &static_all);
 
-    // API
     httpd_uri_t task_info_uri = {
         .uri       = "/task_info",
         .method    = HTTP_GET,
@@ -157,7 +175,6 @@ static void register_uri_handlers(httpd_handle_t server) {
 // ---------- 启动/停止 ----------
 httpd_handle_t start_webserver_otagw(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    // 关键：启用通配符 URI 匹配（全局）
     config.uri_match_fn = httpd_uri_match_wildcard;
 
     httpd_handle_t server = NULL;
