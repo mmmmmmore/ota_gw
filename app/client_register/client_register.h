@@ -17,27 +17,35 @@ typedef enum {
 
 // Client 信息结构体
 typedef struct {
+    char device_name[64];  //devices name 
+    char client_id[32];
     char mac[18];       // MAC 地址 (格式: "AA:BB:CC:DD:EE:FF")
-    char ip[16];        // IP 地址 (格式: "192.168.4.x")
     char version[32];   // 当前固件版本
+    char ip[16];        // IP 地址 (格式: "192.168.4.x")
     client_state_t state; // 当前状态
     int sock;           // TCP 连接的 socket 描述符
 } client_info_t;
 
+extern client_info_t client_list[MAX_CLIENTS];
+
 // 初始化 Client 注册表
 void client_register_init(void);
+// 根据 MAC 查找 Client
+client_info_t* client_register_find(const char *mac);
+
+esp_err_t client_register_add(client_info_t *info);
+void client_register_remove(const char *mac);
 
 // 添加或更新 Client 信息
 esp_err_t client_register_update(const char *mac, const char *ip,
                                  const char *version, client_state_t state,
                                  int sock);
 
-// 根据 MAC 查找 Client
-client_info_t* client_register_find(const char *mac);
 
 // 打印所有 Client 信息
 void client_register_dump(void);
 
-extern client_info_t client_list[MAX_CLIENTS];
+
 
 #endif // CLIENT_REGISTER_H
+
