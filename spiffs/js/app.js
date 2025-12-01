@@ -23,7 +23,6 @@ function loadPendingTask() {
             <td>${task.device_name || '-'}</td>
             <td>${task.client_id || '-'}</td>
             <td>${task.version}</td>
-            <td><a href="${task.url}" target="_blank">${task.url}</a></td>
             <td>${task.features || '-'}</td>
             <td>
               <button onclick="sendUserResponse('accept', '${task.client_id}')">接受</button>

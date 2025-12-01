@@ -5,7 +5,7 @@
 #include "tcp_server.h"
 #include "otaapp.h"
 #include "esp_log.h"
-
+#include "client_register.h"
 
 void platform_init(void) {
     // 初始化 NVS 已在 app_main 中完成
@@ -17,6 +17,8 @@ void platform_init(void) {
     //start the tcp server
     tcp_server_start(9001);
 
+    //start the client register module
+    client_register_init();
     //start ota app
     ota_dispatch_init();
 
