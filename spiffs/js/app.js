@@ -20,8 +20,8 @@ function loadPendingTask() {
         tbody.innerHTML = `
           <tr>
             <td>${task.task_id || '-'}</td>
-            <td>${task.version}</td>
-            <td><a href="${task.url}" target="_blank">${task.url}</a></td>
+            <td>${task.device_name || '-'}</td>
+            <td>${task.client_id || '-'}</td>
             <td>${task.features || '-'}</td>
             <td>
               <button onclick="sendUserResponse('accept', '${task.mac || ''}')">接受</button>
@@ -29,6 +29,8 @@ function loadPendingTask() {
             </td>
           </tr>
         `;
+
+        
       } else {
         tbody.innerHTML = '<tr><td colspan="5">当前没有待确认任务</td></tr>';
       }
@@ -55,3 +57,4 @@ function sendUserResponse(decision, mac) {
     console.error('提交响应失败', err);
   });
 }
+
