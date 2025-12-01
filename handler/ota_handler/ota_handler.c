@@ -60,6 +60,13 @@ static void ota_handler_process_task(int sock, cJSON *root) {
 
     ESP_LOGI(TAG, "Received OTA task from Server: task_id=%s version=%s url=%s",
              task_id, version, url);
+    //ack back to OTA server
+    // 在 ota_handler_process_task 末尾加：
+    const char *ack = "{\"ack\":\"ok\",\"task_id\":\"%s\"}";
+    char ack_buf[128];
+    snprintf(ack_buf, sizeof(ack_buf), ack, task_id);
+    tcp_server_send(sock, ack_buf);
+    ESP_LOGI(TAG, "Sent ACK to OTA Server: %s", ack_buf);
 
     // TODO: 保存任务并分发给 Client ECU
 }
@@ -119,3 +126,4 @@ client_status_info_t* ota_handler_get_status(int *count) {
     *count = client_count;
     return client_status_list;
 }
+
