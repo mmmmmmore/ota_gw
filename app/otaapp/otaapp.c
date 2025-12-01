@@ -56,9 +56,12 @@ void tcp_server_rx_handler(int client_sock, const char *data) {
     }
 
     // 判断是否是 OTA Server 的任务
-    cJSON *task_item = cJSON_GetObjectItem(root, "task");
-    if (task_item && strcmp(task_item->valuestring, "ota_update") == 0) {
-        ESP_LOGI(TAG, "Forwarding OTA task to otaapp");
+    cJSON *task_id_item = cJSON_GetObjectItem(root, "task_id");
+    cJSON *version_item = cJSON_GetObjectItem(root, "version");
+    cJSON *url_item = cJSON_GetObjectItem(root, "firmware_url");
+
+    if (cJSON_IsString(task_id_item) && cJSON_IsString(version_item) && cJSON_IsString(url_item)) {
+        ESP_LOGI(TAG, "Recognized OTA Server task JSON, forwarding to otaapp");
         ota_dispatch_handle_json(data);   // 保存并调度任务
     } else {
         ESP_LOGI(TAG, "Forwarding ECU message to ota_handler");
@@ -67,6 +70,7 @@ void tcp_server_rx_handler(int client_sock, const char *data) {
 
     cJSON_Delete(root);
 }
+
 
 // ---------- 用户响应 ----------
 void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted) {
@@ -122,6 +126,21 @@ esp_err_t ota_dispatch_handle_json(const char *json_str) {
         strncpy(task.features, features->valuestring, sizeof(task.features)-1);
     }
 
+    cJSON *id = cJSON_GetObjectItem(root, "task_id");
+    if (id && id->valuestring) {
+        strncpy(task.task_id, id->valuestring, sizeof(task.task_id)-1);
+    }
+
+    cJSON *dev = cJSON_GetObjectItem(root, "device_name");
+    if (dev && dev->valuestring) {
+        strncpy(task.device_name, dev->valuestring, sizeof(task.device_name)-1);
+    }
+
+    cJSON *cid = cJSON_GetObjectItem(root, "client_id");
+    if (cid && cid->valuestring) {
+        strncpy(task.client_id, cid->valuestring, sizeof(task.client_id)-1);
+    }
+    
     otaapp_set_pending_task(&task);
 
     ESP_LOGI(TAG, "OTA task parsed and pending user confirmation: version=%s, url=%s",
@@ -195,3 +214,4 @@ void otaapp_report_result(const char *mac, bool success) {
     cJSON_Delete(root);
     free(json_str);
 }
+
