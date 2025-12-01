@@ -30,3 +30,17 @@ body {
 table { width: 100%; border-collapse: collapse; margin-top: 10px; }
 table, th, td { border: 1px solid #555; }
 th, td { padding: 8px; text-align: center; }
+
+button {
+  padding: 6px 12px;
+  margin: 2px;
+  border: none;
+  cursor: pointer;
+  background-color: #444;
+  color: #eee;
+}
+button:hover {
+  background-color: #666;
+}
+
+
