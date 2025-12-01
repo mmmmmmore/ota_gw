@@ -138,15 +138,11 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
 }
 
 // ---------- 路由注册 ----------
+// ---------- 更新注册的路由顺序，在 register_uri_handlers() 里，先注册 API 路由，
+//----------- 再注册静态资源通配符。这样 /task_info 会优先匹配到 task_info_handler，
+//----------- 不会落到 static_file_handler 去找 /spiffs/task_info 文件。
 static void register_uri_handlers(httpd_handle_t server) {
-    httpd_uri_t static_all = {
-        .uri       = "/*",
-        .method    = HTTP_GET,
-        .handler   = static_file_handler,
-        .user_ctx  = NULL
-    };
-    httpd_register_uri_handler(server, &static_all);
-
+    // API 路由
     httpd_uri_t task_info_uri = {
         .uri       = "/task_info",
         .method    = HTTP_GET,
@@ -170,7 +166,17 @@ static void register_uri_handlers(httpd_handle_t server) {
         .user_ctx  = NULL
     };
     httpd_register_uri_handler(server, &user_response_uri);
+
+    // 静态资源通配符最后注册
+    httpd_uri_t static_all = {
+        .uri       = "/*",
+        .method    = HTTP_GET,
+        .handler   = static_file_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &static_all);
 }
+
 
 // ---------- 启动/停止 ----------
 httpd_handle_t start_webserver_otagw(void) {
