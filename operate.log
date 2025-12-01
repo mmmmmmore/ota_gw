@@ -1,23 +1,21 @@
-
-I (1057) main_task: Returned from app_main()
-I (8227) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (8227) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
-I (8247) wifi_ap: Client connected: MAC=A4:5E:60:C5:69:75, AID=1
-I (8247) wifi_ap: OTA Server detected, assigning fixed IP 192.168.4.2
-I (8277) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
-I (8287) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-I (10537) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
-W (20967) httpd_uri: httpd_uri: URI '/css/style.css' not found
-W (20967) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI
-W (20997) httpd_uri: httpd_uri: URI '/assets/Game.png' not found
-W (20997) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI
-W (21017) httpd_uri: httpd_uri: URI '/assets/Navigation.png' not found
-W (21017) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI
-W (21037) httpd_uri: httpd_uri: URI '/assets/radio.png' not found
-W (21037) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI
-W (21047) httpd_uri: httpd_uri: URI '/js/app.js' not found
-W (21047) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI
-I (36547) wifi:<ba-del>idx:3, tid:0
-I (36547) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:921, winSize:64
-I (38387) wifi:<ba-del>idx:2, tid:6
-I (38387) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:56, winSize:64
+ (578) wifi:Init max length of beacon: 752/752
+I (578) wifi:Init max length of beacon: 752/752
+I (578) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (588) wifi_ap: WiFi SoftAP started. SSID:OTA-GW password:niwenwoa channel:1
+I (1038) SPIFFS: SPIFFS mounted successfully
+I (1038) SPIFFS: Partition size: total=7161281, used=2690720
+I (1038) SPIFFS: File: favicon.ico
+I (1038) SPIFFS: File: index.html
+I (1038) SPIFFS: File: .DS_Store
+I (1048) SPIFFS: File: README.md
+I (1048) SPIFFS: File: test.html
+I (1048) SPIFFS: File: manifest.json
+I (1048) SPIFFS: File: css/style.css
+I (1058) SPIFFS: File: js/app.js
+I (1058) SPIFFS: File: assets/radio.png
+I (1108) SPIFFS: File: assets/Game.png
+I (1118) SPIFFS: File: assets/Navigation.png
+I (1148) SPIFFS: File: tmp/CMakeLists.txt
+I (1148) SPIFFS: File: tmp/spiffs.c
+I (1148) SPIFFS: File: tmp/testinmac.html
+I (1148) SPIFFS: File: tmp/spiffs.h

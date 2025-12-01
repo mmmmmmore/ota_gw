@@ -24,7 +24,9 @@
       cursor: pointer;
       border-bottom: 1px solid #333;
     }
-    .menu-item:hover { background-color: #444; }
+    .menu-item:hover {
+      background-color: #444;
+    }
     .content {
       flex: 1;
       padding: 20px;
@@ -34,50 +36,40 @@
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     table, th, td { border: 1px solid #555; }
     th, td { padding: 8px; text-align: center; }
-
-    /* Buttons */
-    button { padding: 6px 12px; border: none; color: #fff; }
-    .btn-disabled { background-color: grey; cursor: not-allowed; }
-    .btn-active { background-color: green; cursor: pointer; }
-    .btn-primary { background-color: #0a84ff; }
-    .btn-primary:hover { background-color: #0066cc; }
-
-    /* Modal */
+    button {
+      padding: 6px 12px;
+      background-color: grey;
+      color: #fff;
+      border: none;
+      cursor: not-allowed;
+    }
+    button.active {
+      background-color: green;
+      cursor: pointer;
+    }
     #modal {
       display: none;
       position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 480px;
+      top: 30%;
+      left: 30%;
+      width: 40%;
       background: #fff;
       color: #000;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
       padding: 20px;
-      z-index: 1000;
     }
-    #modal-header {
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid #e5e5e5; padding-bottom: 10px; margin-bottom: 12px;
+    #progressBar {
+      width: 100%;
+      background-color: #ddd;
+      margin-top: 10px;
     }
-    #modal-close { background: transparent; color: #333; cursor: pointer; }
-    #modal-actions { display: flex; gap: 10px; margin-top: 12px; }
-
-    /* Dual-color progress bar */
-    .progress-container {
-      width: 100%; height: 16px; background-color: #bbb; border-radius: 8px;
-      overflow: hidden; margin-top: 12px;
-    }
-    .progress-fill {
-      height: 100%;
+    #progressBar div {
+      height: 20px;
       width: 0%;
-      background-color: green; /* completed */
-      transition: width 0.3s ease;
+      background-color: green;
+      text-align: center;
+      color: white;
     }
-    .progress-text { margin-top: 8px; font-size: 14px; color: #333; }
-    .note { color: #666; font-size: 12px; margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -94,17 +86,17 @@
   <div class="content">
     <div id="Navigation" class="section">
       <h2>Navigation</h2>
-      <img src="Navigation.png" alt="Location Navigation">
+      <img src="assets/Navigation.png" alt="Location Navigation">
     </div>
 
     <div id="radio" class="section hidden">
       <h2>radio</h2>
-      <img src="radio.png" alt="Radio">
+      <img src="assets/radio.png" alt="Radio">
     </div>
 
     <div id="game" class="section hidden">
       <h2>Game</h2>
-      <img src="Game.png" alt="Game">
+      <img src="assets/Game.png" alt="Game">
     </div>
 
     <div id="system" class="section hidden">
@@ -128,35 +120,21 @@
           <tr>
             <td>Client_1</td>
             <td>v1.0.0</td>
-            <td>
-              <button id="checkUpdateBtn" class="btn-disabled" disabled>检查更新</button>
-              &nbsp;
-              <button id="simulateOtaBtn" class="btn-primary">模拟 OTA 推送</button>
-            </td>
+            <td><button id="checkUpdateBtn">检查更新</button></td>
           </tr>
         </tbody>
       </table>
-      <p class="note">说明：测试用途的“模拟 OTA 推送”将激活“检查更新”，并在弹窗中执行20秒的进度演示。</p>
     </div>
   </div>
 
-  <!-- 弹窗：版本信息 + 接受/拒绝 + 进度展示 -->
+  <!-- 弹窗 -->
   <div id="modal">
-    <div id="modal-header">
-      <h3>版本更新</h3>
-      <button id="modal-close" onclick="closeModal()">✕</button>
-    </div>
+    <h3>版本更新信息</h3>
     <div id="taskInfo"></div>
-    <div id="modal-actions">
-      <button id="acceptBtn" class="btn-active" onclick="onAccept()">Accept</button>
-      <button id="denyBtn" class="btn-primary" onclick="onDeny()">Deny</button>
-    </div>
-
-    <!-- Progress (green completed, gray remaining) -->
-    <div class="progress-container" id="progressContainer" style="display:none;">
-      <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-text" id="progressText" style="display:none;">进度: 0%</div>
+    <button onclick="sendResponse('Accept')">Accept</button>
+    <button onclick="sendResponse('Deny')">Reject</button>
+    <div id="progressBar"><div></div></div>
+    <div id="progressText"></div>
   </div>
 
   <script>
@@ -165,81 +143,65 @@
       document.getElementById(sectionId).classList.remove('hidden');
     }
 
-    // Simulated OTA push to activate "检查更新"
-    const checkBtn = document.getElementById('checkUpdateBtn');
-    const simulateBtn = document.getElementById('simulateOtaBtn');
-
-    simulateBtn.onclick = function() {
-      activateCheckUpdate();
-      alert("模拟 OTA 推送任务已到达，可以点击“检查更新”查看详情。");
-    };
-
-    function activateCheckUpdate() {
-      checkBtn.disabled = false;
-      checkBtn.classList.remove('btn-disabled');
-      checkBtn.classList.add('btn-active');
-      checkBtn.onclick = openUpdateModal;
+    // 定时检查是否有任务
+    async function pollTask() {
+      let res = await fetch('/task_info');
+      let data = await res.json();
+      if (Object.keys(data).length > 0) {
+        let btn = document.getElementById('checkUpdateBtn');
+        btn.classList.add('active');
+        btn.disabled = false;
+        btn.onclick = showModal;
+      }
     }
 
-    function openUpdateModal() {
+    function showModal() {
       document.getElementById('modal').style.display = 'block';
-      // In real flow, fetch('/task_info'); here we simulate content
-      const info = {
-        client: "Client_1",
-        current_version: "v1.0.0",
-        target_version: "v1.1.0",
-        changelog: ["修复已知问题", "优化网络稳定性", "提升下载性能"]
-      };
-      document.getElementById('taskInfo').innerText = JSON.stringify(info, null, 2);
+      loadTaskInfo();
     }
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-      resetProgressUI();
+    async function loadTaskInfo() {
+      let res = await fetch('/task_info');
+      let data = await res.json();
+      document.getElementById('taskInfo').innerText = JSON.stringify(data, null, 2);
     }
 
-    function onDeny() {
-      alert("用户拒绝升级");
-      closeModal();
+    async function sendResponse(choice) {
+      await fetch('/ota_user_response', {
+        method: 'POST',
+        body: choice
+      });
+      if (choice === 'Accept') {
+        startProgressPolling();
+      } else {
+        alert("用户拒绝升级");
+        document.getElementById('modal').style.display = 'none';
+      }
     }
 
-    function onAccept() {
-      // Start dual-color progress (green fill grows; container gray is remaining)
-      document.getElementById('progressContainer').style.display = 'block';
-      document.getElementById('progressText').style.display = 'block';
-      startProgressSimulation20s();
-    }
+    async function startProgressPolling() {
+      let progressBar = document.getElementById('progressBar').firstElementChild;
+      let progressText = document.getElementById('progressText');
 
-    function resetProgressUI() {
-      const fill = document.getElementById('progressFill');
-      const text = document.getElementById('progressText');
-      const container = document.getElementById('progressContainer');
-      fill.style.width = "0%";
-      text.innerText = "进度: 0%";
-      container.style.display = 'none';
-      text.style.display = 'none';
-    }
+      let interval = setInterval(async () => {
+        let res = await fetch('/progress_info');
+        let data = await res.json();
 
-    // Simulate 20s progress to 100%
-    function startProgressSimulation20s() {
-      const fill = document.getElementById('progressFill');
-      const text = document.getElementById('progressText');
-      let progress = 0;
-      const steps = 20;       // 20 seconds
-      const increment = 100 / steps;
-      const interval = setInterval(() => {
-        progress = Math.min(100, progress + increment);
-        fill.style.width = progress + "%";
-        text.innerText = "进度: " + Math.round(progress) + "%";
-        if (progress >= 100) {
+        // 假设只展示第一个 Client 的进度
+        let client = data[0];
+        progressBar.style.width = client.progress + "%";
+        progressText.innerText = "进度: " + client.progress + "%";
+
+        if (client.progress >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            alert("升级成功！");
-            closeModal();
-          }, 300);
+          alert("升级成功！");
+          document.getElementById('modal').style.display = 'none';
         }
-      }, 1000);
+      }, 2000);
     }
+
+    // 每5秒检查是否有新任务
+    setInterval(pollTask, 5000);
   </script>
 </body>
 </html>
