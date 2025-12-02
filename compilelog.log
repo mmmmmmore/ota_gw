@@ -1,4 +1,17 @@
 
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:8:10: fatal error: lwip/dhcpserver.h: No such file or directory
-    8 | #include "lwip/dhcpserver.h"   // lwIP DHCP server API
-      |          ^~~~~~~~~~~~~~~~~~~这里需要引入什么库文件才可以
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.h:4,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:98:44: error: 'ESP_NETIF_DHCP_START' undeclared (first use in this function); did you mean 'ESP_NETIF_DHCP_STARTED'?
+   98 |                                            ESP_NETIF_DHCP_START,
+      |                                            ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
+  116 |         esp_err_t err_rc_ = (x);                                        \
+      |                              ^
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:98:44: note: each undeclared identifier is reported only once for each function it appears in
+   98 |                                            ESP_NETIF_DHCP_START,
+      |                                            ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
+  116 |         esp_err_t err_rc_ = (x);                                        \
+      |                              ^
+[15/188] Building C object esp-idf/console/CMakeFiles/__idf_console.dir/linenoise/linenoise.c.obj
