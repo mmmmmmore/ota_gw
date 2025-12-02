@@ -1,27 +1,32 @@
 
-I (1308) main_task: Returned from app_main()
-I (12948) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (12948) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
-I (12978) wifi_ap: Client connected: MAC=A4:5E:60:C5:69:75, AID=1
-I (12978) wifi_ap: OTA Server detected, assigning fixed IP 192.168.4.2
-I (13008) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
-I (13008) wifi:I (13008) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
-I (34228) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.2, port=50108 
-I (34228) GW_TCP_SERVER: OTA Server socket set: 58
-I (34228) GW_TCP_SERVER: Start Receiving data from client 58
-W (34238) GW_TCP_SERVER: Client disconnected
-I (34238) GW_TCP_SERVER: Closing client socket 58 
-W (34248) GW_TCP_SERVER: OTA Server disconnected
-I (34248) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.2, port=50109 
-I (34258) GW_TCP_SERVER: OTA Server socket set: 58
-I (34258) GW_TCP_SERVER: Start Receiving data from client 58
-I (34268) GW_TCP_SERVER: Received 227 bytes from client 58: {"task_id": "20251201_143440_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_143440", "status": "pending"}
-I (34288) OTA_APP_MGMT: Received data from sock 58: {"task_id": "20251201_143440_799", "device_name": "Vehicle1", "client_id": "799", "version": "v2.1.4", "firmware_url": "http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251201_143440", "status": "pending"}
-I (34318) OTA_APP_MGMT: Recognized OTA Server task JSON, forwarding to otaapp
-I (34318) OTA_APP_MGMT: Task stored as pending: version=v2.1.4 url=http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin features=
-I (34338) OTA_APP_MGMT: OTA task parsed and pending user confirmation: version=v2.1.4, url=http://192.168.4.2:8080/firmware/firmware_v2.1.4.bin
-I (34348) GW_TCP_SERVER: Start Receiving data from client 58
-W (39338) GW_TCP_SERVER: Client disconnected
-I (39338) GW_TCP_SERVER: Closing client socket 58 
-W (39338) GW_TCP_SERVER: OTA Server disconnected
+I (1338) main_task: Returned from app_main()
+I (4738) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (4738) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 40U
+I (4768) wifi_ap: Client connected: MAC=1C:DB:D4:AF:1F:60, AID=1
+I (4768) wifi_ap: Normal client, DHCP will assign IP >= 192.168.4.3
+I (4798) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (13088) wifi_ap: Client disconnected: MAC=1C:DB:D4:AF:1F:60, AID=1
+I (13098) wifi:starting SA query procedure with STA(1c:db:d4:af:1f:60)
+I (13098) wifi:Send SA Query req with transaction id 6fec
+I (13298) wifi:Send SA Query req with transaction id 6fed
+I (13498) wifi:Send SA Query req with transaction id 6fee
+I (13698) wifi:Send SA Query req with transaction id 6fef
+I (13898) wifi:Send SA Query req with transaction id 6ff0
+I (14098) wifi:Send SA Query req with transaction id 6ff1
+I (14128) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (14128) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 1, reason = 209, bss_flags is 756851, bss:0x3fca3ab8
+I (14128) wifi:new:<1,0>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (14138) wifi:new:<1,1>, old:<1,0>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (14148) wifi_ap: Client disconnected: MAC=1C:DB:D4:AF:1F:60, AID=1
+I (14758) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (14758) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 40U
+I (14778) wifi_ap: Client connected: MAC=1C:DB:D4:AF:1F:60, AID=1
+I (14778) wifi_ap: Normal client, DHCP will assign IP >= 192.168.4.3
+I (14808) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (190568) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (190568) wifi:station: a4:5e:60:c5:69:75 join, AID=2, bgn, 20
+I (190588) wifi_ap: Client connected: MAC=A4:5E:60:C5:69:75, AID=2
+I (190588) wifi_ap: OTA Server detected, assigning fixed IP 192.168.4.2
+I (190608) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (191648) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (194418) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
