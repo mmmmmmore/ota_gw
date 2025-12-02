@@ -1,17 +1,24 @@
 
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:44:5: error: implicit declaration of function 'IP4_ADDR' [-Wimplicit-function-declaration]
+   44 |     IP4_ADDR(&ip_info.ip, 192,168,4,1);
+      |     ^~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:53:5: error: unknown type name 'esp_netif_dhcps_lease_t'; did you mean 'esp_netif_dhcp_status_t'?
+   53 |     esp_netif_dhcps_lease_t ota_lease = {0};
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+      |     esp_netif_dhcp_status_t
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:54:21: error: request for member 'mac' in something not a structure or union
+   54 |     memcpy(ota_lease.mac, ota_server_mac, 6);
+      |                     ^
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:55:24: error: request for member 'ip' in something not a structure or union
+   55 |     IP4_ADDR(&ota_lease.ip, 192,168,4,2);  // OTA 固定 IP
+      |                        ^
+In file included from /Users/maochun/esp32prj/esp-idf/components/esp_wifi/include/esp_wifi.h:53,
                  from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.h:4,
                  from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:1:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:98:44: error: 'ESP_NETIF_DHCP_START' undeclared (first use in this function); did you mean 'ESP_NETIF_DHCP_STARTED'?
-   98 |                                            ESP_NETIF_DHCP_START,
-      |                                            ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:56:21: error: implicit declaration of function 'esp_netif_dhcps_add_static_lease'; did you mean 'esp_netif_dhcps_get_status'? [-Wimplicit-function-declaration]
+   56 |     ESP_ERROR_CHECK(esp_netif_dhcps_add_static_lease(ap_netif, &ota_lease));
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
   116 |         esp_err_t err_rc_ = (x);                                        \
       |                              ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:98:44: note: each undeclared identifier is reported only once for each function it appears in
-   98 |                                            ESP_NETIF_DHCP_START,
-      |                                            ^~~~~~~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
-  116 |         esp_err_t err_rc_ = (x);                                        \
-      |                              ^
-[15/188] Building C object esp-idf/console/CMakeFiles/__idf_console.dir/linenoise/linenoise.c.obj

@@ -1,10 +1,7 @@
 #include "wifi_ap.h"
-#include "sdkconfig.h"
-#include "esp_event.h"
 #include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_wifi.h"
-#include "lwip/ip4_addr.h"
 #include <string.h>
 
 static const char *TAG = "wifi_ap";
@@ -12,31 +9,14 @@ static const char *TAG = "wifi_ap";
 #define WIFI_SSID CONFIG_WIFI_SOFTAP_SSID
 #define WIFI_PASS CONFIG_WIFI_SOFTAP_PASSWORD
 
-// OTA Server 的 MAC 地址（替换为真实值）
 static const uint8_t ota_server_mac[6] = {0xA4,0x5E,0x60,0xC5,0x69,0x75};
-
-static void wifi_event_handler(void* arg, esp_event_base_t event_base,
-                               int32_t event_id, void* event_data) {
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STACONNECTED) {
-        wifi_event_ap_staconnected_t* event = (wifi_event_ap_staconnected_t*) event_data;
-        ESP_LOGI(TAG, "Client connected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
-                 event->mac[0], event->mac[1], event->mac[2],
-                 event->mac[3], event->mac[4], event->mac[5], event->aid);
-
-        if (memcmp(event->mac, ota_server_mac, 6) == 0) {
-            ESP_LOGI(TAG, "OTA Server detected, please configure STA with static IP 192.168.4.2");
-        } else {
-            ESP_LOGI(TAG, "Normal client, DHCP will assign IP >= 192.168.4.3");
-        }
-    }
-}
 
 esp_err_t wifi_init_softap(void)
 {
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-    esp_netif_t *netif = esp_netif_create_default_wifi_ap();
+    esp_netif_t *ap_netif = esp_netif_create_default_wifi_ap();
 
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
@@ -59,37 +39,23 @@ esp_err_t wifi_init_softap(void)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
-                                                        WIFI_EVENT_AP_STACONNECTED,
-                                                        &wifi_event_handler,
-                                                        NULL,
-                                                        NULL));
-
-    ESP_LOGI(TAG, "WiFi SoftAP started. SSID:%s password:%s channel:%d",
-             wifi_config.ap.ssid, wifi_config.ap.password, wifi_config.ap.channel);
-
-    // 停止 DHCP 服务
-    ESP_ERROR_CHECK(esp_netif_dhcps_stop(netif));
-
-    // 设置网关 IP 信息
+    // 设置 AP 本身的 IP
     esp_netif_ip_info_t ip_info;
-    IP4_ADDR(&ip_info.ip, 192, 168, 4, 1);
-    IP4_ADDR(&ip_info.gw, 192, 168, 4, 1);
-    IP4_ADDR(&ip_info.netmask, 255, 255, 255, 0);
-    ESP_ERROR_CHECK(esp_netif_set_ip_info(netif, &ip_info));
+    IP4_ADDR(&ip_info.ip, 192,168,4,1);
+    IP4_ADDR(&ip_info.gw, 192,168,4,1);
+    IP4_ADDR(&ip_info.netmask, 255,255,255,0);
+    ESP_ERROR_CHECK(esp_netif_set_ip_info(ap_netif, &ip_info));
 
-    // 设置 DHCP 起始地址为 192.168.4.3
-    ip4_addr_t start_ip;
-    IP4_ADDR(&start_ip, 192, 168, 4, 3);
-    ESP_ERROR_CHECK(esp_netif_dhcps_option(netif,
-                                       ESP_NETIF_OP_SET,
-                                       ESP_NETIF_DHCP_START_IP,
-                                       &start_ip,
-                                       sizeof(start_ip)));
+    // 启动 DHCP server
+    ESP_ERROR_CHECK(esp_netif_dhcps_start(ap_netif));
 
-    // 重新启动 DHCP 服务
-    ESP_ERROR_CHECK(esp_netif_dhcps_start(netif));
+    // 添加 OTA 服务器静态租约
+    esp_netif_dhcps_lease_t ota_lease = {0};
+    memcpy(ota_lease.mac, ota_server_mac, 6);
+    IP4_ADDR(&ota_lease.ip, 192,168,4,2);  // OTA 固定 IP
+    ESP_ERROR_CHECK(esp_netif_dhcps_add_static_lease(ap_netif, &ota_lease));
+
+    ESP_LOGI(TAG, "SoftAP started, OTA static IP: 192.168.4.2, DHCP pool: 192.168.4.100~200");
 
     return ESP_OK;
 }
-
