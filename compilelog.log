@@ -1,22 +1,4 @@
 
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c: In function 'ota_handler_send_task':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:24:60: error: the comparison will always evaluate as 'true' for the address of 'version' will never be NULL [-Werror=address]
-   24 |     cJSON_AddStringToObject(root, "version", task->version ? task->version : "");
-      |                                                            ^
-In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.h:6,
-                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:1:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:10:10: note: 'version' declared here
-   10 |     char version[32];
-      |          ^~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:25:52: error: the comparison will always evaluate as 'true' for the address of 'url' will never be NULL [-Werror=address]
-   25 |     cJSON_AddStringToObject(root, "url", task->url ? task->url : "");
-      |                                                    ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:11:10: note: 'url' declared here
-   11 |     char url[128];
-      |          ^~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:26:62: error: the comparison will always evaluate as 'true' for the address of 'features' will never be NULL [-Werror=address]
-   26 |     cJSON_AddStringToObject(root, "features", task->features ? task->features : "");
-      |                                                              ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:12:10: note: 'features' declared here
-   12 |     char features[64]; // 可选功能集描述
-      |          ^~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:8:10: fatal error: lwip/dhcpserver.h: No such file or directory
+    8 | #include "lwip/dhcpserver.h"   // lwIP DHCP server API
+      |          ^~~~~~~~~~~~~~~~~~~这里需要引入什么库文件才可以
