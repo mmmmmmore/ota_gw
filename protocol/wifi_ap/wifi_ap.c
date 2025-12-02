@@ -2,14 +2,13 @@
 #include "esp_log.h"
 #include "esp_netif.h"
 #include "esp_wifi.h"
+#include "lwip/ip_addr.h"   // 提供 IP4_ADDR 宏
 #include <string.h>
 
 static const char *TAG = "wifi_ap";
 
 #define WIFI_SSID CONFIG_WIFI_SOFTAP_SSID
 #define WIFI_PASS CONFIG_WIFI_SOFTAP_PASSWORD
-
-static const uint8_t ota_server_mac[6] = {0xA4,0x5E,0x60,0xC5,0x69,0x75};
 
 esp_err_t wifi_init_softap(void)
 {
@@ -46,16 +45,21 @@ esp_err_t wifi_init_softap(void)
     IP4_ADDR(&ip_info.netmask, 255,255,255,0);
     ESP_ERROR_CHECK(esp_netif_set_ip_info(ap_netif, &ip_info));
 
-    // 启动 DHCP server
+    // 停止 DHCP 服务，修改起始地址
+    ESP_ERROR_CHECK(esp_netif_dhcps_stop(ap_netif));
+
+    ip4_addr_t start_ip;
+    IP4_ADDR(&start_ip, 192,168,4,3);   // 从 192.168.4.3 开始分配
+    ESP_ERROR_CHECK(esp_netif_dhcps_option(ap_netif,
+                                           ESP_NETIF_OP_SET,
+                                           ESP_NETIF_DHCP_START_IP,
+                                           &start_ip,
+                                           sizeof(start_ip)));
+
+    // 重新启动 DHCP 服务
     ESP_ERROR_CHECK(esp_netif_dhcps_start(ap_netif));
 
-    // 添加 OTA 服务器静态租约
-    esp_netif_dhcps_lease_t ota_lease = {0};
-    memcpy(ota_lease.mac, ota_server_mac, 6);
-    IP4_ADDR(&ota_lease.ip, 192,168,4,2);  // OTA 固定 IP
-    ESP_ERROR_CHECK(esp_netif_dhcps_add_static_lease(ap_netif, &ota_lease));
-
-    ESP_LOGI(TAG, "SoftAP started, OTA static IP: 192.168.4.2, DHCP pool: 192.168.4.100~200");
+    ESP_LOGI(TAG, "SoftAP started, gateway=192.168.4.1, DHCP pool from 192.168.4.3");
 
     return ESP_OK;
 }
