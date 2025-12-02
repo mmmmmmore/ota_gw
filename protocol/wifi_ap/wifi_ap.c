@@ -5,70 +5,64 @@
 #include "esp_netif.h"
 #include "esp_wifi.h"
 #include "lwip/ip4_addr.h"
+#include "lwip/dhcpserver.h"   // lwIP DHCP server API
 #include <string.h>
 
 static const char *TAG = "wifi_ap";
 
-// 从 sdkconfig 中读取 SSID 和密码
 #define WIFI_SSID CONFIG_WIFI_SOFTAP_SSID
 #define WIFI_PASS CONFIG_WIFI_SOFTAP_PASSWORD
 
-// OTA Server 的 MAC 地址（示例，需替换为真实值）
-static const uint8_t ota_server_mac[6] = {0xA4,0x5E,0x60,0xC5,0x69,0x75};   // mac address for the MBP.. 
-
-
-
+// OTA Server 的 MAC 地址（替换为真实值）
+static const uint8_t ota_server_mac[6] = {0xA4,0x5E,0x60,0xC5,0x69,0x75};
 
 static void wifi_event_handler(void* arg, esp_event_base_t event_base,
                                int32_t event_id, void* event_data) {
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STACONNECTED) {
         wifi_event_ap_staconnected_t* event = (wifi_event_ap_staconnected_t*) event_data;
-        ESP_LOGI("wifi_ap", "Client connected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
+        ESP_LOGI(TAG, "Client connected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
                  event->mac[0], event->mac[1], event->mac[2],
                  event->mac[3], event->mac[4], event->mac[5], event->aid);
 
         // 判断是否为 OTA Server
         if (memcmp(event->mac, ota_server_mac, 6) == 0) {
-            ESP_LOGI("wifi_ap", "OTA Server detected, assigning fixed IP 192.168.4.2");
-            // TODO: 调用 DHCP API 设置静态租约
-        } else {
-            ESP_LOGI("wifi_ap", "Normal client, DHCP will assign IP >= 192.168.4.3");
+            ESP_LOGI(TAG, "OTA Server detected, binding IP 192.168.4.2");
+            ip4_addr_t ip;
+            IP4_ADDR(&ip, 192, 168, 4, 2);
+            dhcps_offer_t offer;
+            memcpy(offer.mac, event->mac, 6);
+            offer.ip = ip;
+            dhcps_set_option_info(DHCPS_OPTION_IP_OFFER, &offer, sizeof(offer));
         }
 
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
         wifi_event_ap_stadisconnected_t* event = (wifi_event_ap_stadisconnected_t*) event_data;
-        ESP_LOGI("wifi_ap", "Client disconnected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
+        ESP_LOGI(TAG, "Client disconnected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
                  event->mac[0], event->mac[1], event->mac[2],
                  event->mac[3], event->mac[4], event->mac[5], event->aid);
     }
 }
 
-
 esp_err_t wifi_init_softap(void)
 {
-    // 初始化网络接口和事件循环
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
 
-    // 创建默认的 AP 接口
     esp_netif_t *netif = esp_netif_create_default_wifi_ap();
 
-    // 初始化 WiFi 驱动
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-    // 配置 AP 参数
     wifi_config_t wifi_config = {
         .ap = {
             .ssid = WIFI_SSID,
             .ssid_len = strlen(WIFI_SSID),
             .channel = 1,
-            .password = WIFI_PASS,   // 使用宏，而不是字面字符串
+            .password = WIFI_PASS,
             .max_connection = 6,
             .authmode = WIFI_AUTH_WPA_WPA2_PSK
         },
     };
-
     if (strlen((char *)wifi_config.ap.password) == 0) {
         wifi_config.ap.authmode = WIFI_AUTH_OPEN;
     }
@@ -77,17 +71,16 @@ esp_err_t wifi_init_softap(void)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
-    ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_EVENT,
-                                                     WIFI_EVENT_AP_STACONNECTED,
-                                                     &wifi_event_handler,
-                                                     NULL,
-                                                     NULL));
-
-    ESP_ERROR_CHECK( esp_event_handler_instance_register(WIFI_EVENT,
-                                                     WIFI_EVENT_AP_STADISCONNECTED,
-                                                     &wifi_event_handler,
-                                                     NULL,
-                                                     NULL));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
+                                                        WIFI_EVENT_AP_STACONNECTED,
+                                                        &wifi_event_handler,
+                                                        NULL,
+                                                        NULL));
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
+                                                        WIFI_EVENT_AP_STADISCONNECTED,
+                                                        &wifi_event_handler,
+                                                        NULL,
+                                                        NULL));
 
     ESP_LOGI(TAG, "WiFi SoftAP started. SSID:%s password:%s channel:%d",
              wifi_config.ap.ssid, wifi_config.ap.password, wifi_config.ap.channel);
@@ -102,12 +95,14 @@ esp_err_t wifi_init_softap(void)
     IP4_ADDR(&ip_info.netmask, 255, 255, 255, 0);
     ESP_ERROR_CHECK(esp_netif_set_ip_info(netif, &ip_info));
 
+    // 设置 DHCP 起始地址为 192.168.4.3
+    ip4_addr_t start_ip;
+    IP4_ADDR(&start_ip, 192, 168, 4, 3);
+    esp_netif_dhcps_option(netif, ESP_NETIF_OP_SET, ESP_NETIF_DHCP_START,
+                           &start_ip, sizeof(start_ip));
+
     // 重新启动 DHCP 服务
     ESP_ERROR_CHECK(esp_netif_dhcps_start(netif));
 
     return ESP_OK;
 }
-
-
-
-
