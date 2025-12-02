@@ -1,32 +1,97 @@
 
-I (1338) main_task: Returned from app_main()
-I (4738) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (4738) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 40U
-I (4768) wifi_ap: Client connected: MAC=1C:DB:D4:AF:1F:60, AID=1
-I (4768) wifi_ap: Normal client, DHCP will assign IP >= 192.168.4.3
-I (4798) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-I (13088) wifi_ap: Client disconnected: MAC=1C:DB:D4:AF:1F:60, AID=1
-I (13098) wifi:starting SA query procedure with STA(1c:db:d4:af:1f:60)
-I (13098) wifi:Send SA Query req with transaction id 6fec
-I (13298) wifi:Send SA Query req with transaction id 6fed
-I (13498) wifi:Send SA Query req with transaction id 6fee
-I (13698) wifi:Send SA Query req with transaction id 6fef
-I (13898) wifi:Send SA Query req with transaction id 6ff0
-I (14098) wifi:Send SA Query req with transaction id 6ff1
-I (14128) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
-I (14128) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 1, reason = 209, bss_flags is 756851, bss:0x3fca3ab8
-I (14128) wifi:new:<1,0>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (14138) wifi:new:<1,1>, old:<1,0>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (14148) wifi_ap: Client disconnected: MAC=1C:DB:D4:AF:1F:60, AID=1
-I (14758) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (14758) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 40U
-I (14778) wifi_ap: Client connected: MAC=1C:DB:D4:AF:1F:60, AID=1
-I (14778) wifi_ap: Normal client, DHCP will assign IP >= 192.168.4.3
-I (14808) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-I (190568) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (190568) wifi:station: a4:5e:60:c5:69:75 join, AID=2, bgn, 20
-I (190588) wifi_ap: Client connected: MAC=A4:5E:60:C5:69:75, AID=2
-I (190588) wifi_ap: OTA Server detected, assigning fixed IP 192.168.4.2
-I (190608) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
-I (191648) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
-I (194418) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+W (369) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`
+I (379) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (385) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (392) main_task: Started on CPU0
+I (422) main_task: Calling app_main()
+ESP32S3 Boot Success...
+I (442) pp: pp rom version: e7ae62f
+I (442) net80211: net80211 rom version: e7ae62f
+I (452) wifi:wifi driver task: 3fca5bb8, prio:23, stack:6656, core=0
+I (452) wifi:wifi firmware version: df85326
+I (452) wifi:wifi certification version: v7.0
+I (452) wifi:config NVS flash: enabled
+I (452) wifi:config nano formatting: disabled
+I (462) wifi:Init data frame dynamic rx buffer num: 32
+I (462) wifi:Init static rx mgmt buffer num: 5
+I (472) wifi:Init management short buffer num: 32
+I (472) wifi:Init dynamic tx buffer num: 32
+I (482) wifi:Init static tx FG buffer num: 2
+I (482) wifi:Init static rx buffer size: 1600
+I (482) wifi:Init static rx buffer num: 10
+I (492) wifi:Init dynamic rx buffer num: 32
+I (492) wifi_init: rx ba win: 6
+I (492) wifi_init: accept mbox: 6
+I (502) wifi_init: tcpip mbox: 32
+I (502) wifi_init: udp mbox: 6
+I (502) wifi_init: tcp mbox: 6
+I (512) wifi_init: tcp tx win: 5760
+I (512) wifi_init: tcp rx win: 5760
+I (512) wifi_init: tcp mss: 1440
+I (522) wifi_init: WiFi IRAM OP enabled
+I (522) wifi_init: WiFi RX IRAM OP enabled
+I (532) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
+I (572) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
+I (572) wifi:Total power save buffer number: 16
+I (572) wifi:Init max length of beacon: 752/752
+I (572) wifi:Init max length of beacon: 752/752
+I (572) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+ESP_ERROR_CHECK failed: esp_err_t 0x5007 (ESP_ERR_ESP_NETIF_DHCP_NOT_STOPPED) at 0x4200d32a
+--- 0x4200d32a: wifi_init_softap at /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:47
+file: "./protocol/wifi_ap/wifi_ap.c" line 47
+func: wifi_init_softap
+expression: esp_netif_set_ip_info(ap_netif, &ip_info)
+
+abort() was called at PC 0x4037b827 on core 0
+--- 0x4037b827: _esp_error_check_failed at /Users/maochun/esp32prj/esp-idf/components/esp_system/esp_err.c:49
+
+
+Backtrace: 0x4037b869:0x3fca46a0 0x4037b831:0x3fca46c0 0x403819d1:0x3fca46e0 0x4037b827:0x3fca4750 0x4200d32a:0x3fca4780 0x4200c0f0:0x3fca4900 0x42007af0:0x3fca4920 0x42098f0a:0x3fca4950
+--- 0x4037b869: panic_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/panic.c:480
+--- 0x4037b831: esp_system_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/esp_system_chip.c:87
+--- 0x403819d1: abort at /Users/maochun/esp32prj/esp-idf/components/newlib/src/abort.c:38
+--- 0x4037b827: _esp_error_check_failed at /Users/maochun/esp32prj/esp-idf/components/esp_system/esp_err.c:49
+--- 0x4200d32a: wifi_init_softap at /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:47
+--- 0x4200c0f0: app_main at /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/main/main.c:63
+--- 0x42007af0: main_task at /Users/maochun/esp32prj/esp-idf/components/freertos/app_startup.c:208
+--- 0x42098f0a: vPortTaskWrapper at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+
+
+
+
+ELF file SHA256: 55fc76af3
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037b9b9
+--- 0x4037b9b9: esp_restart_noos at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:164
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x1588
+load:0x403c8700,len:0xd7c
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x2f80
+entry 0x403c8908
+--- 0x403c8908: call_start_cpu0 at /Users/maochun/esp32prj/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+I (29) boot: ESP-IDF v6.0-dev-2039-g2044fba6e7 2nd stage bootloader
+I (29) boot: compile time Nov 30 2025 16:58:02
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v0.2
+I (34) boot: efuse block revision: v1.3
+I (37) boot.esp32s3: Boot SPI Speed : 80MHz
+I (41) boot.esp32s3: SPI Mode       : DIO
+I (45) boot.esp32s3: SPI Flash Size : 16MB
+I (49) boot: Enabling RNG early entropy source...
+I (53) boot: Partition Table:
+I (56) boot: ## Label            Usage          Type ST Offset   Length
+I (62) boot:  0 nvs              WiFi data        01 02 00009000 00005000
+I (69) boot:  1 otadata          OTA data         01 00 0000e000 00002000
+I (75) boot:  2 app0             OTA app          00 10 00010000 00400000
+I (82) boot:  3 app1             OTA app          00 11 00410000 00400000
+I (88) boot:  4 spiffs           Unknown data     01 82 00810000 00770000
+I (95) boot: End of partition table
+I (98) esp_image: segment 0: paddr=00010020 vaddr=3c0a0020 size=1e4b4h (124084) map
+I (128) esp_image: segment 1: paddr=0002e4dc vaddr=3fc97e00 size=01b3ch (  6972) load
+I (130) esp_image: segment 2: paddr=00030020 vaddr=42000020 size=9c10ch (639244) map

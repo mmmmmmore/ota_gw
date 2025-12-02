@@ -1,0 +1,19 @@
+The mac list as below:
+
+OTA server (MAC MMMBP): MAC=A4:5E:60:C5:69:75
+
+OTA-Client ECU 1 
+    mac :MAC=1C:DB:D4:AF:1F:60
+    serial number : 5B3E030166
+
+OTA-Client ECU 2
+    mac :
+    serial number : 5B41030818
+
+OTA-Client ECU 3 ( motor wifi control board)
+    mac :
+    serial number : 5AF7090655
+
+OTA-GW
+    mac:
+    serial number : 5B3E034520
