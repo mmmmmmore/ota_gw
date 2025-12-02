@@ -82,13 +82,14 @@ esp_err_t wifi_init_softap(void)
     ip4_addr_t start_ip;
     IP4_ADDR(&start_ip, 192, 168, 4, 3);
     ESP_ERROR_CHECK(esp_netif_dhcps_option(netif,
-                                           ESP_NETIF_OP_SET,
-                                           ESP_NETIF_DHCP_START_IP,
-                                           &start_ip,
-                                           sizeof(start_ip)));
+                                       ESP_NETIF_OP_SET,
+                                       ESP_NETIF_DHCP_START_IP,
+                                       &start_ip,
+                                       sizeof(start_ip)));
 
     // 重新启动 DHCP 服务
     ESP_ERROR_CHECK(esp_netif_dhcps_start(netif));
 
     return ESP_OK;
 }
+
