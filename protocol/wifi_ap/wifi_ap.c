@@ -5,7 +5,6 @@
 #include "esp_netif.h"
 #include "esp_wifi.h"
 #include "lwip/ip4_addr.h"
-#include "lwip/dhcpserver.h"   // lwIP DHCP server API
 #include <string.h>
 
 static const char *TAG = "wifi_ap";
@@ -26,13 +25,9 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
 
         // 判断是否为 OTA Server
         if (memcmp(event->mac, ota_server_mac, 6) == 0) {
-            ESP_LOGI(TAG, "OTA Server detected, binding IP 192.168.4.2");
-            ip4_addr_t ip;
-            IP4_ADDR(&ip, 192, 168, 4, 2);
-            dhcps_offer_t offer;
-            memcpy(offer.mac, event->mac, 6);
-            offer.ip = ip;
-            dhcps_set_option_info(DHCPS_OPTION_IP_OFFER, &offer, sizeof(offer));
+            ESP_LOGI(TAG, "OTA Server detected, please configure STA with static IP 192.168.4.2");
+        } else {
+            ESP_LOGI(TAG, "Normal client, DHCP will assign IP >= 192.168.4.3");
         }
 
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
@@ -98,8 +93,11 @@ esp_err_t wifi_init_softap(void)
     // 设置 DHCP 起始地址为 192.168.4.3
     ip4_addr_t start_ip;
     IP4_ADDR(&start_ip, 192, 168, 4, 3);
-    esp_netif_dhcps_option(netif, ESP_NETIF_OP_SET, ESP_NETIF_DHCP_START,
-                           &start_ip, sizeof(start_ip));
+    ESP_ERROR_CHECK(esp_netif_dhcps_option(netif,
+                                           ESP_NETIF_OP_SET,
+                                           ESP_NETIF_DHCP_START,
+                                           &start_ip,
+                                           sizeof(start_ip)));
 
     // 重新启动 DHCP 服务
     ESP_ERROR_CHECK(esp_netif_dhcps_start(netif));
