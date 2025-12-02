@@ -23,18 +23,11 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
                  event->mac[0], event->mac[1], event->mac[2],
                  event->mac[3], event->mac[4], event->mac[5], event->aid);
 
-        // 判断是否为 OTA Server
         if (memcmp(event->mac, ota_server_mac, 6) == 0) {
             ESP_LOGI(TAG, "OTA Server detected, please configure STA with static IP 192.168.4.2");
         } else {
             ESP_LOGI(TAG, "Normal client, DHCP will assign IP >= 192.168.4.3");
         }
-
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_AP_STADISCONNECTED) {
-        wifi_event_ap_stadisconnected_t* event = (wifi_event_ap_stadisconnected_t*) event_data;
-        ESP_LOGI(TAG, "Client disconnected: MAC=%02X:%02X:%02X:%02X:%02X:%02X, AID=%d",
-                 event->mac[0], event->mac[1], event->mac[2],
-                 event->mac[3], event->mac[4], event->mac[5], event->aid);
     }
 }
 
@@ -71,11 +64,6 @@ esp_err_t wifi_init_softap(void)
                                                         &wifi_event_handler,
                                                         NULL,
                                                         NULL));
-    ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT,
-                                                        WIFI_EVENT_AP_STADISCONNECTED,
-                                                        &wifi_event_handler,
-                                                        NULL,
-                                                        NULL));
 
     ESP_LOGI(TAG, "WiFi SoftAP started. SSID:%s password:%s channel:%d",
              wifi_config.ap.ssid, wifi_config.ap.password, wifi_config.ap.channel);
@@ -95,7 +83,7 @@ esp_err_t wifi_init_softap(void)
     IP4_ADDR(&start_ip, 192, 168, 4, 3);
     ESP_ERROR_CHECK(esp_netif_dhcps_option(netif,
                                            ESP_NETIF_OP_SET,
-                                           ESP_NETIF_DHCP_START,
+                                           ESP_NETIF_DHCP_START_IP,
                                            &start_ip,
                                            sizeof(start_ip)));
 
