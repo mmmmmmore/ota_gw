@@ -9,6 +9,15 @@
 static const char *TAG = "GW_TCP_SERVER";
 static int ota_server_sock = -1;
 
+
+
+// 在 init 初始化函数里调用
+void gw_tcp_servers_init(void) {
+    tcp_server_start(9001);  // OTA Server
+    tcp_server_start(9002);  // Client
+}
+
+
 void tcp_server_set_ota_sock(int sock) {
     ota_server_sock = sock;
     ESP_LOGI(TAG, "OTA Server socket set: %d", sock);
@@ -118,3 +127,4 @@ esp_err_t tcp_server_start(uint16_t port) {
     }
     return ESP_OK;
 }
+
