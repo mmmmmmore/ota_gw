@@ -30,7 +30,7 @@ void msg_handler_process(int sock, const char *json_str) {
             ota_handler_process_progress(sock, root);
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
             ESP_LOGI(TAG, "Dispatching to ota_handler task");
-            ota_handler_process_task(sock, root);
+            otaapp_process_task(sock, root);
         } else {
             ESP_LOGW(TAG, "Unknown msg_type: %s", msg_type->valuestring);
         }
@@ -40,3 +40,4 @@ void msg_handler_process(int sock, const char *json_str) {
 
     cJSON_Delete(root);
 }
+
