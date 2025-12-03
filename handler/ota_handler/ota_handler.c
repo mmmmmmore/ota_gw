@@ -67,7 +67,7 @@ void ota_handler_process_progress(int sock, cJSON *root) {
         ESP_LOGI(TAG, "Client %s progress=%d result=%s", mac, progress, result);
 
         // 上报结果给 OTA Server
-        otaapp_report_result(mac, status->last_result);
+        //otaapp_report_result(mac, status->last_result);
     }
 }
 
@@ -76,4 +76,5 @@ client_status_info_t* ota_handler_get_status(int *count) {
     *count = client_count;
     return client_status_list;
 }
+
 
