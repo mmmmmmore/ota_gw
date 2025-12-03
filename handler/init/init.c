@@ -6,6 +6,7 @@
 #include "otaapp.h"
 #include "esp_log.h"
 #include "client_register.h"
+#include "msg_handler.h"
 
 void platform_init(void) {
     // 初始化 NVS 已在 app_main 中完成
