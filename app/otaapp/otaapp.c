@@ -84,19 +84,21 @@ void otaapp_process_task(int sock, cJSON *root) {
 }
 
 // ---------- 用户Accept之后对目标ECU做更新 ----------
-void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted) {
-    if (accepted) {
-        ESP_LOGI(TAG, "User accepted OTA task %s for client %s", task->task_id, mac);
 
-        client_info_t *client = client_register_find(mac);
-        if (!client || client->state == CLIENT_OFFLINE) {
-            ESP_LOGW(TAG, "Client %s not found or offline, cannot send OTA task", mac);
-            otaapp_clear_pending_task();
-            return;
-        }
+void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool accepted) {
+    client_info_t *client = client_register_find_by_client_id(client_id);
+    if (!client || client->state == CLIENT_OFFLINE) {
+        ESP_LOGW(TAG, "Client %s not found or offline, cannot send OTA task", client_id);
+        otaapp_clear_pending_task();
+        return;
+    }
+
+    if (accepted) {
+        ESP_LOGI(TAG, "User accepted OTA task %s for client %s", task->task_id, client_id);
 
         // 构造下发给 ECU 的 JSON
         cJSON *root = cJSON_CreateObject();
+        cJSON_AddStringToObject(root, "msg_type", "ota_task");
         cJSON_AddStringToObject(root, "task_id", task->task_id);
         cJSON_AddStringToObject(root, "device_name", task->device_name);
         cJSON_AddStringToObject(root, "client_id", task->client_id);
@@ -104,7 +106,7 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
         cJSON_AddStringToObject(root, "url", task->url);
 
         char *json_str = cJSON_PrintUnformatted(root);
-        ESP_LOGI(TAG, "Sending OTA task to ECU %s (IP=%s): %s", mac, client->ip, json_str);
+        ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s", client_id, client->ip, json_str);
 
         esp_err_t ret = tcp_server_send(client->sock, json_str);
 
@@ -113,13 +115,12 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
 
         if (ret == ESP_OK) {
             client->state = CLIENT_UPDATING;
-            ESP_LOGI(TAG, "Client %s state updated to UPDATING", mac);
+            ESP_LOGI(TAG, "Client %s state updated to UPDATING", client_id);
         } else {
-            ESP_LOGE(TAG, "Failed to send OTA task to client %s", mac);
+            ESP_LOGE(TAG, "Failed to send OTA task to client %s", client_id);
         }
     } else {
-        ESP_LOGW(TAG, "User rejected OTA task %s for client %s", task->task_id, mac);
-
+        ESP_LOGW(TAG, "User rejected OTA task %s for client %s", task->task_id, client_id);
         // 构造反馈 JSON 给 OTA Server
         cJSON *root = cJSON_CreateObject();
         cJSON_AddStringToObject(root, "task_id", task->task_id);
@@ -138,25 +139,27 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
         free(json_str);
     }
 
-    otaapp_clear_pending_task(); // 清除任务
+    otaapp_clear_pending_task();
 }
 
+
 // ---------- 下发任务给指定 ECU ----------
-esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
-    client_info_t *client = client_register_find(mac);
+esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
+    client_info_t *client = client_register_find_by_client_id(client_id);
     if (!client || client->state == CLIENT_OFFLINE) {
-        ESP_LOGW(TAG, "Client %s not found or offline", mac);
+        ESP_LOGW(TAG, "Client %s not found or offline", client_id);
         return ESP_FAIL;
     }
 
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "task", "ota_update");
+    cJSON_AddStringToObject(root, "msg_type", "ota_task");
+    cJSON_AddStringToObject(root, "task_id", task->task_id);
     cJSON_AddStringToObject(root, "version", task->version);
     cJSON_AddStringToObject(root, "url", task->url);
     cJSON_AddStringToObject(root, "features", task->features);
 
     char *json_str = cJSON_PrintUnformatted(root);
-    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s", mac, client->ip, json_str);
+    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s", client_id, client->ip, json_str);
 
     esp_err_t ret = tcp_server_send(client->sock, json_str);
 
@@ -165,10 +168,11 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
 
     if (ret == ESP_OK) {
         client->state = CLIENT_UPDATING;
-        ESP_LOGI(TAG, "Client %s state updated to UPDATING", mac);
+        ESP_LOGI(TAG, "Client %s state updated to UPDATING", client_id);
     }
     return ret;
 }
+
 
 // ---------- 广播任务给所有在线 ECU ----------
 esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
@@ -204,3 +208,4 @@ void otaapp_report_result(const char *mac, bool success) {
     cJSON_Delete(root);
     free(json_str);
 }
+
