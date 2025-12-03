@@ -2,15 +2,32 @@
 #include "esp_log.h"
 #include "cJSON.h"
 #include "tcp_server.h"
+#include <string.h>
 
 static const char *TAG = "OTA_APP_MGMT";
-static ota_task_t pending_task;
+static ota_task_t pending_task;   // 唯一的挂起任务缓存
 
+// 清除挂起任务
 void otaapp_clear_pending_task(void) {
     memset(&pending_task, 0, sizeof(pending_task));
     ESP_LOGI(TAG, "Pending task cleared");
 }
 
+// 设置挂起任务
+void otaapp_set_pending_task(const ota_task_t *task) {
+    if (task) {
+        pending_task = *task; // 结构体拷贝
+        ESP_LOGI(TAG, "Pending task stored: id=%s, client=%s, version=%s",
+                 pending_task.task_id, pending_task.client_id, pending_task.version);
+    }
+}
+
+// 获取挂起任务
+ota_task_t* otaapp_get_pending_task(void) {
+    return (pending_task.task_id[0] != '\0') ? &pending_task : NULL;
+}
+
+// 用户响应
 void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool accepted) {
     client_info_t *client = client_register_find_by_client_id(client_id);
     if (!client || client->state == CLIENT_OFFLINE) {
@@ -29,7 +46,7 @@ void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool ac
         cJSON_AddStringToObject(root, "device_name", task->device_name);
         cJSON_AddStringToObject(root, "client_id", task->client_id);
         cJSON_AddStringToObject(root, "version", task->version);
-        cJSON_AddStringToObject(root, "firmware_url", task->url);  // 保持和 Client 预期一致
+        cJSON_AddStringToObject(root, "firmware_url", task->url);
         cJSON_AddStringToObject(root, "features", task->features);
 
         char *json_str = cJSON_PrintUnformatted(root);
@@ -45,6 +62,7 @@ void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool ac
             ESP_LOGI(TAG, "Client %s state updated to UPDATING", client_id);
         } else {
             ESP_LOGE(TAG, "Failed to send OTA task to client %s", client_id);
+            otaapp_clear_pending_task(); // 失败时清理任务
         }
     } else {
         ESP_LOGW(TAG, "User rejected OTA task %s for client %s", task->task_id, client_id);
@@ -65,11 +83,12 @@ void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool ac
         }
         cJSON_Delete(root);
         free(json_str);
-    }
 
-    otaapp_clear_pending_task();
+        otaapp_clear_pending_task();
+    }
 }
 
+// 下发任务给指定客户端
 esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     client_info_t *client = client_register_find_by_client_id(client_id);
     if (!client || client->state == CLIENT_OFFLINE) {
@@ -97,6 +116,8 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     if (ret == ESP_OK) {
         client->state = CLIENT_UPDATING;
         ESP_LOGI(TAG, "Client %s state updated to UPDATING", client_id);
+    } else {
+        ESP_LOGE(TAG, "Failed to send OTA task to client %s", client_id);
     }
     return ret;
 }
