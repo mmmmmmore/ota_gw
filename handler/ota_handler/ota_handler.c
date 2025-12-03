@@ -10,7 +10,7 @@ static const char *TAG = "OTA_HANDLER";
 static client_status_info_t client_status_list[MAX_CLIENTS];
 static int client_count = 0;
 
-// 下发任务给指定 Client ECU
+// 下发任务给指定 Client ECU（仍然保留，供 otaapp 或 webserver 调用）
 esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
     client_info_t *client = client_register_find(mac);
     if (!client || client->state == CLIENT_OFFLINE) {
@@ -21,8 +21,6 @@ esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
     // 构造 JSON
     cJSON *root = cJSON_CreateObject();
     cJSON_AddStringToObject(root, "task", "ota_update");
-
-    // 使用 strlen 检查是否为空字符串，避免传入未初始化内容
     cJSON_AddStringToObject(root, "version",
         (strlen(task->version) > 0) ? task->version : "");
     cJSON_AddStringToObject(root, "url",
@@ -43,36 +41,8 @@ esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
     return ret;
 }
 
-// 处理来自 OTA Server 的任务 JSON
-static void ota_handler_process_task(int sock, cJSON *root) {
-    cJSON *version_item = cJSON_GetObjectItem(root, "version");
-    cJSON *url_item = cJSON_GetObjectItem(root, "firmware_url");
-    cJSON *task_id_item = cJSON_GetObjectItem(root, "task_id");
-
-    if (!cJSON_IsString(version_item) || !cJSON_IsString(url_item)) {
-        ESP_LOGE(TAG, "Task JSON missing version/url");
-        return;
-    }
-
-    const char *version = version_item->valuestring;
-    const char *url = url_item->valuestring;
-    const char *task_id = (cJSON_IsString(task_id_item)) ? task_id_item->valuestring : "unknown";
-
-    ESP_LOGI(TAG, "Received OTA task from Server: task_id=%s version=%s url=%s",
-             task_id, version, url);
-    //ack back to OTA server
-    // 在 ota_handler_process_task 末尾加：
-    const char *ack = "{\"ack\":\"ok\",\"task_id\":\"%s\"}";
-    char ack_buf[128];
-    snprintf(ack_buf, sizeof(ack_buf), ack, task_id);
-    tcp_server_send(sock, ack_buf);
-    ESP_LOGI(TAG, "Sent ACK to OTA Server: %s", ack_buf);
-
-    // TODO: 保存任务并分发给 Client ECU
-}
-
 // 处理来自 Client ECU 的进度 JSON
-static void ota_handler_process_progress(int sock, cJSON *root) {
+void ota_handler_process_progress(int sock, cJSON *root) {
     cJSON *mac_item = cJSON_GetObjectItem(root, "mac");
     cJSON *progress_item = cJSON_GetObjectItem(root, "progress");
     cJSON *result_item = cJSON_GetObjectItem(root, "result");
@@ -96,29 +66,9 @@ static void ota_handler_process_progress(int sock, cJSON *root) {
 
         ESP_LOGI(TAG, "Client %s progress=%d result=%s", mac, progress, result);
 
+        // 上报结果给 OTA Server
         otaapp_report_result(mac, status->last_result);
     }
-}
-
-// 总入口：根据 JSON 内容区分处理
-void ota_handler_process_message(int client_sock, const char *json_str) {
-    ESP_LOGI(TAG, "Processing message from sock %d: %s", client_sock, json_str);
-
-    cJSON *root = cJSON_Parse(json_str);
-    if (!root) {
-        ESP_LOGE(TAG, "Invalid JSON: %s", json_str);
-        return;
-    }
-
-    if (cJSON_GetObjectItem(root, "task_id")) {
-        ota_handler_process_task(client_sock, root);
-    } else if (cJSON_GetObjectItem(root, "mac")) {
-        ota_handler_process_progress(client_sock, root);
-    } else {
-        ESP_LOGW(TAG, "Unknown JSON format");
-    }
-
-    cJSON_Delete(root);
 }
 
 // 获取所有 Client 的状态信息
@@ -126,4 +76,3 @@ client_status_info_t* ota_handler_get_status(int *count) {
     *count = client_count;
     return client_status_list;
 }
-
