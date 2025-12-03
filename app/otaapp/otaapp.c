@@ -169,3 +169,38 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
     }
     return ret;
 }
+
+// ---------- 广播任务给所有在线 ECU ----------
+esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
+    ESP_LOGI(TAG, "Broadcasting OTA task version=%s to all online clients", task->version);
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (strlen(client_list[i].mac) > 0 && client_list[i].state == CLIENT_ONLINE) {
+            ota_dispatch_send_task(client_list[i].mac, task);
+        }
+    }
+    return ESP_OK;
+}
+
+// ---------- ECU 上报结果，转发给 OTA Server ----------
+void otaapp_report_result(const char *mac, bool success) {
+    ESP_LOGI(TAG, "Reporting result from client %s: %s",
+             mac, success ? "success" : "fail");
+
+    cJSON *root = cJSON_CreateObject();
+    cJSON_AddStringToObject(root, "task", "ota_update");
+    cJSON_AddStringToObject(root, "mac", mac);
+    cJSON_AddStringToObject(root, "result", success ? "success" : "fail");
+
+    char *json_str = cJSON_PrintUnformatted(root);
+
+    int ota_sock = tcp_server_get_ota_sock();
+    if (ota_sock >= 0) {
+        ESP_LOGI(TAG, "Sending result to OTA Server: %s", json_str);
+        tcp_server_send(ota_sock, json_str);
+    } else {
+        ESP_LOGW(TAG, "No OTA Server socket available, cannot report result");
+    }
+
+    cJSON_Delete(root);
+    free(json_str);
+}
