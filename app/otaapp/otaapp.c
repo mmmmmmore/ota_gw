@@ -167,4 +167,5 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
         client->state = CLIENT_UPDATING;
         ESP_LOGI(TAG, "Client %s state updated to UPDATING", mac);
     }
-    return
+    return ret;
+}

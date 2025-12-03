@@ -1,6 +1,5 @@
-msg_handler.dir/msg_handler.c.obj.d -o esp-idf/msg_handler/CMakeFiles/__idf_msg_handler.dir/msg_handler.c.obj -c /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c: In function 'msg_handler_process':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:33:13: error: implicit declaration of function 'ota_handler_process_task'; did you mean 'ota_handler_send_task'? [-Wimplicit-function-declaration]
-   33 |             ota_handler_process_task(sock, root);
-      |             ^~~~~~~~~~~~~~~~~~~~~~~~
-      |             ota_handler_send_task
+
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/init/init.c: In function 'platform_init':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/init/init.c:20:5: error: implicit declaration of function 'msg_handler_init' [-Wimplicit-function-declaration]
+   20 |     msg_handler_init();
+      |     ^~~~~~~~~~~~~~~~
