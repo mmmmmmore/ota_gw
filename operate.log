@@ -1,52 +1,45 @@
 
-I (1408) main_task: Returned from app_main()
-I (12678) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (12678) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
-I (12718) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
-I (12728) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-I (12878) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
-I (25868) OTA_APP_MGMT: No pending task available
-I (26568) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.2, port=51377
-I (26568) GW_TCP_SERVER: OTA Server socket set: 62
-W (26568) GW_TCP_SERVER: Client disconnected
-I (26568) GW_TCP_SERVER: Closing client socket 62
-W (26578) GW_TCP_SERVER: OTA Server disconnected
-I (26578) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.2, port=51378
-I (26588) GW_TCP_SERVER: OTA Server socket set: 62
-I (26588) GW_TCP_SERVER: Received 229 bytes from client 62: {"task_id": "20251203_134448_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_134448", "status": "pending"}
-I (26618) GW_MSG_HANDLER: Processing message from sock 62: {"task_id": "20251203_134448_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_134448", "status": "pending"}
-W (26638) GW_MSG_HANDLER: JSON missing msg_type field
-W (31568) GW_TCP_SERVER: Client disconnected
-I (31568) GW_TCP_SERVER: Closing client socket 62
-W (31568) GW_TCP_SERVER: OTA Server disconnected
-I (35408) OTA_APP_MGMT: No pending task available
-I (36958) OTA_APP_MGMT: No pending task available
-I (37808) OTA_APP_MGMT: No pending task available
-I (38768) OTA_APP_MGMT: No pending task available
-I (39658) OTA_APP_MGMT: No pending task available
-I (40548) OTA_APP_MGMT: No pending task available
-I (54298) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.2, port=51539
-I (54298) GW_TCP_SERVER: OTA Server socket set: 62
-W (54298) GW_TCP_SERVER: Client disconnected
-I (54298) GW_TCP_SERVER: Closing client socket 62
-W (54308) GW_TCP_SERVER: OTA Server disconnected
-I (54308) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.2, port=51540
-I (54318) GW_TCP_SERVER: OTA Server socket set: 62
-I (54318) GW_TCP_SERVER: Received 229 bytes from client 62: {"task_id": "20251203_134516_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_134516", "status": "pending"}
-I (54348) GW_MSG_HANDLER: Processing message from sock 62: {"task_id": "20251203_134516_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_134516", "status": "pending"}
-W (54378) GW_MSG_HANDLER: JSON missing msg_type field
-I (57728) OTA_APP_MGMT: No pending task available
-W (59308) GW_TCP_SERVER: Client disconnected
-I (59308) GW_TCP_SERVER: Closing client socket 62
-W (59308) GW_TCP_SERVER: OTA Server disconnected
-I (71898) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (71898) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 20
-I (71968) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
-I (73008) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
-I (73018) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.3, port=63805
-I (73018) GW_TCP_SERVER: OTA Server socket set: 62
-I (73038) GW_TCP_SERVER: Received 130 bytes from client 62: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
-I (73038) GW_MSG_HANDLER: Processing message from sock 62: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
-I (73058) GW_MSG_HANDLER: Dispatching to client_register
-I (73058) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.0.1, sock=62
-I (73078) CLIENT_REGISTER: Added new client: name=, id=, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.0.1, sock=62
+I (1318) WEB_OTAGW: OTA Gateway Webserver started
+系统初始化完成，等待客户端连接...
+I (1328) main_task: Returned from app_main()
+I (24728) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (24728) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
+I (24768) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (24778) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (26878) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (34258) OTA_APP_MGMT: No pending task available
+I (35408) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.2, port=52975
+I (35408) GW_TCP_SERVER: OTA Server socket set: 62
+W (35408) GW_TCP_SERVER: Client disconnected
+I (35408) GW_TCP_SERVER: Closing client socket 62
+W (35418) GW_TCP_SERVER: OTA Server disconnected
+I (35428) GW_TCP_SERVER: Client connected, sock=62, ip=192.168.4.2, port=52987
+I (35428) GW_TCP_SERVER: OTA Server socket set: 62
+I (35438) GW_TCP_SERVER: Received 253 bytes from client 62: {"msg_type": "ota_task", "task_id": "20251203_135333_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_135333", "status": "pending"}
+I (35458) GW_MSG_HANDLER: Processing message from sock 62: {"msg_type": "ota_task", "task_id": "20251203_135333_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_135333", "status": "pending"}
+I (35488) GW_MSG_HANDLER: Dispatching to ota_handler task
+I (35488) OTA_APP_MGMT: Task stored as pending: version=v2.1.4 url=https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin features=
+I (35508) OTA_APP_MGMT: OTA task parsed and pending user confirmation: id=20251203_135333_758 version=v2.1.4 url=https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin
+I (35518) GW_TCP_SERVER: Sent to client 62: {"ack":"ok","task_id":"20251203_135333_758"}
+I (35528) OTA_APP_MGMT: Sent ACK to OTA Server: {"ack":"ok","task_id":"20251203_135333_758"}
+W (35678) GW_TCP_SERVER: Client disconnected
+I (35678) GW_TCP_SERVER: Closing client socket 62
+W (35678) GW_TCP_SERVER: OTA Server disconnected
+I (46528) OTA_APP_MGMT: Returning pending task: version=v2.1.4 url=https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin
+I (48858) OTA_APP_MGMT: Returning pending task: version=v2.1.4 url=https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin
+I (48858) OTA_APP_MGMT: User accepted OTA task 20251203_135333_758 for client 758
+W (48858) OTA_APP_MGMT: Client 758 not found or offline, cannot send OTA task
+I (48868) OTA_APP_MGMT: Pending task cleared
+I (50508) OTA_APP_MGMT: No pending task available
+I (57358) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (57358) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 20
+I (57438) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (58468) GW_TCP_SERVER: Client connected, sock=60, ip=192.168.4.3, port=56668
+I (58468) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (58478) GW_TCP_SERVER: OTA Server socket set: 60
+I (58498) GW_TCP_SERVER: Received 130 bytes from client 60: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
+I (58498) GW_MSG_HANDLER: Processing message from sock 60: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
+I (58518) GW_MSG_HANDLER: Dispatching to client_register
+I (58518) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.0.1, sock=60
+I (58538) CLIENT_REGISTER: Added new client: name=, id=, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.0.1, sock=60
+I (78148) OTA_APP_MGMT: No pending task available
