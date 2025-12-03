@@ -16,7 +16,7 @@ void platform_init(void) {
     ledc_init();
     
     //start the tcp server
-    tcp_server_start(9001);
+    gw_tcp_servers_init();
 
     msg_handler_init();
     //start the client register module
@@ -29,4 +29,5 @@ void platform_init(void) {
 
 
 }
+
 
