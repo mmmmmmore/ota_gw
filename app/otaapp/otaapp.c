@@ -22,6 +22,11 @@ void otaapp_set_pending_task(const ota_task_t *task) {
     }
 }
 
+void ota_dispatch_init(void) {
+    otaapp_clear_pending_task();
+}
+
+
 // 获取挂起任务
 ota_task_t* otaapp_get_pending_task(void) {
     return (pending_task.task_id[0] != '\0') ? &pending_task : NULL;
@@ -121,3 +126,4 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     }
     return ret;
 }
+
