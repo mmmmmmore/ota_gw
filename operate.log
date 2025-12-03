@@ -1,32 +1,20 @@
 
-I (1368) OTA_APP_MGMT: OTA Dispatcher initialized
-I (1378) WEB_OTAGW: OTA Gateway Webserver started
-系统初始化完成，等待客户端连接...
-I (1388) main_task: Returned from app_main()
-I (30228) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
-I (30228) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
-I (30298) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
-I (31338) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
-I (34148) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
-I (41488) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.2, port=51048 
-I (41488) GW_TCP_SERVER: OTA Server socket set: 58
-I (41488) GW_TCP_SERVER: Start Receiving data from client 58
-W (41498) GW_TCP_SERVER: Client disconnected
-I (41498) GW_TCP_SERVER: Closing client socket 58 
-W (41508) GW_TCP_SERVER: OTA Server disconnected
-I (41508) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.2, port=51049 
-I (41518) GW_TCP_SERVER: OTA Server socket set: 58
-I (41518) GW_TCP_SERVER: Start Receiving data from client 58
-I (41528) GW_TCP_SERVER: Received 227 bytes from client 58: {"task_id": "20251203_091158_798", "device_name": "Vehicle2", "client_id": "798", "version": "v2.1.4", "firmware_url": "https://198.18.0.1:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_091158", "status": "pending"}
-I (41548) OTA_APP_MGMT: Received data from sock 58: {"task_id": "20251203_091158_798", "device_name": "Vehicle2", "client_id": "798", "version": "v2.1.4", "firmware_url": "https://198.18.0.1:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_091158", "status": "pending"}
-I (41578) OTA_APP_MGMT: Recognized OTA Server task JSON, forwarding to otaapp
-I (41588) OTA_APP_MGMT: Task stored as pending: version=v2.1.4 url=https://198.18.0.1:8080/firmware/firmware_v2.1.4.bin features=
-I (41598) OTA_APP_MGMT: OTA task parsed and pending user confirmation: version=v2.1.4, url=https://198.18.0.1:8080/firmware/firmware_v2.1.4.bin
-I (41608) GW_TCP_SERVER: Start Receiving data from client 58
-W (46498) GW_TCP_SERVER: Client disconnected
-I (46498) GW_TCP_SERVER: Closing client socket 58 
-W (46498) GW_TCP_SERVER: OTA Server disconnected
-I (1020658) wifi:<ba-del>idx:2, tid:6
-I (1020658) wifi:<ba-del>idx:3, tid:0
-I (1020658) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:102, winSize:64
-I (1020668) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:3244, winSize:64
+I (1318) main_task: Returned from app_main()
+I (24188) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (24188) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
+I (24258) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (24268) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (24558) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (44248) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (44248) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 20
+I (44318) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (45348) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (45358) GW_TCP_SERVER: Client connected, sock=58, ip =192.168.4.3, port=64153 
+I (45358) GW_TCP_SERVER: OTA Server socket set: 58
+I (45358) GW_TCP_SERVER: Start Receiving data from client 58
+I (45378) GW_TCP_SERVER: Received 130 bytes from client 58: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
+I (45388) OTA_APP_MGMT: Received data from sock 58: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
+I (45398) OTA_APP_MGMT: Forwarding ECU message to ota_handler
+I (45408) OTA_HANDLER: Processing message from sock 58: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.0.1","ip":"192.168.4.3"}
+E (45428) OTA_HANDLER: Progress JSON missing fields
+I (45428) GW_TCP_SERVER: Start Receiving data from client 58
