@@ -67,3 +67,50 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
 
     cJSON_Delete(root);
 }
+
+const char* msg_handler_get_pending_task_json(void) {
+    if (pending_task.task_id[0] == '\0') return NULL;
+    cJSON *root = cJSON_CreateObject();
+    cJSON_AddStringToObject(root, "task_id", pending_task.task_id);
+    cJSON_AddStringToObject(root, "device_name", pending_task.device_name);
+    cJSON_AddStringToObject(root, "client_id", pending_task.client_id);
+    cJSON_AddStringToObject(root, "version", pending_task.version);
+    cJSON_AddStringToObject(root, "url", pending_task.url);
+    cJSON_AddStringToObject(root, "features", pending_task.features);
+    char *json_str = cJSON_PrintUnformatted(root);
+    cJSON_Delete(root);
+    return json_str;
+}
+
+void msg_handler_user_response(const char *client_id, bool accepted) {
+    if (pending_task.task_id[0] == '\0') {
+        ESP_LOGW(TAG, "No pending task to respond");
+        return;
+    }
+    ota_dispatch_user_response(client_id, &pending_task, accepted);
+}
+
+const char* msg_handler_get_progress_json(void) {
+    cJSON *root = cJSON_CreateArray();
+    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+        if (client_task_status[i].client_id[0]) {
+            cJSON *item = cJSON_CreateObject();
+            cJSON_AddStringToObject(item, "client_id", client_task_status[i].client_id);
+            cJSON_AddStringToObject(item, "task_id", client_task_status[i].task_id);
+            cJSON_AddNumberToObject(item, "progress", client_task_status[i].progress);
+            const char *status_str = "unknown";
+            switch (client_task_status[i].status) {
+                case OTA_STATUS_PENDING: status_str = "pending"; break;
+                case OTA_STATUS_UPDATING: status_str = "updating"; break;
+                case OTA_STATUS_SUCCESS: status_str = "success"; break;
+                case OTA_STATUS_FAILED: status_str = "failed"; break;
+            }
+            cJSON_AddStringToObject(item, "status", status_str);
+            cJSON_AddItemToArray(root, item);
+        }
+    }
+    char *json_str = cJSON_PrintUnformatted(root);
+    cJSON_Delete(root);
+    return json_str;
+}
+
