@@ -12,7 +12,7 @@ static int client_count = 0;
 
 // 下发任务给指定 Client ECU（仍然保留，供 otaapp 或 webserver 调用）
 esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
-    client_info_t *client = client_register_find(mac);
+    client_info_t *client = client_register_find_by_client_id(client_id);
     if (!client || client->state == CLIENT_OFFLINE) {
         ESP_LOGW(TAG, "Client %s not found or offline", mac);
         return ESP_FAIL;
@@ -76,3 +76,4 @@ client_status_info_t* ota_handler_get_status(int *count) {
     *count = client_count;
     return client_status_list;
 }
+
