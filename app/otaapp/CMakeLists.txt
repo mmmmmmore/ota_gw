@@ -4,5 +4,5 @@ idf_component_register(
     REQUIRES 
         esp_wifi esp_http_server nvs_flash driver 
         client_register  webserver tcp_server ota_handler
-        cJSON
+        cJSON msg_handler
     )

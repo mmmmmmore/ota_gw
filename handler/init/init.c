@@ -17,6 +17,7 @@ void platform_init(void) {
     //start the tcp server
     tcp_server_start(9001);
 
+    msg_handler_init();
     //start the client register module
     client_register_init();
     //start ota app

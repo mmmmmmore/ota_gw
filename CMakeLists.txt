@@ -13,6 +13,7 @@ set(EXTRA_COMPONENT_DIRS
         protocol/tcp_server
         handler/init 
         handler/ota_handler
+        handler/msg_handler
         spiffs 
         utility/cJSON
         )
