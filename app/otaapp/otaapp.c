@@ -2,22 +2,19 @@
 #include "tcp_server.h"
 #include "esp_log.h"
 #include "cJSON.h"
-#include "ota_handler.h"
-#include "client_register.h"
 #include <string.h>
 
 static const char *TAG = "OTA_APP_MGMT";
-
-void ota_dispatch_init(void) {
-    ESP_LOGI(TAG, "OTA Dispatcher initialized");
-    tcp_server_set_rx_callback(tcp_server_rx_handler);
-}
 
 // ---------- 全局保存当前待确认任务 ----------
 static ota_task_t pending_task;
 static bool has_pending_task = false;
 
-// 设置待确认任务（由 tcp_server 调用）
+void ota_dispatch_init(void) {
+    ESP_LOGI(TAG, "OTA Dispatcher initialized");
+}
+
+// 设置待确认任务
 void otaapp_set_pending_task(ota_task_t *task) {
     if (task) {
         pending_task = *task;   // 拷贝任务内容
@@ -27,7 +24,7 @@ void otaapp_set_pending_task(ota_task_t *task) {
     }
 }
 
-// 获取待确认任务（由 webserver 调用）
+// 获取待确认任务
 ota_task_t* otaapp_get_pending_task(void) {
     if (has_pending_task) {
         ESP_LOGI(TAG, "Returning pending task: version=%s url=%s",
@@ -38,39 +35,53 @@ ota_task_t* otaapp_get_pending_task(void) {
     return NULL;
 }
 
-// 清除待确认任务（用户响应后调用）
+// 清除待确认任务
 void otaapp_clear_pending_task(void) {
     has_pending_task = false;
     ESP_LOGI(TAG, "Pending task cleared");
 }
 
-// ---------- tcp_server 的统一回调函数 ----------
-void tcp_server_rx_handler(int client_sock, const char *data) {
-    ESP_LOGI(TAG, "Received data from sock %d: %s", client_sock, data);
-
-    cJSON *root = cJSON_Parse(data);
-    if (!root) {
-        ESP_LOGW(TAG, "Invalid JSON, maybe ECU message");
-        ota_handler_process_message(client_sock, data);
-        return;
-    }
-
-    // 判断是否是 OTA Server 的任务
+// ---------- 处理 OTA Server 下发的任务（由 msg_handler 调用） ----------
+void otaapp_process_task(int sock, cJSON *root) {
     cJSON *task_id_item = cJSON_GetObjectItem(root, "task_id");
     cJSON *version_item = cJSON_GetObjectItem(root, "version");
     cJSON *url_item = cJSON_GetObjectItem(root, "firmware_url");
 
-    if (cJSON_IsString(task_id_item) && cJSON_IsString(version_item) && cJSON_IsString(url_item)) {
-        ESP_LOGI(TAG, "Recognized OTA Server task JSON, forwarding to otaapp");
-        ota_dispatch_handle_json(data);   // 保存并调度任务
-    } else {
-        ESP_LOGI(TAG, "Forwarding ECU message to ota_handler");
-        ota_handler_process_message(client_sock, data);
+    if (!cJSON_IsString(task_id_item) || !cJSON_IsString(version_item) || !cJSON_IsString(url_item)) {
+        ESP_LOGE(TAG, "OTA task JSON missing fields");
+        return;
     }
 
-    cJSON_Delete(root);
-}
+    ota_task_t task;
+    memset(&task, 0, sizeof(task));
+    strncpy(task.task_id, task_id_item->valuestring, sizeof(task.task_id)-1);
+    strncpy(task.version, version_item->valuestring, sizeof(task.version)-1);
+    strncpy(task.url, url_item->valuestring, sizeof(task.url)-1);
 
+    cJSON *features_item = cJSON_GetObjectItem(root, "features");
+    if (cJSON_IsString(features_item)) {
+        strncpy(task.features, features_item->valuestring, sizeof(task.features)-1);
+    }
+    cJSON *dev_item = cJSON_GetObjectItem(root, "device_name");
+    if (cJSON_IsString(dev_item)) {
+        strncpy(task.device_name, dev_item->valuestring, sizeof(task.device_name)-1);
+    }
+    cJSON *cid_item = cJSON_GetObjectItem(root, "client_id");
+    if (cJSON_IsString(cid_item)) {
+        strncpy(task.client_id, cid_item->valuestring, sizeof(task.client_id)-1);
+    }
+
+    otaapp_set_pending_task(&task);
+
+    ESP_LOGI(TAG, "OTA task parsed and pending user confirmation: id=%s version=%s url=%s",
+             task.task_id, task.version, task.url);
+
+    // 回复 ACK 给 OTA Server
+    char ack_buf[128];
+    snprintf(ack_buf, sizeof(ack_buf), "{\"ack\":\"ok\",\"task_id\":\"%s\"}", task.task_id);
+    tcp_server_send(sock, ack_buf);
+    ESP_LOGI(TAG, "Sent ACK to OTA Server: %s", ack_buf);
+}
 
 // ---------- 用户Accept之后对目标ECU做更新 ----------
 void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted) {
@@ -130,57 +141,6 @@ void ota_dispatch_user_response(const char *mac, ota_task_t *task, bool accepted
     otaapp_clear_pending_task(); // 清除任务
 }
 
-
-// ---------- 处理 OTA Server 下发的任务 ----------
-esp_err_t ota_dispatch_handle_json(const char *json_str) {
-    cJSON *root = cJSON_Parse(json_str);
-    if (!root) {
-        ESP_LOGE(TAG, "Invalid JSON received: %s", json_str);
-        return ESP_FAIL;
-    }
-
-    ota_task_t task;
-    memset(&task, 0, sizeof(task));
-
-    cJSON *ver = cJSON_GetObjectItem(root, "version");
-    if (ver && ver->valuestring) {
-        strncpy(task.version, ver->valuestring, sizeof(task.version)-1);
-    }
-
-    cJSON *url = cJSON_GetObjectItem(root, "firmware_url");
-    if (url && url->valuestring) {
-        strncpy(task.url, url->valuestring, sizeof(task.url)-1);
-    }
-
-    cJSON *features = cJSON_GetObjectItem(root, "features");
-    if (features && features->valuestring) {
-        strncpy(task.features, features->valuestring, sizeof(task.features)-1);
-    }
-
-    cJSON *id = cJSON_GetObjectItem(root, "task_id");
-    if (id && id->valuestring) {
-        strncpy(task.task_id, id->valuestring, sizeof(task.task_id)-1);
-    }
-
-    cJSON *dev = cJSON_GetObjectItem(root, "device_name");
-    if (dev && dev->valuestring) {
-        strncpy(task.device_name, dev->valuestring, sizeof(task.device_name)-1);
-    }
-
-    cJSON *cid = cJSON_GetObjectItem(root, "client_id");
-    if (cid && cid->valuestring) {
-        strncpy(task.client_id, cid->valuestring, sizeof(task.client_id)-1);
-    }
-    
-    otaapp_set_pending_task(&task);
-
-    ESP_LOGI(TAG, "OTA task parsed and pending user confirmation: version=%s, url=%s",
-             task.version, task.url);
-
-    cJSON_Delete(root);
-    return ESP_OK;
-}
-
 // ---------- 下发任务给指定 ECU ----------
 esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
     client_info_t *client = client_register_find(mac);
@@ -207,43 +167,4 @@ esp_err_t ota_dispatch_send_task(const char *mac, ota_task_t *task) {
         client->state = CLIENT_UPDATING;
         ESP_LOGI(TAG, "Client %s state updated to UPDATING", mac);
     }
-    return ret;
-}
-
-// ---------- 广播任务给所有在线 ECU ----------
-esp_err_t ota_dispatch_broadcast(ota_task_t *task) {
-    ESP_LOGI(TAG, "Broadcasting OTA task version=%s to all online clients", task->version);
-    for (int i = 0; i < MAX_CLIENTS; i++) {
-        client_info_t *client = client_register_find(client_list[i].mac);
-        if (client && client->state == CLIENT_ONLINE) {
-            ota_dispatch_send_task(client->mac, task);
-        }
-    }
-    return ESP_OK;
-}
-
-// ---------- ECU 上报结果 ----------
-void otaapp_report_result(const char *mac, bool success) {
-    ESP_LOGI(TAG, "Reporting result from client %s: %s",
-             mac, success ? "success" : "fail");
-
-    cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "task", "ota_update");
-    cJSON_AddStringToObject(root, "mac", mac);
-    cJSON_AddStringToObject(root, "result", success ? "success" : "fail");
-
-    char *json_str = cJSON_PrintUnformatted(root);
-
-    int ota_sock = tcp_server_get_ota_sock();
-    if (ota_sock >= 0) {
-        ESP_LOGI(TAG, "Sending result to OTA Server: %s", json_str);
-        tcp_server_send(ota_sock, json_str);
-    } else {
-        ESP_LOGW(TAG, "No OTA Server socket available, cannot report result");
-    }
-
-    cJSON_Delete(root);
-    free(json_str);
-}
-
-
+    return
