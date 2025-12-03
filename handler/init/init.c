@@ -22,7 +22,7 @@ void platform_init(void) {
     //start the client register module
     client_register_init();
     //start ota app
-    ota_dispatch_init();
+    //ota_dispatch_init();
 
     //start the webserver
     start_webserver_otagw();

@@ -1,21 +1,21 @@
 
 /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c: In function 'ota_handler_send_task':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:15:29: error: implicit declaration of function 'client_register_find'; did you mean 'client_register_init'? [-Wimplicit-function-declaration]
-   15 |     client_info_t *client = client_register_find(mac);
-      |                             ^~~~~~~~~~~~~~~~~~~~
-      |                             client_register_init
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:15:29: error: initialization of 'client_info_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:15:63: error: passing argument 1 of 'client_register_find_by_client_id' from incompatible pointer type [-Wincompatible-pointer-types]
+   15 |     client_info_t *client = client_register_find_by_client_id(client);
+      |                                                               ^~~~~~
+      |                                                               |
+      |                                                               client_info_t *
+In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.h:5,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/client_register/client_register.h:40:62: note: expected 'const char *' but argument is of type 'client_info_t *'
+   40 | client_info_t* client_register_find_by_client_id(const char *client_id);
+      |                                                  ~~~~~~~~~~~~^~~~~~~~~
 /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c: In function 'ota_handler_process_progress':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:59:29: error: initialization of 'client_info_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   59 |     client_info_t *client = client_register_find(mac);
-      |                             ^~~~~~~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:70:9: error: implicit declaration of function 'otaapp_report_result' [-Wimplicit-function-declaration]
-   70 |         otaapp_report_result(mac, status->last_result);
-
-
-
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/init/init.c: In function 'platform_init':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/init/init.c:25:5: error: implicit declaration of function 'ota_dispatch_init'; did you mean 'ota_dispatch_send_task'? [-Wimplicit-function-declaration]
-   25 |     ota_dispatch_init();
-      |     ^~~~~~~~~~~~~~~~~
-      |     ota_dispatch_send_task
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:59:63: error: passing argument 1 of 'client_register_find_by_client_id' from incompatible pointer type [-Wincompatible-pointer-types]
+   59 |     client_info_t *client = client_register_find_by_client_id(client);
+      |                                                               ^~~~~~
+      |                                                               |
+      |                                                               client_info_t *
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/client_register/client_register.h:40:62: note: expected 'const char *' but argument is of type 'client_info_t *'
+   40 | client_info_t* client_register_find_by_client_id(const char *client_id);
+      |                                                  ~~~~~~~~~~~~^~~~~~~~~
