@@ -104,7 +104,13 @@ static void tcp_server_task(void *pvParameters) {
                 ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
 
                 // 统一交给 msg_handler 处理
-                msg_handler_process(client_sock, rx_buffer);
+                if (port == 9001 ) {
+                    msg_handler_process(client_sock, rx_buffer, ROLE_OTA_SERVER);
+                } else if (port == 9002 ) {
+                    msg_handler_process(client_sock, rx_buffer, ROLE_CLIENT);
+                } else {
+                    msg_handler_process(client_sock, rx_buffer, ROLE_UNKNOWN);
+                }
             }
         }
 
@@ -126,3 +132,4 @@ esp_err_t tcp_server_start(uint16_t port) {
     }
     return ESP_OK;
 }
+
