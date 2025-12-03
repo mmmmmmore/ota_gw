@@ -1,13 +1,7 @@
- -u uart_vfs_include_dev_init  -u usb_serial_jtag_vfs_include_dev_init  -u usb_serial_jtag_connection_monitor_include  -u esp_vfs_include_console_register  -u vfs_include_syscalls_impl  -u esp_vfs_include_nullfs_register && :
-/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.1.0/../../../../xtensa-esp-elf/bin/ld: esp-idf/ota_handler/libota_handler.a(ota_handler.c.obj):(.literal.ota_handler_process_progress+0x2c): undefined reference to `otaapp_report_result'
-/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.1.0/../../../../xtensa-esp-elf/bin/ld: esp-idf/ota_handler/libota_handler.a(ota_handler.c.obj): in function `ota_handler_process_progress':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:67:(.text.ota_handler_process_progress+0xde): undefined reference to `otaapp_report_result'
-collect2: error: ld returned 1 exit status
-ninja: build stopped: subcommand failed.
-ninja failed with exit code 1, output of the command is in the /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stderr_output_30047 and /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/build/log/idf_py_stdout_output_30047
-maochun@MMMBP ota_gw % ls -l build/*.bin
--rw-r--r--  1 maochun  staff     8192 Nov 30 16:55 build/ota_data_initial.bin
--rw-r--r--  1 maochun  staff   864480 Dec  2 20:48 build/ota_gw.bin
--rw-r--r--  1 maochun  staff  7798784 Dec  3 13:20 build/spiffs.bin
-maochun@MMMBP ota_gw % ls -l build/*.elf
-zsh: no matches found: build/*.elf
+ -c /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c: In function 'tcp_server_task':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:107:17: error: too few arguments to function 'msg_handler_process'; expected 3, have 2
+  107 |                 msg_handler_process(client_sock, rx_buffer);
+      |                 ^~~~~~~~~~~~~~~~~~~
+In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:7:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.h:17:6: note: declared here
