@@ -1,6 +1,7 @@
 #include "client_register.h"
 #include "esp_log.h"
 #include <string.h>
+#include "cJSON.h"
 
 static const char *TAG = "CLIENT_REGISTER";
 
@@ -90,4 +91,36 @@ void client_register_dump(void) {
                      client_list[i].sock);
         }
     }
+}
+
+// 新增：由 msg_handler 调用，解析注册 JSON 并保存
+esp_err_t client_register_save(int sock, cJSON *root) {
+    cJSON *mac_item = cJSON_GetObjectItem(root, "mac");
+    cJSON *device_item = cJSON_GetObjectItem(root, "device_name");
+    cJSON *client_id_item = cJSON_GetObjectItem(root, "client_id");
+    cJSON *version_item = cJSON_GetObjectItem(root, "version");
+    cJSON *ip_item = cJSON_GetObjectItem(root, "ip");
+
+    if (!cJSON_IsString(mac_item) || !cJSON_IsString(device_item)) {
+        ESP_LOGE(TAG, "Register JSON missing fields");
+        return ESP_FAIL;
+    }
+
+    client_info_t info = {0};
+    strncpy(info.mac, mac_item->valuestring, sizeof(info.mac)-1);
+    strncpy(info.device_name, device_item->valuestring, sizeof(info.device_name)-1);
+    if (cJSON_IsString(client_id_item))
+        strncpy(info.client_id, client_id_item->valuestring, sizeof(info.client_id)-1);
+    if (cJSON_IsString(version_item))
+        strncpy(info.version, version_item->valuestring, sizeof(info.version)-1);
+    if (cJSON_IsString(ip_item))
+        strncpy(info.ip, ip_item->valuestring, sizeof(info.ip)-1);
+
+    info.sock = sock;
+    info.state = CLIENT_ONLINE;
+
+    ESP_LOGI(TAG, "Saving client register: name=%s, id=%s, mac=%s, ip=%s, ver=%s, sock=%d",
+             info.device_name, info.client_id, info.mac, info.ip, info.version, info.sock);
+
+    return client_register_update(info.mac, info.ip, info.version, info.state, info.sock);
 }
