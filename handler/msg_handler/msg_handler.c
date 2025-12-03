@@ -54,15 +54,34 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             }
 
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
+            ESP_LOGI(TAG, "Dispatching to otaapp task");
+            // 构造 ota_task_t
             ota_task_t task;
             memset(&task,0,sizeof(task));
-            strncpy(task.task_id, cJSON_GetObjectItem(root,"task_id")->valuestring, sizeof(task.task_id)-1);
-            strncpy(task.client_id, cJSON_GetObjectItem(root,"client_id")->valuestring, sizeof(task.client_id)-1);
-            strncpy(task.device_name, cJSON_GetObjectItem(root,"device_name")->valuestring, sizeof(task.device_name)-1);
-            strncpy(task.version, cJSON_GetObjectItem(root,"version")->valuestring, sizeof(task.version)-1);
-            strncpy(task.url, cJSON_GetObjectItem(root,"firmware_url")->valuestring, sizeof(task.url)-1);
+            cJSON *task_id   = cJSON_GetObjectItem(root, "task_id");
+            cJSON *dev_name  = cJSON_GetObjectItem(root, "device_name");
+            cJSON *client_id = cJSON_GetObjectItem(root, "client_id");
+            cJSON *version   = cJSON_GetObjectItem(root, "version");
+            cJSON *url       = cJSON_GetObjectItem(root, "firmware_url");
+            cJSON *features  = cJSON_GetObjectItem(root, "features");
+            
+            if (cJSON_IsString(task_id))   strncpy(task.task_id, task_id->valuestring, sizeof(task.task_id)-1);
+            if (cJSON_IsString(dev_name))  strncpy(task.device_name, dev_name->valuestring, sizeof(task.device_name)-1);
+            if (cJSON_IsString(client_id)) strncpy(task.client_id, client_id->valuestring, sizeof(task.client_id)-1);
+            if (cJSON_IsString(version))   strncpy(task.version, version->valuestring, sizeof(task.version)-1);
+            if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
+            if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
 
-            ota_dispatch_send_task(task.client_id, &task);
+            // 将任务存储到 otaapp 的 pending_task
+            otaapp_set_pending_task(&task);
+
+            
+            // 用 client_id 来推送任务
+            if (task.client_id[0] != '\0') {
+                ota_dispatch_send_task(task.client_id, &task);
+            } else {
+                ESP_LOGW(TAG, "OTA task missing client_id, cannot dispatch");
+            }
 
             ota_client_task_t *status = find_or_create_task(task.client_id);
             if (status) {
@@ -134,3 +153,4 @@ const char* msg_handler_get_progress_json(void) {
     cJSON_Delete(root);
     return json_str;
 }
+
