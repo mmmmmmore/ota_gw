@@ -4,19 +4,16 @@
 #include "lwip/netdb.h"
 #include <string.h>
 #include <unistd.h>
-#include "msg_handler.h"   // 新增：统一消息处理入口
+#include "msg_handler.h"   // 统一消息处理入口
 
 static const char *TAG = "GW_TCP_SERVER";
 static int ota_server_sock = -1;
-
-
 
 // 在 init 初始化函数里调用
 void gw_tcp_servers_init(void) {
     tcp_server_start(9001);  // OTA Server
     tcp_server_start(9002);  // Client
 }
-
 
 void tcp_server_set_ota_sock(int sock) {
     ota_server_sock = sock;
@@ -86,9 +83,11 @@ static void tcp_server_task(void *pvParameters) {
         ESP_LOGI(TAG, "Client connected, sock=%d, ip=%s, port=%d",
                  client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
 
-        // 如果这是 OTA Server 的连接，可以在这里设置
-        if (ota_server_sock < 0) {
+        // 区分 OTA Server 和 Client
+        if (port == 9001) {
             tcp_server_set_ota_sock(client_sock);
+        } else {
+            ESP_LOGI(TAG, "ECU Client connected on port %d, sock=%d", port, client_sock);
         }
 
         char rx_buffer[512];
@@ -112,7 +111,7 @@ static void tcp_server_task(void *pvParameters) {
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
         close(client_sock);
 
-        if (client_sock == ota_server_sock) {
+        if (port == 9001 && client_sock == ota_server_sock) {
             ota_server_sock = -1;
             ESP_LOGW(TAG, "OTA Server disconnected");
         }
@@ -127,4 +126,3 @@ esp_err_t tcp_server_start(uint16_t port) {
     }
     return ESP_OK;
 }
-
