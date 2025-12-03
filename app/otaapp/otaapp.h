@@ -34,15 +34,5 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task);
 
 #endif // OTAAPP_H
 
-// 用户确认响应
-void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool accepted);
-
-// 下发任务
-esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task);
-
-// 清除挂起任务
-void otaapp_clear_pending_task(void);
-
-#endif // OTAAPP_H
 
 

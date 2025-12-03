@@ -1,7 +1,21 @@
- -c /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c: In function 'tcp_server_task':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:107:17: error: too few arguments to function 'msg_handler_process'; expected 3, have 2
-  107 |                 msg_handler_process(client_sock, rx_buffer);
-      |                 ^~~~~~~~~~~~~~~~~~~
-In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:7:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.h:17:6: note: declared here
+
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c: In function 'ota_handler_send_task':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:15:29: error: implicit declaration of function 'client_register_find'; did you mean 'client_register_init'? [-Wimplicit-function-declaration]
+   15 |     client_info_t *client = client_register_find(mac);
+      |                             ^~~~~~~~~~~~~~~~~~~~
+      |                             client_register_init
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:15:29: error: initialization of 'client_info_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c: In function 'ota_handler_process_progress':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:59:29: error: initialization of 'client_info_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   59 |     client_info_t *client = client_register_find(mac);
+      |                             ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/ota_handler/ota_handler.c:70:9: error: implicit declaration of function 'otaapp_report_result' [-Wimplicit-function-declaration]
+   70 |         otaapp_report_result(mac, status->last_result);
+
+
+
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/init/init.c: In function 'platform_init':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/init/init.c:25:5: error: implicit declaration of function 'ota_dispatch_init'; did you mean 'ota_dispatch_send_task'? [-Wimplicit-function-declaration]
+   25 |     ota_dispatch_init();
+      |     ^~~~~~~~~~~~~~~~~
+      |     ota_dispatch_send_task
