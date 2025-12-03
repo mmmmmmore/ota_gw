@@ -1,55 +1,58 @@
 
-I (23878) GW_TCP_SERVER: Client connected, sock=59, ip=192.168.4.3, port=54735
-I (23888) GW_TCP_SERVER: ECU Client connected on port 9002, sock=59
-I (23908) GW_TCP_SERVER: Received 130 bytes from client 59: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
-I (23908) GW_MSG_HANDLER: Processing message from sock 59 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
-I (23928) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=59
-I (58358) GW_TCP_SERVER: Client connected, sock=60, ip=192.168.4.2, port=54294
-I (58358) GW_TCP_SERVER: OTA Server socket set: 60
-W (58358) GW_TCP_SERVER: Client disconnected
-I (58368) GW_TCP_SERVER: Closing client socket 60
-W (58368) GW_TCP_SERVER: OTA Server disconnected
-I (58378) GW_TCP_SERVER: Client connected, sock=60, ip=192.168.4.2, port=54295
-I (58378) GW_TCP_SERVER: OTA Server socket set: 60
-I (58388) GW_TCP_SERVER: Received 253 bytes from client 60: {"msg_type": "ota_task", "task_id": "20251203_174844_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_174844", "status": "pending"}
-I (58408) GW_MSG_HANDLER: Processing message from sock 60 (role=1): {"msg_type": "ota_task", "task_id": "20251203_174844_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_174844", "status": "pending"}
-I (58438) GW_MSG_HANDLER: Dispatching to otaapp task
-I (58448) OTA_APP_MGMT: Pending task stored: id=20251203_174844_758, client=758, version=v2.1.4
-I (58458) OTA_APP_MGMT: Sending OTA task to client 758 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251203_174844_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin","features":""}
-I (58478) GW_TCP_SERVER: Sent to client 59: {"msg_type":"ota_task","task_id":"20251203_174844_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin","features":""}
-I (58498) OTA_APP_MGMT: Client 758 state updated to UPDATING
-W (63368) GW_TCP_SERVER: Client disconnected
-I (63368) GW_TCP_SERVER: Closing client socket 60
-W (63378) GW_TCP_SERVER: OTA Server disconnected
-E (73108) httpd: httpd_accept_conn: error in accept (23)
-W (73108) httpd: httpd_server: error accepting new connection
-W (77518) httpd_txrx: httpd_resp_send_err: 400 Bad Request - Missing fields
-W (77528) httpd_uri: httpd_uri: uri handler execution failed
-
-
-
-
-
-I (672) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
-I (682) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
-I (662) OTA_HANDLER: No previous OTA task
-I (692) OTA_HANDLER: OTA Handler initialized, ota_flag=0
-I (702) msg_handler: Message handler initialized
-I (702) client_register: Client register module initialized
 系统初始化完成，等待客户端连接...
-I (712) main_task: Returned from app_main()
-I (722) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (1712) esp_netif_handlers: sta ip: 192.168.4.3, mask: 255.255.255.0, gw: 192.168.4.1
-I (1712) WIFI_STA: Got IP: 192.168.4.3
-I (1712) WIFI_STA: Netmask: 255.255.255.0
-I (1712) WIFI_STA: Gateway: 192.168.4.1
-I (1712) WIFI_STA: Connected to OTA-GW (192.168.4.1), OTA Server reachable at 192.168.4.2
-I (1722) WIFI_STA: Client MAC: 1C:DB:D4:AF:1F:60
-I (1732) tcp_client: Connecting to GW 192.168.4.1:9002
-I (1732) wifi:<ba-add>idx:0 (ifx:0, dc:b4:d9:10:4d:b1), tid:0, ssn:0, winSize:64
-I (1742) tcp_client: Successfully connected to GW
-I (1742) msg_handler: TCP connection established, sending client register
-I (1752) client_register: Sending register info to GW: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
-I (1772) tcp_client: Message sent: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
-I (36362) tcp_client: Received 203 bytes: {"msg_type":"ota_task","task_id":"20251203_174844_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin","features":""}
-W (36372) msg_handler: Unknown msg_type: ota_task
+I (1338) main_task: Returned from app_main()
+I (8028) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (8028) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
+I (8108) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (8108) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (8208) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (15488) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (15488) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 20
+I (15568) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (16598) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (16608) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.3, port=54363
+I (16608) GW_TCP_SERVER: ECU Client connected on port 9002, sock=37
+I (16628) GW_TCP_SERVER: Received 130 bytes from client 37: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (16628) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (16648) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=37
+I (32828) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.2, port=60980
+I (32828) GW_TCP_SERVER: OTA Server socket set: 38
+W (32828) GW_TCP_SERVER: Client disconnected
+I (32828) GW_TCP_SERVER: Closing client socket 38
+W (32838) GW_TCP_SERVER: OTA Server disconnected
+I (32838) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.2, port=60981
+I (32848) GW_TCP_SERVER: OTA Server socket set: 38
+I (32848) GW_TCP_SERVER: Received 253 bytes from client 38: {"msg_type": "ota_task", "task_id": "20251203_182859_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_182859", "status": "pending"}
+I (32878) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "ota_task", "task_id": "20251203_182859_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251203_182859", "status": "pending"}
+I (32908) GW_MSG_HANDLER: Dispatching to otaapp task
+I (32908) OTA_APP_MGMT: Pending task stored: id=20251203_182859_758, client=758, version=v2.1.4
+I (32918) OTA_APP_MGMT: Sending OTA task to client 758 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251203_182859_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin","features":""}
+I (32948) GW_TCP_SERVER: Sent to client 37: {"msg_type":"ota_task","task_id":"20251203_182859_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin","features":""}
+I (32968) OTA_APP_MGMT: Client 758 state updated to UPDATING
+I (33808) wifi:starting SA query procedure with STA(1c:db:d4:af:1f:60)
+I (33808) wifi:Send SA Query req with transaction id 5d84
+I (34008) wifi:Send SA Query req with transaction id 5d85
+I (34208) wifi:Send SA Query req with transaction id 5d86
+I (34408) wifi:Send SA Query req with transaction id 5d87
+I (34608) wifi:Send SA Query req with transaction id 5d88
+I (34808) wifi:Send SA Query req with transaction id 5d89
+I (34828) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (34828) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 2, reason = 209, bss_flags is 756835, bss:0x3fca4de8
+I (34838) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (34848) wifi:<ba-del>idx:4, tid:0
+I (35458) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (35458) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 20
+I (35518) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (36548) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+E (37448) GW_TCP_SERVER: recv failed: errno 104
+I (37448) GW_TCP_SERVER: Closing client socket 37
+I (37448) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.3, port=52323
+I (37448) GW_TCP_SERVER: ECU Client connected on port 9002, sock=37
+I (37458) GW_TCP_SERVER: Received 130 bytes from client 37: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (37478) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (37488) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=37
+W (37828) GW_TCP_SERVER: Client disconnected
+I (37828) GW_TCP_SERVER: Closing client socket 38
+W (37828) GW_TCP_SERVER: OTA Server disconnected
+W (40428) httpd_txrx: httpd_resp_send_err: 400 Bad Request - Missing fields
+W (40438) httpd_uri: httpd_uri: uri handler execution failed

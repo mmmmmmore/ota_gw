@@ -138,6 +138,7 @@ static void register_uri_handlers(httpd_handle_t server) {
 httpd_handle_t start_webserver_otagw(void) {
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     config.uri_match_fn = httpd_uri_match_wildcard;
+    config.max_open_sockets =10;  //set up max to 8 sockets
 
     httpd_handle_t server = NULL;
     if (httpd_start(&server, &config) == ESP_OK) {
