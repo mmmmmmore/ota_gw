@@ -2,13 +2,33 @@
 #include "esp_log.h"
 #include "cJSON.h"
 #include "client_register.h"
-#include "ota_handler.h"
 #include "otaapp.h"
 
 static const char *TAG = "GW_MSG_HANDLER";
 
+#define MAX_CLIENT_TASKS 16
+static ota_client_task_t client_task_status[MAX_CLIENT_TASKS];
+
 void msg_handler_init(void) {
+    memset(client_task_status, 0, sizeof(client_task_status));
     ESP_LOGI(TAG, "GW Message handler initialized");
+}
+
+static ota_client_task_t* find_or_create_task(const char *client_id) {
+    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+        if (client_task_status[i].client_id[0] &&
+            strcmp(client_task_status[i].client_id, client_id) == 0) {
+            return &client_task_status[i];
+        }
+    }
+    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+        if (client_task_status[i].client_id[0] == '\0') {
+            strncpy(client_task_status[i].client_id, client_id,
+                    sizeof(client_task_status[i].client_id)-1);
+            return &client_task_status[i];
+        }
+    }
+    return NULL;
 }
 
 void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
@@ -23,50 +43,49 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
     if (cJSON_IsString(msg_type)) {
         if (strcmp(msg_type->valuestring, "register") == 0) {
-            ESP_LOGI(TAG, "Dispatching to client_register");
             client_register_save(sock, root);
 
         } else if (strcmp(msg_type->valuestring, "progress") == 0) {
-            ESP_LOGI(TAG, "Dispatching to ota_handler progress");
-            ota_handler_process_progress(sock, root);
-
-        } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
-            ESP_LOGI(TAG, "Dispatching to otaapp task");
-
-            // 构造 ota_task_t
-            ota_task_t task;
-            memset(&task, 0, sizeof(task));
-
-            cJSON *task_id   = cJSON_GetObjectItem(root, "task_id");
-            cJSON *dev_name  = cJSON_GetObjectItem(root, "device_name");
-            cJSON *client_id = cJSON_GetObjectItem(root, "client_id");
-            cJSON *version   = cJSON_GetObjectItem(root, "version");
-            cJSON *url       = cJSON_GetObjectItem(root, "firmware_url");
-            cJSON *features  = cJSON_GetObjectItem(root, "features");
-
-            if (cJSON_IsString(task_id))   strncpy(task.task_id, task_id->valuestring, sizeof(task.task_id)-1);
-            if (cJSON_IsString(dev_name))  strncpy(task.device_name, dev_name->valuestring, sizeof(task.device_name)-1);
-            if (cJSON_IsString(client_id)) strncpy(task.client_id, client_id->valuestring, sizeof(task.client_id)-1);
-            if (cJSON_IsString(version))   strncpy(task.version, version->valuestring, sizeof(task.version)-1);
-            if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
-            if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
-
-            // 用 client_id 来推送任务
-            if (task.client_id[0] != '\0') {
-                ota_dispatch_send_task(task.client_id, &task);
-            } else {
-                ESP_LOGW(TAG, "OTA task missing client_id, cannot dispatch");
+            const char *client_id = cJSON_GetObjectItem(root,"client_id")->valuestring;
+            ota_client_task_t *task = find_or_create_task(client_id);
+            if (task) {
+                task->progress = cJSON_GetObjectItem(root,"percent")->valueint;
+                task->status = OTA_STATUS_UPDATING;
             }
 
-        } else {
-            ESP_LOGW(TAG, "Unknown msg_type: %s", msg_type->valuestring);
+        } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
+            ota_task_t task;
+            memset(&task,0,sizeof(task));
+            strncpy(task.task_id, cJSON_GetObjectItem(root,"task_id")->valuestring, sizeof(task.task_id)-1);
+            strncpy(task.client_id, cJSON_GetObjectItem(root,"client_id")->valuestring, sizeof(task.client_id)-1);
+            strncpy(task.device_name, cJSON_GetObjectItem(root,"device_name")->valuestring, sizeof(task.device_name)-1);
+            strncpy(task.version, cJSON_GetObjectItem(root,"version")->valuestring, sizeof(task.version)-1);
+            strncpy(task.url, cJSON_GetObjectItem(root,"firmware_url")->valuestring, sizeof(task.url)-1);
+
+            ota_dispatch_send_task(task.client_id, &task);
+
+            ota_client_task_t *status = find_or_create_task(task.client_id);
+            if (status) {
+                strncpy(status->task_id, task.task_id, sizeof(status->task_id)-1);
+                status->status = OTA_STATUS_PENDING;
+                status->progress = 0;
+            }
+
+        } else if (strcmp(msg_type->valuestring, "result") == 0) {
+            const char *client_id = cJSON_GetObjectItem(root,"client_id")->valuestring;
+            const char *result = cJSON_GetObjectItem(root,"status")->valuestring;
+            ota_client_task_t *task = find_or_create_task(client_id);
+            if (task) {
+                task->status = (strcmp(result,"success")==0) ? OTA_STATUS_SUCCESS : OTA_STATUS_FAILED;
+                task->progress = 100;
+            }
         }
-    } else {
-        ESP_LOGW(TAG, "JSON missing msg_type field");
     }
 
     cJSON_Delete(root);
 }
+
+// ---------- 提供给 webserver 的接口 ----------
 
 const char* msg_handler_get_pending_task_json(void) {
     ota_task_t *task = otaapp_get_pending_task();
@@ -83,7 +102,6 @@ const char* msg_handler_get_pending_task_json(void) {
     return json_str;
 }
 
-
 void msg_handler_user_response(const char *client_id, bool accepted) {
     ota_task_t *task = otaapp_get_pending_task();
     if (task) {
@@ -92,7 +110,6 @@ void msg_handler_user_response(const char *client_id, bool accepted) {
         ESP_LOGW(TAG, "No pending task to respond");
     }
 }
-
 
 const char* msg_handler_get_progress_json(void) {
     cJSON *root = cJSON_CreateArray();
@@ -117,5 +134,3 @@ const char* msg_handler_get_progress_json(void) {
     cJSON_Delete(root);
     return json_str;
 }
-
-
