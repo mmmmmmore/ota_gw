@@ -69,26 +69,30 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
 }
 
 const char* msg_handler_get_pending_task_json(void) {
-    if (pending_task.task_id[0] == '\0') return NULL;
+    ota_task_t *task = otaapp_get_pending_task();
+    if (!task) return NULL;
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "task_id", pending_task.task_id);
-    cJSON_AddStringToObject(root, "device_name", pending_task.device_name);
-    cJSON_AddStringToObject(root, "client_id", pending_task.client_id);
-    cJSON_AddStringToObject(root, "version", pending_task.version);
-    cJSON_AddStringToObject(root, "url", pending_task.url);
-    cJSON_AddStringToObject(root, "features", pending_task.features);
+    cJSON_AddStringToObject(root, "task_id", task->task_id);
+    cJSON_AddStringToObject(root, "device_name", task->device_name);
+    cJSON_AddStringToObject(root, "client_id", task->client_id);
+    cJSON_AddStringToObject(root, "version", task->version);
+    cJSON_AddStringToObject(root, "url", task->url);
+    cJSON_AddStringToObject(root, "features", task->features);
     char *json_str = cJSON_PrintUnformatted(root);
     cJSON_Delete(root);
     return json_str;
 }
 
+
 void msg_handler_user_response(const char *client_id, bool accepted) {
-    if (pending_task.task_id[0] == '\0') {
+    ota_task_t *task = otaapp_get_pending_task();
+    if (task) {
+        ota_dispatch_user_response(client_id, task, accepted);
+    } else {
         ESP_LOGW(TAG, "No pending task to respond");
-        return;
     }
-    ota_dispatch_user_response(client_id, &pending_task, accepted);
 }
+
 
 const char* msg_handler_get_progress_json(void) {
     cJSON *root = cJSON_CreateArray();
@@ -113,4 +117,5 @@ const char* msg_handler_get_progress_json(void) {
     cJSON_Delete(root);
     return json_str;
 }
+
 
