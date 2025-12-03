@@ -3,6 +3,7 @@
 #include "esp_log.h"
 #include "cJSON.h"
 #include <string.h>
+#include "client_register.h"
 
 static const char *TAG = "OTA_HANDLER";
 
@@ -11,10 +12,10 @@ static client_status_info_t client_status_list[MAX_CLIENTS];
 static int client_count = 0;
 
 // 下发任务给指定 Client ECU（仍然保留，供 otaapp 或 webserver 调用）
-esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
-    client_info_t *client = client_register_find_by_client_id(client);
+esp_err_t ota_handler_send_task(const char *client_id, ota_task_t *task) {
+    client_info_t *client = client_register_find_by_client_id(client_id);
     if (!client || client->state == CLIENT_OFFLINE) {
-        ESP_LOGW(TAG, "Client %s not found or offline", mac);
+        ESP_LOGW(TAG, "Client %s not found or offline", client_id);
         return ESP_FAIL;
     }
 
@@ -36,35 +37,35 @@ esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task) {
 
     if (ret == ESP_OK) {
         client->state = CLIENT_UPDATING;
-        ESP_LOGI(TAG, "OTA task sent to %s (IP=%s)", mac, client->ip);
+        ESP_LOGI(TAG, "OTA task sent to %s (IP=%s)", client_id, client->ip);
     }
     return ret;
 }
 
 // 处理来自 Client ECU 的进度 JSON
 void ota_handler_process_progress(int sock, cJSON *root) {
-    cJSON *mac_item = cJSON_GetObjectItem(root, "mac");
+    cJSON *client_item = cJSON_GetObjectItem(root, "client_id");
     cJSON *progress_item = cJSON_GetObjectItem(root, "progress");
     cJSON *result_item = cJSON_GetObjectItem(root, "result");
 
-    if (!cJSON_IsString(mac_item) || !cJSON_IsNumber(progress_item) || !cJSON_IsString(result_item)) {
+    if (!cJSON_IsString(client_item) || !cJSON_IsNumber(progress_item) || !cJSON_IsString(result_item)) {
         ESP_LOGE(TAG, "Progress JSON missing fields");
         return;
     }
 
-    const char *mac = mac_item->valuestring;
+    const char *client_id = client_item->valuestring;
     int progress = progress_item->valueint;
     const char *result = result_item->valuestring;
 
-    client_info_t *client = client_register_find_by_client_id(client);
+    client_info_t *client = client_register_find_by_client_id(client_id);
     if (client) {
         client_status_info_t *status = &client_status_list[client_count++];
-        strncpy(status->client_name, mac, sizeof(status->client_name)-1);
+        strncpy(status->client_name, client_id, sizeof(status->client_name)-1);
         status->progress = progress;
         status->upgrading = (progress < 100);
         status->last_result = (strcmp(result, "success") == 0);
 
-        ESP_LOGI(TAG, "Client %s progress=%d result=%s", mac, progress, result);
+        ESP_LOGI(TAG, "Client %s progress=%d result=%s", client_id, progress, result);
 
         // 上报结果给 OTA Server
         //otaapp_report_result(mac, status->last_result);

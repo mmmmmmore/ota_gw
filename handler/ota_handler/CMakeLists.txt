@@ -8,7 +8,7 @@ idf_component_register(
         esp_http_client esp_https_ota esp_system esp_app_format
         mbedtls
         common_gpio  
-        webserver wifi_ap tcp_server msg_handler
+        webserver wifi_ap tcp_server msg_handler client_register
         cJSON
     EMBED_TXTFILES 
         "server_cert.pem"

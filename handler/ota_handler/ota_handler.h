@@ -15,7 +15,7 @@ typedef struct {
 } client_status_info_t;
 
 // 下发任务给指定 Client ECU
-//esp_err_t ota_handler_send_task(const char *mac, ota_task_t *task);
+esp_err_t ota_handler_send_task(const char *client_id, ota_task_t *task);
 
 // 处理来自 Client ECU 的进度消息（由 msg_handler 调用）
 void ota_handler_process_progress(int sock, cJSON *root);
