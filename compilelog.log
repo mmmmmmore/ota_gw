@@ -1,15 +1,6 @@
-
-                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.h:4,
-                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:1:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c: In function 'wifi_init_softap':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:55:44: error: 'ESP_NETIF_DHCP_START_IP' undeclared (first use in this function); did you mean 'ESP_NETIF_DHCP_STARTED'?
-   55 |                                            ESP_NETIF_DHCP_START_IP,
-      |                                            ^~~~~~~~~~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
-  116 |         esp_err_t err_rc_ = (x);                                        \
-      |                              ^
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/wifi_ap/wifi_ap.c:55:44: note: each undeclared identifier is reported only once for each function it appears in
-   55 |                                            ESP_NETIF_DHCP_START_IP,
-      |                                            ^~~~~~~~~~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/esp-idf/components/esp_common/include/esp_err.h:116:30: note: in definition of macro 'ESP_ERROR_CHECK'
-  116 |         esp_err_t err_rc_ = (x);                                        \
+msg_handler.dir/msg_handler.c.obj.d -o esp-idf/msg_handler/CMakeFiles/__idf_msg_handler.dir/msg_handler.c.obj -c /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c: In function 'msg_handler_process':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:33:13: error: implicit declaration of function 'ota_handler_process_task'; did you mean 'ota_handler_send_task'? [-Wimplicit-function-declaration]
+   33 |             ota_handler_process_task(sock, root);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+      |             ota_handler_send_task
