@@ -32,7 +32,11 @@ esp_err_t wifi_init_softap(void)
             .channel = 1,
             .password = WIFI_PASS,
             .max_connection = 6,
-            .authmode = WIFI_AUTH_WPA_WPA2_PSK
+            .authmode = WIFI_AUTH_WPA_WPA2_PSK,
+            .pmf_cfg = {
+                .capable = true,   // 支持 PMF
+                .required = false  // 不强制 PMF，避免 SA Query 误断连
+            }
         },
     };
 
@@ -40,8 +44,15 @@ esp_err_t wifi_init_softap(void)
         wifi_config.ap.authmode = WIFI_AUTH_OPEN;
     }
 
+    // 设置为 AP 模式并应用配置
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &wifi_config));
+
+    // 设置 AP 支持的协议 (11b/g/n)
+    ESP_ERROR_CHECK(esp_wifi_set_protocol(WIFI_IF_AP,
+        WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G | WIFI_PROTOCOL_11N));
+
+    // 启动 Wi-Fi
     ESP_ERROR_CHECK(esp_wifi_start());
 
     // 设置 AP 的网关 IP 信息（必须先停 DHCP）
@@ -56,7 +67,8 @@ esp_err_t wifi_init_softap(void)
     // 重新启动 DHCP server
     ESP_ERROR_CHECK(esp_netif_dhcps_start(ap_netif));
 
-    ESP_LOGI(TAG, "SoftAP started: SSID=%s, gateway=192.168.4.1, netmask=255.255.255.0",
+    ESP_LOGI(TAG,
+             "SoftAP started: SSID=%s, gateway=192.168.4.1, netmask=255.255.255.0, protocol=b/g/n, PMF=capable/not-required",
              WIFI_SSID);
 
     return ESP_OK;
