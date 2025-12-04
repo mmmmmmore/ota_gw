@@ -4,35 +4,57 @@
 #include "lwip/netdb.h"
 #include <string.h>
 #include <unistd.h>
-#include "msg_handler.h"   // 统一消息处理入口
+#include "msg_handler.h"
+#include "cJSON.h"
 
 static const char *TAG = "GW_TCP_SERVER";
 static int ota_server_sock = -1;
+
+typedef struct {
+    int sock;
+    uint32_t last_seen;
+} sock_info_t;
+
+#define MAX_SOCKS 32
+static sock_info_t sock_table[MAX_SOCKS];
 
 // 在 init 初始化函数里调用
 void gw_tcp_servers_init(void) {
     tcp_server_start(9001);  // OTA Server
     tcp_server_start(9002);  // Client
     xTaskCreate(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL);
+    xTaskCreate(gw_socket_monitor_task, "gw_socket_monitor_task", 4096, NULL, 4, NULL);
 }
 
+// 心跳发送任务
 static void gw_keep_alive_task(void *pvParameters) {
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(5000));  // 每 5 秒
-
-        for (int i = 0; i < MAX_CLIENTS; i++) {
-            client_info_t *client = &client_list[i];
-            if (client->sock > 0 && client->state != CLIENT_OFFLINE) {
-                const char *keep_alive_msg = "{\"msg_type\":\"keep_alive\"}";
-                tcp_server_send(client->sock, keep_alive_msg);
-                ESP_LOGI(TAG, "Sent keep_alive to client %s (sock=%d)", client->client_id, client->sock);
+        const char *keep_alive_msg = "{\"msg_type\":\"keep_alive\"}";
+        for (int i = 0; i < MAX_SOCKS; i++) {
+            if (sock_table[i].sock > 0) {
+                tcp_server_send(sock_table[i].sock, keep_alive_msg);
+                ESP_LOGI(TAG, "Sent keep_alive to sock=%d", sock_table[i].sock);
             }
         }
     }
 }
 
-
-
+// 超时检测任务
+static void gw_socket_monitor_task(void *pvParameters) {
+    while (1) {
+        vTaskDelay(pdMS_TO_TICKS(5000));
+        uint32_t now = esp_log_timestamp();
+        for (int i = 0; i < MAX_SOCKS; i++) {
+            if (sock_table[i].sock > 0 && (now - sock_table[i].last_seen > 15000)) {
+                ESP_LOGW(TAG, "Socket %d timed out, closing", sock_table[i].sock);
+                close(sock_table[i].sock);
+                sock_table[i].sock = -1;
+                sock_table[i].last_seen = 0;
+            }
+        }
+    }
+}
 
 void tcp_server_set_ota_sock(int sock) {
     ota_server_sock = sock;
@@ -54,6 +76,26 @@ esp_err_t tcp_server_send(int client_sock, const char *json_str) {
     return ESP_OK;
 }
 
+static void register_sock(int sock) {
+    for (int i = 0; i < MAX_SOCKS; i++) {
+        if (sock_table[i].sock <= 0) {
+            sock_table[i].sock = sock;
+            sock_table[i].last_seen = esp_log_timestamp();
+            break;
+        }
+    }
+}
+
+static void unregister_sock(int sock) {
+    for (int i = 0; i < MAX_SOCKS; i++) {
+        if (sock_table[i].sock == sock) {
+            sock_table[i].sock = -1;
+            sock_table[i].last_seen = 0;
+            break;
+        }
+    }
+}
+
 static void tcp_server_task(void *pvParameters) {
     int port = (int)(intptr_t)pvParameters;
     ESP_LOGI(TAG, "tcp_server_task started on port %d", port);
@@ -69,7 +111,6 @@ static void tcp_server_task(void *pvParameters) {
         vTaskDelete(NULL);
         return;
     }
-    ESP_LOGI(TAG, "Socket created: %d", listen_sock);
 
     int err = bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
     if (err < 0) {
@@ -78,7 +119,6 @@ static void tcp_server_task(void *pvParameters) {
         vTaskDelete(NULL);
         return;
     }
-    ESP_LOGI(TAG, "Socket bound to port: %d", port);
 
     err = listen(listen_sock, 5);
     if (err < 0) {
@@ -102,7 +142,8 @@ static void tcp_server_task(void *pvParameters) {
         ESP_LOGI(TAG, "Client connected, sock=%d, ip=%s, port=%d",
                  client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
 
-        // 区分 OTA Server 和 Client
+        register_sock(client_sock);
+
         if (port == 9001) {
             tcp_server_set_ota_sock(client_sock);
         } else {
@@ -122,19 +163,34 @@ static void tcp_server_task(void *pvParameters) {
                 rx_buffer[len] = 0;
                 ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
 
-                // 统一交给 msg_handler 处理
-                if (port == 9001 ) {
-                    msg_handler_process(client_sock, rx_buffer, ROLE_OTA_SERVER);
-                } else if (port == 9002 ) {
-                    msg_handler_process(client_sock, rx_buffer, ROLE_CLIENT);
-                } else {
-                    msg_handler_process(client_sock, rx_buffer, ROLE_UNKNOWN);
+                cJSON *root = cJSON_Parse(rx_buffer);
+                if (root) {
+                    cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
+                    if (msg_type && strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
+                        ESP_LOGI(TAG, "Received keep_alive_ack from sock %d", client_sock);
+                        for (int i = 0; i < MAX_SOCKS; i++) {
+                            if (sock_table[i].sock == client_sock) {
+                                sock_table[i].last_seen = esp_log_timestamp();
+                                break;
+                            }
+                        }
+                    } else {
+                        if (port == 9001) {
+                            msg_handler_process(client_sock, rx_buffer, ROLE_OTA_SERVER);
+                        } else if (port == 9002) {
+                            msg_handler_process(client_sock, rx_buffer, ROLE_CLIENT);
+                        } else {
+                            msg_handler_process(client_sock, rx_buffer, ROLE_UNKNOWN);
+                        }
+                    }
+                    cJSON_Delete(root);
                 }
             }
         }
 
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
         close(client_sock);
+        unregister_sock(client_sock);
 
         if (port == 9001 && client_sock == ota_server_sock) {
             ota_server_sock = -1;
@@ -151,5 +207,3 @@ esp_err_t tcp_server_start(uint16_t port) {
     }
     return ESP_OK;
 }
-
-
