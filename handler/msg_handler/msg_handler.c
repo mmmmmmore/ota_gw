@@ -44,13 +44,6 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     if (cJSON_IsString(msg_type)) {
         if (strcmp(msg_type->valuestring, "register") == 0) {
             client_register_save(sock, root);
-
-        } else if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
-            ESP_LOGI(TAG, "Received keep_alive_ack from client %d", sock);
-            client_info_t *client = client_register_find_by_sock(sock);
-            if (client) {
-                client->last_seen = esp_log_timestamp();  // 更新心跳时间
-            }
         } else if (strcmp(msg_type->valuestring, "progress") == 0) {
             const char *client_id = cJSON_GetObjectItem(root,"client_id")->valuestring;
             ota_client_task_t *task = find_or_create_task(client_id);
@@ -159,5 +152,6 @@ const char* msg_handler_get_progress_json(void) {
     cJSON_Delete(root);
     return json_str;
 }
+
 
 
