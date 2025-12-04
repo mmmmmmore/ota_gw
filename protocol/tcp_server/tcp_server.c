@@ -18,13 +18,7 @@ typedef struct {
 #define MAX_SOCKS 32
 static sock_info_t sock_table[MAX_SOCKS];
 
-// 在 init 初始化函数里调用
-void gw_tcp_servers_init(void) {
-    tcp_server_start(9001);  // OTA Server
-    tcp_server_start(9002);  // Client
-    xTaskCreate(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL);
-    xTaskCreate(gw_socket_monitor_task, "gw_socket_monitor_task", 4096, NULL, 4, NULL);
-}
+
 
 // 心跳发送任务
 static void gw_keep_alive_task(void *pvParameters) {
@@ -56,6 +50,14 @@ static void gw_socket_monitor_task(void *pvParameters) {
     }
 }
 
+
+// 在 init 初始化函数里调用
+void gw_tcp_servers_init(void) {
+    tcp_server_start(9001);  // OTA Server
+    tcp_server_start(9002);  // Client
+    xTaskCreate(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL);
+    xTaskCreate(gw_socket_monitor_task, "gw_socket_monitor_task", 4096, NULL, 4, NULL);
+}
 void tcp_server_set_ota_sock(int sock) {
     ota_server_sock = sock;
     ESP_LOGI(TAG, "OTA Server socket set: %d", sock);
