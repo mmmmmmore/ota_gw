@@ -13,7 +13,26 @@ static int ota_server_sock = -1;
 void gw_tcp_servers_init(void) {
     tcp_server_start(9001);  // OTA Server
     tcp_server_start(9002);  // Client
+    xTaskCreate(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL);
 }
+
+static void gw_keep_alive_task(void *pvParameters) {
+    while (1) {
+        vTaskDelay(pdMS_TO_TICKS(5000));  // 每 5 秒
+
+        for (int i = 0; i < MAX_CLIENTS; i++) {
+            client_info_t *client = &client_list[i];
+            if (client->sock > 0 && client->state != CLIENT_OFFLINE) {
+                const char *keep_alive_msg = "{\"msg_type\":\"keep_alive\"}";
+                tcp_server_send(client->sock, keep_alive_msg);
+                ESP_LOGI(TAG, "Sent keep_alive to client %s (sock=%d)", client->client_id, client->sock);
+            }
+        }
+    }
+}
+
+
+
 
 void tcp_server_set_ota_sock(int sock) {
     ota_server_sock = sock;
@@ -132,4 +151,5 @@ esp_err_t tcp_server_start(uint16_t port) {
     }
     return ESP_OK;
 }
+
 
