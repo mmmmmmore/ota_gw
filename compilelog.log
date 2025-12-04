@@ -1,19 +1,4 @@
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:13:5: error: redeclaration of enumerator 'ROLE_UNKNOWN'
-   13 |     ROLE_UNKNOWN = 0,
-      |     ^~~~~~~~~~~~
-In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:7:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.h:8:5: note: previous definition of 'ROLE_UNKNOWN' with type 'enum <anonymous>'
-    8 |     ROLE_UNKNOWN = 0,
-      |     ^~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:14:5: error: redeclaration of enumerator 'ROLE_OTA_SERVER'
-   14 |     ROLE_OTA_SERVER = 1,
-      |     ^~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.h:9:5: note: previous definition of 'ROLE_OTA_SERVER' with type 'enum <anonymous>'
-    9 |     ROLE_OTA_SERVER,
-      |     ^~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:15:5: error: redeclaration of enumerator 'ROLE_CLIENT'
-   15 |     ROLE_CLIENT = 2
-      |     ^~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.h:10:5: note: previous definition of 'ROLE_CLIENT' with type 'enum <anonymous>'
-   10 |     ROLE_CLIENT
-      |     ^~~~~~~~~~~
+
+/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.1.0/../../../../xtensa-esp-elf/bin/ld: esp-idf/otaapp/libotaapp.a(otaapp.c.obj):(.literal.ota_dispatch_user_response+0x48): undefined reference to `tcp_server_get_ota_sock'
+/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.1.0/../../../../xtensa-esp-elf/bin/ld: esp-idf/otaapp/libotaapp.a(otaapp.c.obj): in function `ota_dispatch_user_response':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:76:(.text.ota_dispatch_user_response+0x183): undefined reference to `tcp_server_get_ota_sock'
