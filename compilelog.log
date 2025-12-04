@@ -1,4 +1,11 @@
 
-/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.1.0/../../../../xtensa-esp-elf/bin/ld: esp-idf/otaapp/libotaapp.a(otaapp.c.obj):(.literal.ota_dispatch_user_response+0x48): undefined reference to `tcp_server_get_ota_sock'
-/Users/maochun/.espressif/tools/xtensa-esp-elf/esp-15.1.0_20250607/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.1.0/../../../../xtensa-esp-elf/bin/ld: esp-idf/otaapp/libotaapp.a(otaapp.c.obj): in function `ota_dispatch_user_response':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:76:(.text.ota_dispatch_user_response+0x183): undefined reference to `tcp_server_get_ota_sock'
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:35:5: error: conflicting types for 'tcp_server_set_ota_sock'; have 'int(int)'
+   35 | int tcp_server_set_ota_sock(int sock) {
+      |     ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.h:13:6: note: previous declaration of 'tcp_server_set_ota_sock' with type 'void(int)'
+   13 | void tcp_server_set_ota_sock(int sock);
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c: In function 'tcp_server_set_ota_sock':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/tcp_server/tcp_server.c:38:1: error: control reaches end of non-void function [-Werror=return-type]
+   38 | }
