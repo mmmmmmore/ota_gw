@@ -6,22 +6,23 @@
 #include <unistd.h>
 #include "msg_handler.h"
 #include "cJSON.h"
+#include "msg_handler.h"
 
 static const char *TAG = "GW_TCP_SERVER";
 
-typedef enum {
-    ROLE_UNKNOWN = 0,
-    ROLE_OTA_SERVER = 1,
-    ROLE_CLIENT = 2
-} role_t;
+///typedef enum {
+//    ROLE_UNKNOWN = 0,
+//    ROLE_OTA_SERVER = 1,
+//    ROLE_CLIENT = 2
+//} role_t;
 
 typedef struct {
     int sock;
-    role_t role;
+    msg_role_t role;
     uint32_t last_seen_ms;
 } sock_info_t;
 
-#define MAX_SOCKS 32
+#define MAX_SOCKS 10
 static sock_info_t sock_table[MAX_SOCKS];
 static int ota_server_sock = -1;
 
@@ -30,6 +31,15 @@ static SemaphoreHandle_t s_sock_mutex;
 
 static void lock(void)   { if (s_sock_mutex) xSemaphoreTake(s_sock_mutex, portMAX_DELAY); }
 static void unlock(void) { if (s_sock_mutex) xSemaphoreGive(s_sock_mutex); }
+
+void tcp_server_set_ota_sock(int sock) {
+    ota_server_sock = sock;
+    ESP_LOGI(TAG, "OTA Server socket set: %d", sock);
+}
+
+int tcp_server_get_ota_sock(void) {
+    return ota_server_sock;
+}
 
 static void update_last_seen(int sock) {
     lock();
@@ -42,7 +52,7 @@ static void update_last_seen(int sock) {
     unlock();
 }
 
-static void register_sock(int sock, role_t role) {
+static void register_sock(int sock, msg_role_t role) {
     lock();
     // 如果是 OTA server，确保单连接策略：关闭旧的
     if (role == ROLE_OTA_SERVER && ota_server_sock > 0 && ota_server_sock != sock) {
@@ -194,7 +204,7 @@ static void tcp_server_task(void *pvParameters) {
 
         set_socket_opts(client_sock, /*recv_timeout_ms=*/15000);
 
-        role_t role = (port == 9001) ? ROLE_OTA_SERVER :
+        msg_role_t role = (port == 9001) ? ROLE_OTA_SERVER :
                       (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
         register_sock(client_sock, role);
 

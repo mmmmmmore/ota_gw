@@ -31,7 +31,7 @@ esp_err_t wifi_init_softap(void)
             .ssid_len = strlen(WIFI_SSID),
             .channel = 1,
             .password = WIFI_PASS,
-            .max_connection = 6,
+            .max_connection = 4,
             .authmode = WIFI_AUTH_WPA_WPA2_PSK,
             .pmf_cfg = {
                 .capable = true,   // 支持 PMF
