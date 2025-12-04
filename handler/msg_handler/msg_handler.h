@@ -11,10 +11,12 @@ typedef enum {
 } msg_role_t;
 
 typedef enum {
-    OTA_STATUS_PENDING,
+    OTA_STATUS_PENDING = 0,
+    OTA_STATUS_ACCEPT,
     OTA_STATUS_UPDATING,
     OTA_STATUS_SUCCESS,
-    OTA_STATUS_FAILED
+    OTA_STATUS_FAILED,
+    OTA_STATUS_REJECTED
 } ota_status_t;
 
 typedef struct {

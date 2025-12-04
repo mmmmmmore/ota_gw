@@ -63,6 +63,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             cJSON *version   = cJSON_GetObjectItem(root, "version");
             cJSON *url       = cJSON_GetObjectItem(root, "firmware_url");
             cJSON *features  = cJSON_GetObjectItem(root, "features");
+        
             
             if (cJSON_IsString(task_id))   strncpy(task.task_id, task_id->valuestring, sizeof(task.task_id)-1);
             if (cJSON_IsString(dev_name))  strncpy(task.device_name, dev_name->valuestring, sizeof(task.device_name)-1);
@@ -70,6 +71,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             if (cJSON_IsString(version))   strncpy(task.version, version->valuestring, sizeof(task.version)-1);
             if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
             if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
+
+            task.status = OTA_STATUS_PENDING;
+            task.created_ms = esp_log_timestamp(); 
 
             // 将任务存储到 otaapp 的 pending_task
             otaapp_set_pending_task(&task);
@@ -149,6 +153,8 @@ const char* msg_handler_get_progress_json(void) {
                 case OTA_STATUS_UPDATING: status_str = "updating"; break;
                 case OTA_STATUS_SUCCESS: status_str = "success"; break;
                 case OTA_STATUS_FAILED: status_str = "failed"; break;
+                case OTA_STATUS_ACCEPT: status_str = "accept"; break;
+                case OTA_STATUS_REJECTED: status_str = "rejected"; break;
             }
             cJSON_AddStringToObject(item, "status", status_str);
             cJSON_AddItemToArray(root, item);

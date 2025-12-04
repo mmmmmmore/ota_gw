@@ -4,6 +4,8 @@
 #include "esp_err.h"
 #include "client_register.h"
 #include "cJSON.h"
+#include "msg_handler.h"
+
 
 // OTA 任务结构
 typedef struct {
@@ -14,6 +16,8 @@ typedef struct {
     char url[128];
     char features[64]; // 可选功能集描述
     char mac[18];
+    ota_status_t status;  //ota push task ,default as pending
+    uint32_t created_ms; //time stamp
 } ota_task_t;
 
 
