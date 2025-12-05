@@ -68,10 +68,16 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             }
 
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
-            ESP_LOGI(TAG, "Dispatching to otaapp task");
+            ESP_LOGI(TAG, "GW Rx ota task, schedule delay dispatch to otaapp ");
             // 构造 ota_task_t
             ota_task_t *task = pvPortMalloc(sizeof(ota_task_t));
+            if (!task){
+                ESP_LOGE(TAG, "Fail to allocate task");
+                cJSON_Delete(root);
+                return;
+            }
             memset(&task,0,sizeof(task));
+            //construct task msg
             cJSON *task_id   = cJSON_GetObjectItem(root, "task_id");
             cJSON *dev_name  = cJSON_GetObjectItem(root, "device_name");
             cJSON *client_id = cJSON_GetObjectItem(root, "client_id");
@@ -87,26 +93,27 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
             if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
 
-            task.status = OTA_STATUS_PENDING;
-            task.created_ms = esp_log_timestamp(); 
+            task->status = OTA_STATUS_PENDING;
+            task->created_ms = esp_log_timestamp(); 
 
-            xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
+            
             // 将任务存储到 otaapp 的 pending_task
-            otaapp_set_pending_task(&task);
 
+            ota_client_task_t *status = find_or_create_task(task->task_id);
+            if (status){
+                strncpy(status->task_id, task->task_id, sizeof(status->task_id)-1);
+                status->status = OTA_STATUS_PENDING;
+                status->progress = 0;
+            }
+            otaapp_set_pending_task(task);
+            
+            xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
             
             // 用 client_id 来推送任务
             if (task.client_id[0] != '\0') {
                 ota_dispatch_send_task(task.client_id, &task);
             } else {
                 ESP_LOGW(TAG, "OTA task missing client_id, cannot dispatch");
-            }
-
-            ota_client_task_t *status = find_or_create_task(task.client_id);
-            if (status) {
-                strncpy(status->task_id, task.task_id, sizeof(status->task_id)-1);
-                status->status = OTA_STATUS_PENDING;
-                status->progress = 0;
             }
 
         } else if (strcmp(msg_type->valuestring, "result") == 0) {
