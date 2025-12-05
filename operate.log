@@ -135,3 +135,850 @@ I (1296793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
 I (1301783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
 I (1301793) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
 I (1301793) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+
+
+251205--210000
+
+I (3350188) GW_TCP_SERVER: OTA Server socket set: 38
+I (3350188) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3350198) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3351558) GW_TCP_SERVER: Client disconnected
+I (3351558) GW_TCP_SERVER: Closing client socket 38
+W (3351558) GW_TCP_SERVER: OTA Server disconnected
+I (3351568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56015
+I (3351568) GW_TCP_SERVER: OTA Server socket set: 38
+I (3351578) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3351578) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3351628) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3351628) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3356558) GW_TCP_SERVER: Client disconnected
+I (3356558) GW_TCP_SERVER: Closing client socket 38
+W (3356558) GW_TCP_SERVER: OTA Server disconnected
+I (3356558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3356568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3356568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56016
+I (3356588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3360238) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3360238) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3361558) GW_TCP_SERVER: Client disconnected
+I (3361558) GW_TCP_SERVER: Closing client socket 38
+W (3361558) GW_TCP_SERVER: OTA Server disconnected
+I (3361558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3361568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3361578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56043
+I (3361588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3361588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3361588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3366558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3366558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3366808) GW_TCP_SERVER: Client disconnected
+I (3366808) GW_TCP_SERVER: Closing client socket 38
+W (3366808) GW_TCP_SERVER: OTA Server disconnected
+I (3366818) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56058
+I (3366818) GW_TCP_SERVER: OTA Server socket set: 38
+I (3370348) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3370348) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3371558) GW_TCP_SERVER: Client disconnected
+I (3371558) GW_TCP_SERVER: Closing client socket 38
+I (3371558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3371568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3371558) GW_TCP_SERVER: OTA Server disconnected
+I (3371578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56091
+I (3371588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3371588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3371598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3376558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3376558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3376568) GW_TCP_SERVER: Client disconnected
+I (3376568) GW_TCP_SERVER: Closing client socket 38
+W (3376578) GW_TCP_SERVER: OTA Server disconnected
+I (3376578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56106
+I (3376588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3380448) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3380448) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3381558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3381558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3381818) GW_TCP_SERVER: Client disconnected
+I (3381818) GW_TCP_SERVER: Closing client socket 38
+W (3381818) GW_TCP_SERVER: OTA Server disconnected
+I (3381818) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56122
+I (3381828) GW_TCP_SERVER: OTA Server socket set: 38
+I (3381828) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3381838) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3386558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3386558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3386628) GW_TCP_SERVER: Client disconnected
+I (3386628) GW_TCP_SERVER: Closing client socket 38
+W (3386628) GW_TCP_SERVER: OTA Server disconnected
+I (3386628) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56141
+I (3386638) GW_TCP_SERVER: OTA Server socket set: 38
+I (3390558) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3390558) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3391558) GW_TCP_SERVER: Client disconnected
+I (3391558) GW_TCP_SERVER: Closing client socket 38
+I (3391568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3391568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3391568) GW_TCP_SERVER: OTA Server disconnected
+I (3391578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56173
+I (3391588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3391588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3391598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3396558) GW_TCP_SERVER: Client disconnected
+I (3396558) GW_TCP_SERVER: Closing client socket 38
+I (3396568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3396568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3396568) GW_TCP_SERVER: OTA Server disconnected
+I (3396578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56188
+I (3396588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3400608) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3400608) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3401558) GW_TCP_SERVER: Client disconnected
+I (3401558) GW_TCP_SERVER: Closing client socket 38
+I (3401558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3401568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3401558) GW_TCP_SERVER: OTA Server disconnected
+I (3401578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56209
+I (3401588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3401588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3401598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3406558) GW_TCP_SERVER: Client disconnected
+I (3406558) GW_TCP_SERVER: Closing client socket 38
+W (3406558) GW_TCP_SERVER: OTA Server disconnected
+I (3406558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3406568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3406568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56245
+I (3406588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3410728) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3410728) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3411558) GW_TCP_SERVER: Client disconnected
+I (3411558) GW_TCP_SERVER: Closing client socket 38
+W (3411558) GW_TCP_SERVER: OTA Server disconnected
+I (3411558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3411568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3411568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56273
+I (3411588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3411648) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3411648) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3416558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3416558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3416568) GW_TCP_SERVER: Client disconnected
+I (3416568) GW_TCP_SERVER: Closing client socket 38
+W (3416578) GW_TCP_SERVER: OTA Server disconnected
+I (3416578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56295
+I (3416588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3420788) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3420788) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3421558) GW_TCP_SERVER: Client disconnected
+I (3421558) GW_TCP_SERVER: Closing client socket 38
+I (3421558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3421568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3421558) GW_TCP_SERVER: OTA Server disconnected
+I (3421578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56338
+I (3421588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3421738) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3421738) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3426558) GW_TCP_SERVER: Client disconnected
+I (3426558) GW_TCP_SERVER: Closing client socket 38
+W (3426558) GW_TCP_SERVER: OTA Server disconnected
+I (3426558) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56396
+I (3426568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3426578) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3426588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3430848) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3430848) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3431558) GW_TCP_SERVER: Client disconnected
+I (3431558) GW_TCP_SERVER: Closing client socket 38
+I (3431568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3431568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3431568) GW_TCP_SERVER: OTA Server disconnected
+I (3431578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56428
+I (3431588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3431788) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3431788) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3436558) GW_TCP_SERVER: Client disconnected
+I (3436558) GW_TCP_SERVER: Closing client socket 38
+W (3436558) GW_TCP_SERVER: OTA Server disconnected
+I (3436568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3436568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3436578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56459
+I (3436588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3440908) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3440908) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3441558) GW_TCP_SERVER: Client disconnected
+I (3441558) GW_TCP_SERVER: Closing client socket 38
+I (3441558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3441568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3441568) GW_TCP_SERVER: OTA Server disconnected
+I (3441578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56488
+I (3441588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3441588) GW_TCP_SERVER: Received 241 bytes from client 38: 
+W (3441588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3441838) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3441838) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3446558) GW_TCP_SERVER: Client disconnected
+I (3446558) GW_TCP_SERVER: Closing client socket 38
+I (3446558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3446568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3446568) GW_TCP_SERVER: OTA Server disconnected
+I (3446578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56513
+I (3446588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3450958) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3450958) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3451558) GW_TCP_SERVER: Client disconnected
+I (3451558) GW_TCP_SERVER: Closing client socket 38
+W (3451558) GW_TCP_SERVER: OTA Server disconnected
+I (3451558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3451568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3451578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56538
+I (3451588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3451898) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3451898) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3456558) GW_TCP_SERVER: Client disconnected
+I (3456558) GW_TCP_SERVER: Closing client socket 38
+I (3456558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3456568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3456558) GW_TCP_SERVER: OTA Server disconnected
+I (3456578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56567
+I (3456588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3461018) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3461018) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3461558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3461558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3461658) GW_TCP_SERVER: Client disconnected
+I (3461658) GW_TCP_SERVER: Closing client socket 38
+W (3461668) GW_TCP_SERVER: OTA Server disconnected
+I (3461668) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56591
+I (3461668) GW_TCP_SERVER: OTA Server socket set: 38
+I (3461948) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3461948) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3466558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3466558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3466578) GW_TCP_SERVER: Client disconnected
+I (3466578) GW_TCP_SERVER: Closing client socket 38
+W (3466578) GW_TCP_SERVER: OTA Server disconnected
+I (3466578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56610
+I (3466588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3471078) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3471078) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3471558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3471558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3471608) GW_TCP_SERVER: Client disconnected
+I (3471608) GW_TCP_SERVER: Closing client socket 38
+W (3471618) GW_TCP_SERVER: OTA Server disconnected
+I (3471618) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56623
+I (3471618) GW_TCP_SERVER: OTA Server socket set: 38
+I (3471988) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3471988) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3476558) GW_TCP_SERVER: Client disconnected
+I (3476558) GW_TCP_SERVER: Closing client socket 38
+I (3476558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3476568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3476568) GW_TCP_SERVER: OTA Server disconnected
+I (3476578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56638
+I (3476588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3481128) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3481128) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3481558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3481558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3481568) GW_TCP_SERVER: Client disconnected
+I (3481568) GW_TCP_SERVER: Closing client socket 38
+W (3481578) GW_TCP_SERVER: OTA Server disconnected
+I (3481578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56655
+I (3481588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3482038) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3482038) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3486558) GW_TCP_SERVER: Client disconnected
+I (3486558) GW_TCP_SERVER: Closing client socket 38
+I (3486568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3486568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3486568) GW_TCP_SERVER: OTA Server disconnected
+I (3486578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56668
+I (3486588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3491178) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3491178) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3491558) GW_TCP_SERVER: Client disconnected
+I (3491558) GW_TCP_SERVER: Closing client socket 38
+W (3491568) GW_TCP_SERVER: OTA Server disconnected
+I (3491568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3491568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3491568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56679
+I (3491588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3492088) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3492088) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3496558) GW_TCP_SERVER: Client disconnected
+I (3496558) GW_TCP_SERVER: Closing client socket 38
+I (3496568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3496568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3496578) GW_TCP_SERVER: OTA Server disconnected
+I (3496578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56690
+I (3496588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3501238) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3501238) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3501558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3501558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3501568) GW_TCP_SERVER: Client disconnected
+I (3501568) GW_TCP_SERVER: Closing client socket 38
+W (3501578) GW_TCP_SERVER: OTA Server disconnected
+I (3501578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56703
+I (3501588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3502148) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3502148) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3506558) GW_TCP_SERVER: Client disconnected
+I (3506558) GW_TCP_SERVER: Closing client socket 38
+W (3506558) GW_TCP_SERVER: OTA Server disconnected
+I (3506558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3506568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3506568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56715
+I (3506588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3511298) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3511298) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3511558) GW_TCP_SERVER: Client disconnected
+I (3511558) GW_TCP_SERVER: Closing client socket 38
+W (3511558) GW_TCP_SERVER: OTA Server disconnected
+I (3511568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3511568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3511578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56732
+I (3511588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3512218) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3512218) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3516558) GW_TCP_SERVER: Client disconnected
+I (3516558) GW_TCP_SERVER: Closing client socket 38
+I (3516558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3516568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3516558) GW_TCP_SERVER: OTA Server disconnected
+I (3516578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56746
+I (3516588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3521358) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3521358) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3521558) GW_TCP_SERVER: Client disconnected
+I (3521558) GW_TCP_SERVER: Closing client socket 38
+W (3521558) GW_TCP_SERVER: OTA Server disconnected
+I (3521558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3521568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3521568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56755
+I (3521588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3522268) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3522268) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3526558) GW_TCP_SERVER: Client disconnected
+I (3526558) GW_TCP_SERVER: Closing client socket 38
+W (3526558) GW_TCP_SERVER: OTA Server disconnected
+I (3526568) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56772
+I (3526568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3526578) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3526588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3531408) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3531408) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3531558) GW_TCP_SERVER: Client disconnected
+I (3531558) GW_TCP_SERVER: Closing client socket 38
+I (3531558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3531568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3531558) GW_TCP_SERVER: OTA Server disconnected
+I (3531578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56780
+I (3531588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3532308) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3532308) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3536558) GW_TCP_SERVER: Client disconnected
+I (3536558) GW_TCP_SERVER: Closing client socket 38
+W (3536558) GW_TCP_SERVER: OTA Server disconnected
+I (3536558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3536568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3536578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56788
+I (3536588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3541458) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3541458) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3541568) GW_TCP_SERVER: Client disconnected
+I (3541568) GW_TCP_SERVER: Closing client socket 38
+I (3541568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3541568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3541568) GW_TCP_SERVER: OTA Server disconnected
+I (3541578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56795
+I (3541588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3542348) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3542348) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3546558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3546568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3546658) GW_TCP_SERVER: Client disconnected
+I (3546658) GW_TCP_SERVER: Closing client socket 38
+W (3546658) GW_TCP_SERVER: OTA Server disconnected
+I (3546658) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56803
+I (3546668) GW_TCP_SERVER: OTA Server socket set: 38
+I (3551558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3551558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3551608) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3551608) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3551608) GW_TCP_SERVER: Client disconnected
+I (3551608) GW_TCP_SERVER: Closing client socket 38
+W (3551618) GW_TCP_SERVER: OTA Server disconnected
+I (3551618) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56815
+I (3551628) GW_TCP_SERVER: OTA Server socket set: 38
+I (3552468) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3552468) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3556558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3556558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3556588) GW_TCP_SERVER: Client disconnected
+I (3556588) GW_TCP_SERVER: Closing client socket 38
+W (3556588) GW_TCP_SERVER: OTA Server disconnected
+I (3556588) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56831
+I (3556598) GW_TCP_SERVER: OTA Server socket set: 38
+I (3561558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3561558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3561588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3561588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3561588) GW_TCP_SERVER: Client disconnected
+I (3561588) GW_TCP_SERVER: Closing client socket 38
+W (3561598) GW_TCP_SERVER: OTA Server disconnected
+I (3561598) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56839
+I (3561608) GW_TCP_SERVER: OTA Server socket set: 38
+I (3562518) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3562518) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3566558) GW_TCP_SERVER: Client disconnected
+I (3566558) GW_TCP_SERVER: Closing client socket 38
+I (3566558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3566568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3566558) GW_TCP_SERVER: OTA Server disconnected
+I (3566578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56858
+I (3566588) GW_TCP_SERVER: OTA Server socket set: 38
+W (3571558) GW_TCP_SERVER: Client disconnected
+I (3571558) GW_TCP_SERVER: Closing client socket 38
+I (3571558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3571568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3571558) GW_TCP_SERVER: OTA Server disconnected
+I (3571578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56875
+I (3571588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3572578) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3572578) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3576558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3576558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3576568) GW_TCP_SERVER: Client disconnected
+I (3576568) GW_TCP_SERVER: Closing client socket 38
+W (3576578) GW_TCP_SERVER: OTA Server disconnected
+I (3576578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56899
+I (3576588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3576588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3576598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3581558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3581558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3581568) GW_TCP_SERVER: Client disconnected
+I (3581568) GW_TCP_SERVER: Closing client socket 38
+W (3581578) GW_TCP_SERVER: OTA Server disconnected
+I (3581578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56915
+I (3581588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3582638) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3582638) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3586558) GW_TCP_SERVER: Client disconnected
+I (3586558) GW_TCP_SERVER: Closing client socket 38
+W (3586558) GW_TCP_SERVER: OTA Server disconnected
+I (3586558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3586568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3586578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56932
+I (3586588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3586588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3586588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3591558) GW_TCP_SERVER: Client disconnected
+I (3591558) GW_TCP_SERVER: Closing client socket 38
+I (3591558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3591568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3591558) GW_TCP_SERVER: OTA Server disconnected
+I (3591578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56943
+I (3591588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3592728) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3592728) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3596558) GW_TCP_SERVER: Client disconnected
+I (3596558) GW_TCP_SERVER: Closing client socket 38
+I (3596558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3596568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3596568) GW_TCP_SERVER: OTA Server disconnected
+I (3596578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56950
+I (3596588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3596588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3596588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3601558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3601558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3601638) GW_TCP_SERVER: Client disconnected
+I (3601638) GW_TCP_SERVER: Closing client socket 38
+W (3601648) GW_TCP_SERVER: OTA Server disconnected
+I (3601648) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56958
+I (3601648) GW_TCP_SERVER: OTA Server socket set: 38
+I (3602788) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3602788) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3606558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3606558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3606648) GW_TCP_SERVER: Client disconnected
+I (3606648) GW_TCP_SERVER: Closing client socket 38
+W (3606648) GW_TCP_SERVER: OTA Server disconnected
+I (3606658) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56967
+I (3606658) GW_TCP_SERVER: OTA Server socket set: 38
+I (3606668) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3606668) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3611558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3611558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3611578) GW_TCP_SERVER: Client disconnected
+I (3611578) GW_TCP_SERVER: Closing client socket 38
+W (3611578) GW_TCP_SERVER: OTA Server disconnected
+I (3611578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56984
+I (3611588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3611718) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (3612828) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3612828) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3616588) GW_TCP_SERVER: Client disconnected
+I (3616598) GW_TCP_SERVER: Closing client socket 38
+W (3616598) GW_TCP_SERVER: OTA Server disconnected
+I (3616598) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57037
+I (3616598) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3616608) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3616618) GW_TCP_SERVER: OTA Server socket set: 38
+I (3616618) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3616628) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3621558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3621558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3621608) GW_TCP_SERVER: Client disconnected
+I (3621608) GW_TCP_SERVER: Closing client socket 38
+W (3621608) GW_TCP_SERVER: OTA Server disconnected
+I (3621618) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57094
+I (3621618) GW_TCP_SERVER: OTA Server socket set: 38
+I (3622858) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3622868) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3626558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3626558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3626628) GW_TCP_SERVER: Client disconnected
+I (3626628) GW_TCP_SERVER: Closing client socket 38
+W (3626628) GW_TCP_SERVER: OTA Server disconnected
+I (3626628) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57140
+I (3626638) GW_TCP_SERVER: OTA Server socket set: 38
+I (3626638) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3626648) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3631558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3631558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3631638) GW_TCP_SERVER: Client disconnected
+I (3631638) GW_TCP_SERVER: Closing client socket 38
+W (3631638) GW_TCP_SERVER: OTA Server disconnected
+I (3631648) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57186
+I (3631648) GW_TCP_SERVER: OTA Server socket set: 38
+I (3632898) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3632898) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3636558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3636558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3636658) GW_TCP_SERVER: Client disconnected
+I (3636658) GW_TCP_SERVER: Closing client socket 38
+W (3636668) GW_TCP_SERVER: OTA Server disconnected
+I (3636668) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57201
+I (3636668) GW_TCP_SERVER: OTA Server socket set: 38
+I (3636678) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3636678) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3641558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3641558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3641578) GW_TCP_SERVER: Client disconnected
+I (3641578) GW_TCP_SERVER: Closing client socket 38
+W (3641578) GW_TCP_SERVER: OTA Server disconnected
+I (3641578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57209
+I (3641588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3642958) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3642958) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3646558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3646558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3646598) GW_TCP_SERVER: Client disconnected
+I (3646598) GW_TCP_SERVER: Closing client socket 38
+W (3646598) GW_TCP_SERVER: OTA Server disconnected
+I (3646598) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57216
+I (3646608) GW_TCP_SERVER: OTA Server socket set: 38
+I (3646608) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3646618) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3651558) GW_TCP_SERVER: Client disconnected
+I (3651558) GW_TCP_SERVER: Closing client socket 38
+I (3651558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3651568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3651568) GW_TCP_SERVER: OTA Server disconnected
+I (3651578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57226
+I (3651588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3653008) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3653008) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3656558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3656558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3656568) GW_TCP_SERVER: Client disconnected
+I (3656568) GW_TCP_SERVER: Closing client socket 38
+W (3656578) GW_TCP_SERVER: OTA Server disconnected
+I (3656578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57243
+I (3656588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3656588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3656598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3661558) GW_TCP_SERVER: Client disconnected
+I (3661558) GW_TCP_SERVER: Closing client socket 38
+W (3661558) GW_TCP_SERVER: OTA Server disconnected
+I (3661568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3661568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3661578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57257
+I (3661588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3663058) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3663058) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3666558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3666558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3666568) GW_TCP_SERVER: Client disconnected
+I (3666568) GW_TCP_SERVER: Closing client socket 38
+W (3666578) GW_TCP_SERVER: OTA Server disconnected
+I (3666578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57272
+I (3666588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3666588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3666598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3671558) GW_TCP_SERVER: Client disconnected
+I (3671558) GW_TCP_SERVER: Closing client socket 38
+W (3671558) GW_TCP_SERVER: OTA Server disconnected
+I (3671558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3671568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3671578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57290
+I (3671588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3673178) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3673188) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3676558) GW_TCP_SERVER: Client disconnected
+I (3676558) GW_TCP_SERVER: Closing client socket 38
+W (3676558) GW_TCP_SERVER: OTA Server disconnected
+I (3676568) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3676568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3676578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57304
+I (3676588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3676588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3676598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3679428) wifi:starting SA query procedure with STA(1c:db:d4:af:1f:60)
+I (3679428) wifi:Send SA Query req with transaction id 1a75
+I (3679628) wifi:Send SA Query req with transaction id 1a76
+I (3679828) wifi:Send SA Query req with transaction id 1a77
+I (3680028) wifi:Send SA Query req with transaction id 1a78
+I (3680228) wifi:Send SA Query req with transaction id 1a79
+I (3680428) wifi:Send SA Query req with transaction id 1a7a
+I (3680448) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (3680458) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 1, reason = 209, bss_flags is 756835, bss:0x3c0d0da8
+I (3680458) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (3680468) wifi:<ba-del>idx:2, tid:0
+I (3681078) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (3681078) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 20
+I (3681128) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+W (3681558) GW_TCP_SERVER: Client disconnected
+I (3681558) GW_TCP_SERVER: Closing client socket 38
+W (3681558) GW_TCP_SERVER: OTA Server disconnected
+I (3681558) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57315
+I (3681568) GW_TCP_SERVER: OTA Server socket set: 38
+E (3682158) GW_TCP_SERVER: recv failed: errno 104
+I (3682168) wifi:<ba-add>idx:2 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (3682168) GW_TCP_SERVER: Closing client socket 37
+I (3682168) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.2, port=64575
+I (3682188) GW_TCP_SERVER: Received 130 bytes from client 37: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.2"}
+I (3682198) GW_TCP_SERVER: [CLIENT]Received msg_type =register from sock 37
+I (3682198) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.2"}
+I (3682218) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.2, ver=1.1.0, sock=37
+I (3683318) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3683318) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3686558) GW_TCP_SERVER: Client disconnected
+I (3686558) GW_TCP_SERVER: Closing client socket 38
+I (3686558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3686558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3686558) GW_TCP_SERVER: OTA Server disconnected
+I (3686578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57323
+I (3686578) GW_TCP_SERVER: OTA Server socket set: 38
+I (3686588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3686588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3691558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3691558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3691648) GW_TCP_SERVER: Client disconnected
+I (3691648) GW_TCP_SERVER: Closing client socket 38
+W (3691648) GW_TCP_SERVER: OTA Server disconnected
+I (3691658) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57334
+I (3691658) GW_TCP_SERVER: OTA Server socket set: 38
+I (3693378) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3693378) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3696558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3696558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3696568) GW_TCP_SERVER: Client disconnected
+I (3696568) GW_TCP_SERVER: Closing client socket 38
+W (3696578) GW_TCP_SERVER: OTA Server disconnected
+I (3696578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57345
+I (3696588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3696588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3696598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3701558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3701558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3701588) GW_TCP_SERVER: Client disconnected
+I (3701588) GW_TCP_SERVER: Closing client socket 38
+W (3701588) GW_TCP_SERVER: OTA Server disconnected
+I (3701588) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57352
+I (3701598) GW_TCP_SERVER: OTA Server socket set: 38
+I (3703428) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3703428) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3706558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3706558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3706598) GW_TCP_SERVER: Client disconnected
+I (3706598) GW_TCP_SERVER: Closing client socket 38
+W (3706598) GW_TCP_SERVER: OTA Server disconnected
+I (3706608) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57360
+I (3706608) GW_TCP_SERVER: OTA Server socket set: 38
+I (3706618) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3706618) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3711558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3711558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3711618) GW_TCP_SERVER: Client disconnected
+I (3711618) GW_TCP_SERVER: Closing client socket 38
+W (3711618) GW_TCP_SERVER: OTA Server disconnected
+I (3711618) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57377
+I (3711628) GW_TCP_SERVER: OTA Server socket set: 38
+I (3713488) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3713488) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3716558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3716558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3716638) GW_TCP_SERVER: Client disconnected
+I (3716638) GW_TCP_SERVER: Closing client socket 38
+W (3716638) GW_TCP_SERVER: OTA Server disconnected
+I (3716638) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57395
+I (3716648) GW_TCP_SERVER: OTA Server socket set: 38
+I (3716648) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3716658) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3721558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3721558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3721658) GW_TCP_SERVER: Client disconnected
+I (3721658) GW_TCP_SERVER: Closing client socket 38
+W (3721658) GW_TCP_SERVER: OTA Server disconnected
+I (3721658) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57417
+I (3721668) GW_TCP_SERVER: OTA Server socket set: 38
+I (3723628) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3723628) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3726558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3726558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3726568) GW_TCP_SERVER: Client disconnected
+I (3726568) GW_TCP_SERVER: Closing client socket 38
+W (3726568) GW_TCP_SERVER: OTA Server disconnected
+I (3726578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57442
+I (3726588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3726588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3726588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3731558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3731558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3731588) GW_TCP_SERVER: Client disconnected
+I (3731588) GW_TCP_SERVER: Closing client socket 38
+W (3731588) GW_TCP_SERVER: OTA Server disconnected
+I (3731588) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57460
+I (3731598) GW_TCP_SERVER: OTA Server socket set: 38
+I (3733678) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3733678) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3736558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3736558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3736608) GW_TCP_SERVER: Client disconnected
+I (3736608) GW_TCP_SERVER: Closing client socket 38
+W (3736608) GW_TCP_SERVER: OTA Server disconnected
+I (3736608) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57485
+I (3736618) GW_TCP_SERVER: OTA Server socket set: 38
+I (3736618) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3736628) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3741558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3741558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3741618) GW_TCP_SERVER: Client disconnected
+I (3741618) GW_TCP_SERVER: Closing client socket 38
+W (3741628) GW_TCP_SERVER: OTA Server disconnected
+I (3741628) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57499
+I (3741628) GW_TCP_SERVER: OTA Server socket set: 38
+I (3743728) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3743728) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3746558) GW_TCP_SERVER: Client disconnected
+I (3746558) GW_TCP_SERVER: Closing client socket 38
+I (3746558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3746568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3746558) GW_TCP_SERVER: OTA Server disconnected
+I (3746578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57508
+I (3746578) GW_TCP_SERVER: OTA Server socket set: 38
+I (3746588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3746588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3751558) GW_TCP_SERVER: Client disconnected
+I (3751558) GW_TCP_SERVER: Closing client socket 38
+I (3751558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3751568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3751568) GW_TCP_SERVER: OTA Server disconnected
+I (3751578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57524
+I (3751578) GW_TCP_SERVER: OTA Server socket set: 38
+I (3753788) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3753788) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3756558) GW_TCP_SERVER: Client disconnected
+I (3756558) GW_TCP_SERVER: Closing client socket 38
+I (3756558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3756568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3756568) GW_TCP_SERVER: OTA Server disconnected
+I (3756578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57535
+I (3756588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3756588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3756588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3761558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3761558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3761588) GW_TCP_SERVER: Client disconnected
+I (3761588) GW_TCP_SERVER: Closing client socket 38
+W (3761598) GW_TCP_SERVER: OTA Server disconnected
+I (3761598) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57542
+I (3761598) GW_TCP_SERVER: OTA Server socket set: 38
+I (3763838) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3763838) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3766558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3766558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3766608) GW_TCP_SERVER: Client disconnected
+I (3766608) GW_TCP_SERVER: Closing client socket 38
+W (3766608) GW_TCP_SERVER: OTA Server disconnected
+I (3766608) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57550
+I (3766618) GW_TCP_SERVER: OTA Server socket set: 38
+I (3766618) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3766628) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3771558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3771558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3771628) GW_TCP_SERVER: Client disconnected
+I (3771628) GW_TCP_SERVER: Closing client socket 38
+W (3771628) GW_TCP_SERVER: OTA Server disconnected
+I (3771628) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57558
+I (3771638) GW_TCP_SERVER: OTA Server socket set: 38
+I (3773898) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3773898) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3776558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3776558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3776638) GW_TCP_SERVER: Client disconnected
+I (3776638) GW_TCP_SERVER: Closing client socket 38
+W (3776648) GW_TCP_SERVER: OTA Server disconnected
+I (3776648) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57566
+I (3776648) GW_TCP_SERVER: OTA Server socket set: 38
+I (3776658) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3776658) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3781558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3781558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3781658) GW_TCP_SERVER: Client disconnected
+I (3781658) GW_TCP_SERVER: Closing client socket 38
+W (3781668) GW_TCP_SERVER: OTA Server disconnected
+I (3781668) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57573
+I (3781668) GW_TCP_SERVER: OTA Server socket set: 38
+I (3783948) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3783948) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3786558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3786558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3786578) GW_TCP_SERVER: Client disconnected
+I (3786578) GW_TCP_SERVER: Closing client socket 38
+W (3786578) GW_TCP_SERVER: OTA Server disconnected
+I (3786578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57582
+I (3786588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3786588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3786598) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+I (3791558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3791558) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+W (3791598) GW_TCP_SERVER: Client disconnected
+I (3791598) GW_TCP_SERVER: Closing client socket 38
+W (3791598) GW_TCP_SERVER: OTA Server disconnected
+I (3791598) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57589
+I (3791608) GW_TCP_SERVER: OTA Server socket set: 38
+I (3794018) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3794018) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3796558) GW_TCP_SERVER: Client disconnected
+I (3796558) GW_TCP_SERVER: Closing client socket 38
+W (3796558) GW_TCP_SERVER: OTA Server disconnected
+I (3796558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3796568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3796578) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57597
+I (3796588) GW_TCP_SERVER: OTA Server socket set: 38
+I (3796588) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3796588) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+W (3801558) GW_TCP_SERVER: Client disconnected
+I (3801558) GW_TCP_SERVER: Closing client socket 38
+W (3801558) GW_TCP_SERVER: OTA Server disconnected
+I (3801558) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (3801568) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (3801558) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57611
+I (3801578) GW_TCP_SERVER: OTA Server socket set: 38
+I (3804078) GW_TCP_SERVER: Received 45 bytes from client 38: 
+W (3804078) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
