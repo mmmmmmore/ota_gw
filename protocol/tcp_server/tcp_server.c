@@ -218,7 +218,7 @@ static void tcp_server_task(void *pvParameters) {
                     ESP_LOGW(TAG, "Client disconnected");
                     break;
                 } else {
-                    rx_buffer[len] = 0;
+                    rx_buffer[len] = '\0';
                     ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
 
                     cJSON *root = cJSON_Parse(rx_buffer);
@@ -236,16 +236,19 @@ static void tcp_server_task(void *pvParameters) {
                             update_last_seen(client_sock);
                         }
                     } else {
+                        ESP_LOGW(TAG, "failed to parse JSON from sock %d : raw is %s", client_sock, rx_buffer);
                         // 没有 msg_type 字段，仍然更新 last_seen
                         update_last_seen(client_sock);
+                        continue;
                     }
                     cJSON_Delete(root);
-                } else {
-                    // 非 JSON 数据，更新 last_seen 以免误判超时
-                    update_last_seen(client_sock);
+                    } else {
+                        // 非 JSON 数据，更新 last_seen 以免误判超时
+                        ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
+                        update_last_seen(client_sock);
+                    }
                 }
             }
-        }
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
         shutdown(client_sock, SHUT_RDWR);
         close(client_sock);

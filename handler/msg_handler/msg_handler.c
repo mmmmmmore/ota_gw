@@ -5,6 +5,7 @@
 #include "otaapp.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/timers.h"
+#include "freertos/task.h"
 
 static const char *TAG = "GW_MSG_HANDLER";
 
@@ -39,7 +40,7 @@ static void delayed_send_task(void *param) {
     ESP_LOGI(TAG, "Delayed dispatch: sending task %s to client %s",
              task->task_id, task->client_id);
     ota_dispatch_send_task(task->client_id, task);
-    vPortFree(task);
+    // vPortFree(task);
     vTaskDelete(NULL);
 }
 // 在 msg_handler_process() 的 ota_task 分支
@@ -76,7 +77,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
                 cJSON_Delete(root);
                 return;
             }
-            memset(&task,0,sizeof(task));
+            memset(&task, 0, sizeof(ota_task_t));
             //construct task msg
             cJSON *task_id   = cJSON_GetObjectItem(root, "task_id");
             cJSON *dev_name  = cJSON_GetObjectItem(root, "device_name");
@@ -86,44 +87,48 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             cJSON *features  = cJSON_GetObjectItem(root, "features");
         
             
-            if (cJSON_IsString(task_id))   strncpy(task.task_id, task_id->valuestring, sizeof(task.task_id)-1);
-            if (cJSON_IsString(dev_name))  strncpy(task.device_name, dev_name->valuestring, sizeof(task.device_name)-1);
-            if (cJSON_IsString(client_id)) strncpy(task.client_id, client_id->valuestring, sizeof(task.client_id)-1);
-            if (cJSON_IsString(version))   strncpy(task.version, version->valuestring, sizeof(task.version)-1);
-            if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
-            if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
+            if (cJSON_IsString(task_id))   strncpy(task->task_id, task_id->valuestring, sizeof(task->task_id)-1);
+            if (cJSON_IsString(dev_name))  strncpy(task->device_name, dev_name->valuestring, sizeof(task->device_name)-1);
+            if (cJSON_IsString(client_id)) strncpy(task->client_id, client_id->valuestring, sizeof(task->client_id)-1);
+            if (cJSON_IsString(version))   strncpy(task->version, version->valuestring, sizeof(task->version)-1);
+            if (cJSON_IsString(url))       strncpy(task->url, url->valuestring, sizeof(task->url)-1);
+            if (cJSON_IsString(features))  strncpy(task->features, features->valuestring, sizeof(task->features)-1);
 
             task->status = OTA_STATUS_PENDING;
             task->created_ms = esp_log_timestamp(); 
 
             
             // 将任务存储到 otaapp 的 pending_task
-
-            ota_client_task_t *status = find_or_create_task(task->task_id);
+            otaapp_set_pending_task(task);
+            
+            ota_client_task_t *status = find_or_create_task(task->client_id);
             if (status){
                 strncpy(status->task_id, task->task_id, sizeof(status->task_id)-1);
                 status->status = OTA_STATUS_PENDING;
                 status->progress = 0;
             }
-            otaapp_set_pending_task(task);
-            
+            //delay the task send 10s
             xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
             
+
+
             // 用 client_id 来推送任务
-            if (task.client_id[0] != '\0') {
-                ota_dispatch_send_task(task.client_id, &task);
-            } else {
-                ESP_LOGW(TAG, "OTA task missing client_id, cannot dispatch");
-            }
+            //if (task.client_id[0] != '\0') {
+            //    ota_dispatch_send_task(task.client_id, &task);
+            //} else {
+            //    ESP_LOGW(TAG, "OTA task missing client_id, cannot dispatch");
+            //}
 
         } else if (strcmp(msg_type->valuestring, "result") == 0) {
-            const char *client_id = cJSON_GetObjectItem(root,"client_id")->valuestring;
-            const char *result = cJSON_GetObjectItem(root,"status")->valuestring;
-            ota_client_task_t *task = find_or_create_task(client_id);
-            if (task) {
-                task->status = (strcmp(result,"success")==0) ? OTA_STATUS_SUCCESS : OTA_STATUS_FAILED;
-                task->progress = 100;
-            }
+            cJSON *cid = cJSON_GetObjectItem(root,"client_id");
+            cJSON *status = cJSON_GetObjectItem(root,"status");
+            if (cJSON_IsString(cid) && cJSON_IsString(status)) {
+                ota_client_task_t *task = find_or_create_task(cid->valuestring);
+                if (task) {
+                    task->status = (strcmp(status->valuestring,"success")==0) ? OTA_STATUS_SUCCESS : OTA_STATUS_FAILED;
+                    task->progress = 100;
+                }
+            }   
         }
     }
 
