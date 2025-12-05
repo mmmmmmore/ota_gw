@@ -8,6 +8,8 @@
 #include "cJSON.h"
 
 static const char *TAG = "GW_TCP_SERVER";
+static const char *TAG_OTA = "--OTA_SERVER--";
+static const char *TAG_CLT = "--CLient--";
 
 typedef struct {
     int sock;
@@ -206,48 +208,51 @@ static void tcp_server_task(void *pvParameters) {
                     if (last == 0 || (now - last) > 20000) {
                         ESP_LOGW(TAG, "Sock %d timed out (no keep_alive_ack), closing", client_sock);
                         break;
+                        }
+                        continue;
+                    } else {
+                        ESP_LOGE(TAG, "recv failed: errno %d", errno);
+                        break;
                     }
-                    continue;
-                } else {
-                    ESP_LOGE(TAG, "recv failed: errno %d", errno);
+                } else if (len == 0) {
+                    ESP_LOGW(TAG, "Client disconnected");
                     break;
-                }
-            } else if (len == 0) {
-                ESP_LOGW(TAG, "Client disconnected");
-                break;
-            } else {
-                rx_buffer[len] = 0;
-                ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
+                } else {
+                    rx_buffer[len] = 0;
+                    ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
 
-                cJSON *root = cJSON_Parse(rx_buffer);
-                if (root) {
-					cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
-					if (msg_type && msg_type->valuestring) {
-						if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
-							ESP_LOGI(TAG, "Received keep_alive_ack from sock %d", client_sock);
-							update_last_seen(client_sock);
-						} else {
-                        // 交给消息处理模块
-                        msg_handler_process(client_sock, rx_buffer, role);
+                    cJSON *root = cJSON_Parse(rx_buffer);
+                    if (root) {
+		    			cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
+			    		if (msg_type && msg_type->valuestring) {
+				    		if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
+					    		ESP_LOGI(TAG, "[%s] Received keep_alive_ack from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
+
+						    	update_last_seen(client_sock);
+					    	} else {
+                            // 交给消息处理模块
+                            ESP_LOGI(TAG, "[%s]Received msg_type =%s from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring,client_sock);
+                            msg_handler_process(client_sock, rx_buffer, role);
+                            update_last_seen(client_sock);
+                        }
+                    } else {
+                        // 没有 msg_type 字段，仍然更新 last_seen
                         update_last_seen(client_sock);
                     }
+                    cJSON_Delete(root);
                 } else {
-                    // 没有 msg_type 字段，仍然更新 last_seen
+                    // 非 JSON 数据，更新 last_seen 以免误判超时
                     update_last_seen(client_sock);
                 }
-                cJSON_Delete(root);
-            } else {
-                // 非 JSON 数据，更新 last_seen 以免误判超时
-                update_last_seen(client_sock);
             }
         }
-
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
         shutdown(client_sock, SHUT_RDWR);
         close(client_sock);
         unregister_sock(client_sock);
     }
 }
+
 
 esp_err_t tcp_server_send(int client_sock, const char *json_str) {
     if (!json_str || client_sock < 0) return ESP_FAIL;

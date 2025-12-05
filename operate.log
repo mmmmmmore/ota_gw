@@ -121,3 +121,44 @@ I (46623) GW_TCP_SERVER: Received keep_alive_ack from sock 37
 I (51553) GW_TCP_SERVER: Sent keep_alive to sock=37
 I (51553) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
 I (51553) GW_TCP_SERVER: Received keep_alive_ack from sock 37
+
+
+
+
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Sent keep_alive_ack to GW
+Recv loop error: timed out
+Connected to GW
+Sent keep_alive_ack to GW
+Recv loop error: timed out
+Connected to GW
+Sent keep_alive_ack to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
+Recv loop error: timed out
+Connected to GW
