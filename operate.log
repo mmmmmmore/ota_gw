@@ -41,3 +41,97 @@ I (86603) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_ali
 I (86613) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
 I (91623) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
 I (91623) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+
+
+
+20251205 143400
+
+I (1226773) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1231783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1231783) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1231813) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1231813) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1233663) GW_TCP_SERVER: Received 253 bytes from client 37: {"msg_type": "ota_task", "task_id": "20251205_143221_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251205_143221", "status": "pending"}
+I (1233683) GW_TCP_SERVER: [OTA]Received msg_type =ota_task from sock 37
+I (1233683) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "ota_task", "task_id": "20251205_143221_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251205_143221", "status": "pending"}
+I (1233713) GW_MSG_HANDLER: Dispatching to otaapp task
+I (1233723) OTA_APP_MGMT: Pending task stored: id=20251205_143221_758, client=758, version=v2.1.4
+I (1233723) OTA_APP_MGMT: Sending OTA task to client 758 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251205_143221_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin","features":""}
+I (1233753) OTA_APP_MGMT: Client 758 state updated to UPDATING
+I (1234533) wifi:starting SA query procedure with STA(1c:db:d4:af:1f:60)
+I (1234533) wifi:Send SA Query req with transaction id 5643
+I (1234733) wifi:Send SA Query req with transaction id 5644
+I (1234933) wifi:Send SA Query req with transaction id 5645
+I (1235133) wifi:Send SA Query req with transaction id 5646
+I (1235333) wifi:Send SA Query req with transaction id 5647
+I (1235533) wifi:Send SA Query req with transaction id 5648
+I (1235553) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (1235553) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 2, reason = 209, bss_flags is 756835, bss:0x3c0d13c8
+I (1235563) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (1235573) wifi:<ba-del>idx:4, tid:0
+I (1236183) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (1236183) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 20
+I (1236233) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (1236863) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1236863) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1237263) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+E (1237273) GW_TCP_SERVER: recv failed: errno 104
+I (1237273) GW_TCP_SERVER: Closing client socket 38
+I (1237273) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.3, port=64255
+I (1237293) GW_TCP_SERVER: Received 130 bytes from client 38: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (1237303) GW_TCP_SERVER: [CLIENT]Received msg_type =register from sock 38
+I (1237303) GW_MSG_HANDLER: Processing message from sock 38 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (1237323) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=38
+I (1241783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1241783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1241783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1241793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1246783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1246783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1246783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1246793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1251783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1251783) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1251813) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1251813) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1256783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1256783) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1256793) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1256793) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1261783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1261783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1261783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1261793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1266783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1266783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1266793) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1266793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1271783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1271783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1271783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1271793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1276783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1276783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1276783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1276793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1281783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1281783) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1281873) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1281873) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+W (1285553) httpd_txrx: httpd_resp_send_err: 400 Bad Request - Missing fields
+W (1285553) httpd_uri: httpd_uri: uri handler execution failed
+I (1286783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1286783) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1286793) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1286793) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1291803) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1291803) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1291803) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1291813) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1296783) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1296783) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
+I (1296783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1296793) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 38
+I (1301783) GW_TCP_SERVER: Received 29 bytes from client 38: {"msg_type":"keep_alive_ack"}
+I (1301793) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (1301793) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 37
