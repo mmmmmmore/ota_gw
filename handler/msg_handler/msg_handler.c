@@ -3,6 +3,8 @@
 #include "cJSON.h"
 #include "client_register.h"
 #include "otaapp.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/timers.h"
 
 static const char *TAG = "GW_MSG_HANDLER";
 
@@ -40,12 +42,8 @@ static void delayed_send_task(void *param) {
     vPortFree(task);
     vTaskDelete(NULL);
 }
-// 在 msg_handler_process() 的 ota_task 分支里：
-ota_task_t *task = pvPortMalloc(sizeof(ota_task_t));
-memset(task, 0, sizeof(ota_task_t);
-// 填充 task 字段...
+// 在 msg_handler_process() 的 ota_task 分支
 
-xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
 ////
 
 void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
@@ -72,7 +70,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
             ESP_LOGI(TAG, "Dispatching to otaapp task");
             // 构造 ota_task_t
-            ota_task_t task;
+            ota_task_t *task = pvPortMalloc(sizeof(ota_task_t));
             memset(&task,0,sizeof(task));
             cJSON *task_id   = cJSON_GetObjectItem(root, "task_id");
             cJSON *dev_name  = cJSON_GetObjectItem(root, "device_name");
@@ -92,6 +90,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             task.status = OTA_STATUS_PENDING;
             task.created_ms = esp_log_timestamp(); 
 
+            xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
             // 将任务存储到 otaapp 的 pending_task
             otaapp_set_pending_task(&task);
 
