@@ -1,4 +1,56 @@
 
+
+I (903) pp: pp rom version: e7ae62f
+I (903) net80211: net80211 rom version: e7ae62f
+I (913) wifi:wifi driver task: 3fca84d8, prio:23, stack:6656, core=0
+I (913) wifi:wifi firmware version: df85326
+I (913) wifi:wifi certification version: v7.0
+I (913) wifi:config NVS flash: enabled
+I (913) wifi:config nano formatting: disabled
+I (923) wifi:Init data frame dynamic rx buffer num: 32
+I (923) wifi:Init static rx mgmt buffer num: 5
+I (933) wifi:Init management short buffer num: 32
+I (933) wifi:Init static tx buffer num: 16
+I (943) wifi:Init tx cache buffer num: 32
+I (943) wifi:Init static tx FG buffer num: 2
+I (943) wifi:Init static rx buffer size: 1600
+I (953) wifi:Init static rx buffer num: 10
+I (953) wifi:Init dynamic rx buffer num: 32
+I (963) wifi_init: rx ba win: 6
+I (963) wifi_init: accept mbox: 6
+I (963) wifi_init: tcpip mbox: 32
+I (963) wifi_init: udp mbox: 6
+I (973) wifi_init: tcp mbox: 6
+I (973) wifi_init: tcp tx win: 5760
+I (973) wifi_init: tcp rx win: 5760
+I (983) wifi_init: tcp mss: 1440
+I (983) wifi_init: WiFi/LWIP prefer SPIRAM
+I (983) wifi_init: WiFi IRAM OP enabled
+I (993) wifi_init: WiFi RX IRAM OP enabled
+I (993) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
+I (1033) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
+I (1033) wifi:Total power save buffer number: 8
+I (1033) wifi:Init max length of beacon: 752/752
+I (1033) wifi:Init max length of beacon: 752/752
+I (1043) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (1053) wifi_ap: SoftAP started: SSID=OTA-GW, gateway=192.168.4.1, netmask=255.255.255.0, protocol=b/g/n, PMF=capable/not-required
+I (1063) PSRAM: PSRAM size: 8388608 bytes
+I (1063) PSRAM: Free heap: 8576152 bytes
+I (1063) PSRAM: PSRAM is initialized and ready.
+I (1073) PSRAM: Successfully allocated 1KB from PSRAM.
+I (1513) SPIFFS: SPIFFS mounted successfully
+I (1513) SPIFFS: Partition size: total=7161281, used=2937453
+I (1513) common_gpio: Starting GPIO initialization...
+I (1513) common_gpio: STBY GPIO 17 set to HIGH
+I (1513) common_gpio: Motor GPIOs initialized
+I (1523) common_gpio: All GPIOs initialized
+I (1523) common_gpio: LEDC channels initialized
+I (1533) GW_TCP_SERVER: tcp_server_task started on port 9001
+I (1533) GW_TCP_SERVER: TCP Server listening on port 9001
+I (1543) GW_TCP_SERVER: tcp_server_task started on port 9002
+I (1543) GW_TCP_SERVER: TCP Server listening on port 9002
+I (1553) GW_MSG_HANDLER: GW Message handler initialized
+I (1553) WEB_OTAGW: OTA Gateway Webserver started
 系统初始化完成，等待客户端连接...
 I (1563) main_task: Returned from app_main()
 I (9173) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
