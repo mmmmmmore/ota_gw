@@ -31,6 +31,23 @@ static ota_client_task_t* find_or_create_task(const char *client_id) {
     return NULL;
 }
 
+static void delayed_send_task(void *param) {
+    ota_task_t *task = (ota_task_t *) param;
+    vTaskDelay(pdMS_TO_TICKS(10000));
+    ESP_LOGI(TAG, "Delayed dispatch: sending task %s to client %s",
+             task->task_id, task->client_id);
+    ota_dispatch_send_task(task->client_id, task);
+    vPortFree(task);
+    vTaskDelete(NULL);
+}
+// 在 msg_handler_process() 的 ota_task 分支里：
+ota_task_t *task = pvPortMalloc(sizeof(ota_task_t));
+memset(task, 0, sizeof(ota_task_t);
+// 填充 task 字段...
+
+xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
+////
+
 void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     ESP_LOGI(TAG, "Processing message from sock %d (role=%d): %s", sock, role, json_str);
 
@@ -164,6 +181,7 @@ const char* msg_handler_get_progress_json(void) {
     cJSON_Delete(root);
     return json_str;
 }
+
 
 
 
