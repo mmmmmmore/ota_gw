@@ -10,11 +10,11 @@
 #include "esp_psram.h"
 #include "esp_heap_caps.h"
 #include "ota_handler.h"
-
-
-
 #include <dirent.h>   // 用于目录遍历
 #include "esp_log.h"
+
+
+
 
 void init_spiffs(){
     esp_vfs_spiffs_conf_t conf = {
@@ -38,16 +38,16 @@ void init_spiffs(){
         }
 
         // 遍历 /spiffs 下的文件和子目录
-        DIR *dir = opendir("/spiffs");
-        if (dir != NULL) {
-            struct dirent *ent;
-            while ((ent = readdir(dir)) != NULL) {
-                ESP_LOGI("SPIFFS", "File: %s", ent->d_name);
-            }
-            closedir(dir);
-        } else {
-            ESP_LOGE("SPIFFS", "Failed to open /spiffs directory");
-        }
+        //DIR *dir = opendir("/spiffs");
+        //if (dir != NULL) {
+        //    struct dirent *ent;
+        //    while ((ent = readdir(dir)) != NULL) {
+        //        ESP_LOGI("SPIFFS", "File: %s", ent->d_name);
+        //    }
+        //    closedir(dir);
+        //} else {
+        //    ESP_LOGE("SPIFFS", "Failed to open /spiffs directory");
+        //}
     }
 }
 //check and print PSRAM initiate status

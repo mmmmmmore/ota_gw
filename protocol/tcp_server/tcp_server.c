@@ -22,7 +22,7 @@ typedef struct {
     uint32_t last_seen_ms;
 } sock_info_t;
 
-#define MAX_SOCKS 10
+#define MAX_SOCKS 4
 static sock_info_t sock_table[MAX_SOCKS];
 static int ota_server_sock = -1;
 
