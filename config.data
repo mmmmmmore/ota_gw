@@ -17,3 +17,24 @@ OTA-Client ECU 3 ( motor wifi control board)
 OTA-GW
     mac:  dc:b4:d9:10:4d:b0
     serial number : 5B3E034520
+
+
+
+chip status
+
+maochun@MMMBP ota_gw % esptool.py --chip esp32s3 read_flash_status 
+
+esptool.py v4.10.dev2 Found 2 serial ports 
+Serial port /dev/cu.usbmodem5B3E0345201 Connecting... 
+
+Chip is ESP32-S3 (QFN56) (revision v0.2) 
+Features: WiFi, BLE, Embedded PSRAM 8MB (AP_3v3) 
+Crystal is 40MHz 
+MAC: dc:b4:d9:10:4d:b0 
+Uploading stub... 
+Running stub... 
+Stub running... 
+Status value: 0x0200 
+Hard resetting via RTS pin... 
+
+
