@@ -1,30 +1,71 @@
 
-I (993) wifi_init: WiFi RX IRAM OP enabled
-I (993) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
-I (1033) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
-I (1043) wifi:Total power save buffer number: 8
-I (1043) wifi:Init max length of beacon: 752/752
-I (1043) wifi:Init max length of beacon: 752/752
-I (1043) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
-I (1053) wifi_ap: SoftAP started: SSID=ESP32-TEST, gateway=192.168.4.1, netmask=255.255.255.0, protocol=b/g/n, PMF=capable/not-required
-I (1063) PSRAM: PSRAM size: 8388608 bytes
-I (1063) PSRAM: Free heap: 8577544 bytes
-I (1073) PSRAM: PSRAM is initialized and ready.
-I (1073) PSRAM: Successfully allocated 1KB from PSRAM.
-I (1513) SPIFFS: SPIFFS mounted successfully
-I (1513) SPIFFS: Partition size: total=7161281, used=2937453
-I (1513) common_gpio: Starting GPIO initialization...
-I (1513) common_gpio: STBY GPIO 17 set to HIGH
-I (1523) common_gpio: Motor GPIOs initialized
-I (1523) common_gpio: All GPIOs initialized
-I (1533) common_gpio: LEDC channels initialized
-I (1533) GW_TCP_SERVER: tcp_server_task started on port 9001
-I (1543) GW_TCP_SERVER: TCP Server listening on port 9001
-I (1543) GW_TCP_SERVER: tcp_server_task started on port 9002
-I (1553) GW_TCP_SERVER: TCP Server listening on port 9002
-I (1553) GW_MSG_HANDLER: GW Message handler initialized
-E (1563) httpd: Config option max_open_sockets is too large (max allowed 7, 3 sockets used by HTTP server internally)
-        Either decrease this or configure LWIP_MAX_SOCKETS to a larger value
-E (1573) WEB_OTAGW: Failed to start OTA Gateway Webserver
 系统初始化完成，等待客户端连接...
-I (1583) main_task: Returned from app_main()
+I (1563) main_task: Returned from app_main()
+I (9173) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (9173) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 40U
+I (9233) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (10273) wifi:<ba-add>idx:2 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (10303) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.2, port=61318
+I (10303) GW_TCP_SERVER: Received 130 bytes from client 37: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.2"}
+I (10313) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.2"}
+I (10333) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.2, ver=1.1.0, sock=37
+I (11553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (11553) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (11553) GW_TCP_SERVER: Received keep_alive_ack from sock 37
+I (16553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (16563) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (16563) GW_TCP_SERVER: Received keep_alive_ack from sock 37
+I (21123) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (21123) wifi:station: a4:5e:60:c5:69:75 join, AID=2, bgn, 20
+I (21163) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (21553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (23673) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (26553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (26613) wifi:<ba-add>idx:4 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (27303) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56198
+I (27303) GW_TCP_SERVER: OTA Server socket set: 38
+I (31553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (31553) GW_TCP_SERVER: Sent keep_alive to sock=38
+I (31553) GW_TCP_SERVER: Received 30 bytes from client 38: {"msg_type": "keep_alive_ack"}
+I (31553) GW_TCP_SERVER: Received keep_alive_ack from sock 38
+I (34563) GW_TCP_SERVER: Received 253 bytes from client 38: {"msg_type": "ota_task", "task_id": "20251205_120444_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.4:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251205_120444", "status": "pending"}
+I (34573) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "ota_task", "task_id": "20251205_120444_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.4:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251205_120444", "status": "pending"}
+I (34603) GW_MSG_HANDLER: Dispatching to otaapp task
+I (34613) OTA_APP_MGMT: Pending task stored: id=20251205_120444_758, client=758, version=v2.1.4
+I (34613) OTA_APP_MGMT: Sending OTA task to client 758 (IP=192.168.4.2): {"msg_type":"ota_task","task_id":"20251205_120444_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.1.4","firmware_url":"https://192.168.4.4:8080/firmware/firmware_v2.1.4.bin","features":""}
+I (34643) OTA_APP_MGMT: Client 758 state updated to UPDATING
+I (36553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (36553) GW_TCP_SERVER: Sent keep_alive to sock=38
+I (36553) GW_TCP_SERVER: Received 30 bytes from client 38: {"msg_type": "keep_alive_ack"}
+I (36553) GW_TCP_SERVER: Received keep_alive_ack from sock 38
+I (41553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (41553) GW_TCP_SERVER: Sent keep_alive to sock=38
+W (41623) GW_TCP_SERVER: Client disconnected
+I (41623) GW_TCP_SERVER: Closing client socket 38
+W (41623) GW_TCP_SERVER: OTA Server disconnected
+I (41633) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56203
+I (41633) GW_TCP_SERVER: OTA Server socket set: 38
+W (41643) GW_TCP_SERVER: Client disconnected
+I (41643) GW_TCP_SERVER: Closing client socket 38
+W (41653) GW_TCP_SERVER: OTA Server disconnected
+I (41653) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56256
+I (41663) GW_TCP_SERVER: OTA Server socket set: 38
+W (41663) GW_TCP_SERVER: Client disconnected
+I (41663) GW_TCP_SERVER: Closing client socket 38
+W (41673) GW_TCP_SERVER: OTA Server disconnected
+I (41673) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=56287
+I (41683) GW_TCP_SERVER: OTA Server socket set: 38
+I (41733) wifi:<ba-add>idx:5 (ifx:1, a4:5e:60:c5:69:75), tid:1, ssn:0, winSize:64
+E (42023) GW_TCP_SERVER: recv failed: errno 113
+I (42023) GW_TCP_SERVER: Closing client socket 37
+W (45033) GW_TCP_SERVER: Client disconnected
+I (45043) GW_TCP_SERVER: Closing client socket 38
+W (45043) GW_TCP_SERVER: OTA Server disconnected
+I (45043) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.4, port=56290
+I (45043) GW_TCP_SERVER: OTA Server socket set: 37
+I (46553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (46623) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (46623) GW_TCP_SERVER: Received keep_alive_ack from sock 37
+I (51553) GW_TCP_SERVER: Sent keep_alive to sock=37
+I (51553) GW_TCP_SERVER: Received 30 bytes from client 37: {"msg_type": "keep_alive_ack"}
+I (51553) GW_TCP_SERVER: Received keep_alive_ack from sock 37
