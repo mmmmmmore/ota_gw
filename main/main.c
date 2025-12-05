@@ -50,6 +50,25 @@ void init_spiffs(){
         }
     }
 }
+//check and print PSRAM initiate status
+void check_psram_status() {
+    ESP_LOGI("PSRAM", "PSRAM size: %d bytes", esp_psram_get_size());
+    ESP_LOGI("PSRAM", "Free heap: %d bytes", esp_get_free_heap_size());
+
+    if (esp_psram_is_initialized()) {
+        ESP_LOGI("PSRAM", "PSRAM is initialized and ready.");
+    } else {
+        ESP_LOGE("PSRAM", "PSRAM is NOT initialized.");
+    }
+
+    void *test_ptr = heap_caps_malloc(1024, MALLOC_CAP_SPIRAM);
+    if (test_ptr) {
+        ESP_LOGI("PSRAM", "Successfully allocated 1KB from PSRAM.");
+        free(test_ptr);
+    } else {
+        ESP_LOGE("PSRAM", "Failed to allocate memory from PSRAM.");
+    }
+}
 
 
 void app_main(void) {
@@ -62,6 +81,8 @@ void app_main(void) {
     // 初始化 WiFi SoftAP
     wifi_init_softap();
 
+
+    check_psram_status();
     //初始化网络协议栈
     //ESP_ERROR_CHECK(esp_netif_init());
     //ESP_ERROR_CHECK(esp_event_loop_create_default());
