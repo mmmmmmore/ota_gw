@@ -6,15 +6,8 @@
 #include <unistd.h>
 #include "msg_handler.h"
 #include "cJSON.h"
-#include "msg_handler.h"
 
 static const char *TAG = "GW_TCP_SERVER";
-
-///typedef enum {
-//    ROLE_UNKNOWN = 0,
-//    ROLE_OTA_SERVER = 1,
-//    ROLE_CLIENT = 2
-//} role_t;
 
 typedef struct {
     int sock;
@@ -25,8 +18,6 @@ typedef struct {
 #define MAX_SOCKS 10
 static sock_info_t sock_table[MAX_SOCKS];
 static int ota_server_sock = -1;
-
-// 轻量互斥（可用 FreeRTOS mutex 代替）
 static SemaphoreHandle_t s_sock_mutex;
 
 static void lock(void)   { if (s_sock_mutex) xSemaphoreTake(s_sock_mutex, portMAX_DELAY); }
@@ -54,11 +45,10 @@ static void update_last_seen(int sock) {
 
 static void register_sock(int sock, msg_role_t role) {
     lock();
-    // 如果是 OTA server，确保单连接策略：关闭旧的
     if (role == ROLE_OTA_SERVER && ota_server_sock > 0 && ota_server_sock != sock) {
         ESP_LOGW(TAG, "OTA server already connected on sock=%d, closing old one", ota_server_sock);
+        shutdown(ota_server_sock, SHUT_RDWR);
         close(ota_server_sock);
-        // 清除旧记录
         for (int i = 0; i < MAX_SOCKS; i++) {
             if (sock_table[i].sock == ota_server_sock) {
                 sock_table[i].sock = -1;
@@ -69,7 +59,6 @@ static void register_sock(int sock, msg_role_t role) {
         }
         ota_server_sock = -1;
     }
-    // 插入/复用空位
     for (int i = 0; i < MAX_SOCKS; i++) {
         if (sock_table[i].sock <= 0) {
             sock_table[i].sock = sock;
@@ -105,19 +94,15 @@ static void unregister_sock(int sock) {
 static void set_socket_opts(int sock, int recv_timeout_ms) {
     int opt = 1;
     setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-    // TCP keepalive
     setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt));
-    int idle = 10;   // 空闲10秒开始探测
-    int intvl = 5;   // 间隔5秒
-    int cnt = 3;     // 连续3次失败判定断开
+    int idle = 10, intvl = 5, cnt = 3;
     setsockopt(sock, IPPROTO_TCP, TCP_KEEPIDLE,  &idle, sizeof(idle));
     setsockopt(sock, IPPROTO_TCP, TCP_KEEPINTVL, &intvl, sizeof(intvl));
     setsockopt(sock, IPPROTO_TCP, TCP_KEEPCNT,   &cnt, sizeof(cnt));
-    // 接收超时
+    setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt));
     struct timeval tv = { .tv_sec = recv_timeout_ms / 1000, .tv_usec = (recv_timeout_ms % 1000) * 1000 };
     setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-    // 优雅关闭，减少 RST
-    struct linger ling = { .l_onoff = 1, .l_linger = 1 };
+    struct linger ling = { .l_onoff = 1, .l_linger = 3 };
     setsockopt(sock, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
 }
 
@@ -126,7 +111,7 @@ static esp_err_t safe_send(int sock, const char *buf, size_t len) {
     int ret = send(sock, buf, len, 0);
     if (ret < 0) {
         ESP_LOGE(TAG, "Send failed on sock=%d: errno=%d", sock, errno);
-        // 错误即清理，避免后续 EBADF/ENOTCONN
+        shutdown(sock, SHUT_RDWR);
         close(sock);
         unregister_sock(sock);
         return ESP_FAIL;
@@ -134,24 +119,18 @@ static esp_err_t safe_send(int sock, const char *buf, size_t len) {
     return ESP_OK;
 }
 
-// 心跳发送任务（仅发给有效 socket）
 static void gw_keep_alive_task(void *pvParameters) {
     const char *keep_alive_msg = "{\"msg_type\":\"keep_alive\"}";
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(5000));
         lock();
-        for (int i = 0; i < MAX_SOCKS; i++) {
-            int sock = sock_table[i].sock;
-            if (sock > 0) {
-                // 解锁后发送，避免持锁过久
-                unlock();
-                if (safe_send(sock, keep_alive_msg, strlen(keep_alive_msg)) == ESP_OK) {
-                    ESP_LOGI(TAG, "Sent keep_alive to sock=%d", sock);
-                }
-                lock();
-            }
-        }
+        int socks[MAX_SOCKS];
+        for (int i = 0; i < MAX_SOCKS; i++) socks[i] = sock_table[i].sock;
         unlock();
+        for (int i = 0; i < MAX_SOCKS; i++) {
+            int sock = socks[i];
+            if (sock > 0) safe_send(sock, keep_alive_msg, strlen(keep_alive_msg));
+        }
     }
 }
 
@@ -181,7 +160,7 @@ static void tcp_server_task(void *pvParameters) {
         return;
     }
 
-    if (listen(listen_sock, 5) < 0) {
+    if (listen(listen_sock, 8) < 0) {
         ESP_LOGE(TAG, "Error occurred during listen: errno %d", errno);
         close(listen_sock);
         vTaskDelete(NULL);
@@ -202,10 +181,10 @@ static void tcp_server_task(void *pvParameters) {
         ESP_LOGI(TAG, "Client connected, sock=%d, ip=%s, port=%d",
                  client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
 
-        set_socket_opts(client_sock, /*recv_timeout_ms=*/15000);
+        set_socket_opts(client_sock, 15000);
 
         msg_role_t role = (port == 9001) ? ROLE_OTA_SERVER :
-                      (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
+                          (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
         register_sock(client_sock, role);
 
         char rx_buffer[512];
@@ -214,10 +193,9 @@ static void tcp_server_task(void *pvParameters) {
             int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if (len < 0) {
                 if (errno == EWOULDBLOCK || errno == EAGAIN) {
-                    // 超时：如果 15s 内没有 keep_alive_ack，就主动关闭
-                    lock();
                     uint32_t now = esp_log_timestamp();
                     uint32_t last = 0;
+                    lock();
                     for (int i = 0; i < MAX_SOCKS; i++) {
                         if (sock_table[i].sock == client_sock) {
                             last = sock_table[i].last_seen_ms;
@@ -225,11 +203,10 @@ static void tcp_server_task(void *pvParameters) {
                         }
                     }
                     unlock();
-                    if (last == 0 || (now - last) > 20000) { // 超过 20s 无应答
+                    if (last == 0 || (now - last) > 20000) {
                         ESP_LOGW(TAG, "Sock %d timed out (no keep_alive_ack), closing", client_sock);
                         break;
                     }
-                    // 否则继续循环等待数据
                     continue;
                 } else {
                     ESP_LOGE(TAG, "recv failed: errno %d", errno);
@@ -244,22 +221,29 @@ static void tcp_server_task(void *pvParameters) {
 
                 cJSON *root = cJSON_Parse(rx_buffer);
                 if (root) {
-                    cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
-                    if (msg_type && strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
-                        ESP_LOGI(TAG, "Received keep_alive_ack from sock %d", client_sock);
-                        update_last_seen(client_sock);
-                    } else {
+					cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
+					if (msg_type && msg_type->valuestring) {
+						if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
+							ESP_LOGI(TAG, "Received keep_alive_ack from sock %d", client_sock);
+							update_last_seen(client_sock);
+						} else {
+                        // 交给消息处理模块
                         msg_handler_process(client_sock, rx_buffer, role);
+                        update_last_seen(client_sock);
                     }
-                    cJSON_Delete(root);
                 } else {
-                    // 非 JSON 数据，更新 last_seen 以免误判超时
+                    // 没有 msg_type 字段，仍然更新 last_seen
                     update_last_seen(client_sock);
                 }
+                cJSON_Delete(root);
+            } else {
+                // 非 JSON 数据，更新 last_seen 以免误判超时
+                update_last_seen(client_sock);
             }
         }
 
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
+        shutdown(client_sock, SHUT_RDWR);
         close(client_sock);
         unregister_sock(client_sock);
     }
@@ -275,9 +259,10 @@ void gw_tcp_servers_init(void) {
     memset(sock_table, 0, sizeof(sock_table));
     for (int i = 0; i < MAX_SOCKS; i++) sock_table[i].sock = -1;
 
-    // 分别启动两端口
-    xTaskCreate(tcp_server_task, "tcp_server_9001", 4096, (void*)(intptr_t)9001, 5, NULL);
-    xTaskCreate(tcp_server_task, "tcp_server_9002", 4096, (void*)(intptr_t)9002, 5, NULL);
+    // 分别启动两个端口的服务
+    xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9001", 4096, (void*)(intptr_t)9001, 5, NULL, 0);
+    xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9002", 4096, (void*)(intptr_t)9002, 5, NULL, 0);
 
-    xTaskCreate(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL);
+    // 心跳任务
+    xTaskCreatePinnedToCore(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL, 0);
 }
