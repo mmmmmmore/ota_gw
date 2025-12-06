@@ -982,3 +982,22 @@ I (3801558) GW_TCP_SERVER: Client connected, sock=38, ip=192.168.4.4, port=57611
 I (3801578) GW_TCP_SERVER: OTA Server socket set: 38
 I (3804078) GW_TCP_SERVER: Received 45 bytes from client 38: 
 W (3804078) GW_TCP_SERVER: Non JSON data from sock 38 : raw is 
+
+
+133000
+
+
+I (2401613) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 38
+I (2402783) GW_TCP_SERVER: Received 254 bytes from client 38: {"msg_type": "ota_task", "task_id": "20251206_122115_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251206_122115", "status": "pending"}
+
+I (2402803) GW_TCP_SERVER: [OTA]Received msg_type =ota_task from sock 38
+I (2402803) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "ota_task", "task_id": "20251206_122115_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.1.4", "firmware_url": "https://192.168.4.2:8080/firmware/firmware_v2.1.4.bin", "timestamp": "20251206_122115", "status": "pending"}
+
+I (2402833) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (2402843) OTA_APP_MGMT: Pending task stored: id=20251206_122115_758, client=758, version=v2.1.4
+I (2406553) GW_TCP_SERVER: Received 29 bytes from client 37: {"msg_type":"keep_alive_ack"}
+I (2406553) GW_TCP_SERVER: [CLIENT] Received keep_alive_ack from sock 37
+I (2406563) GW_TCP_SERVER: Received 31 bytes from client 38: {"msg_type": "keep_alive_ack"}
+
+I (2406563) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 38
+I (2411553) GW_TCP_SERVER: Received 31 bytes from client 38: {"msg_type": "keep_alive_ack"}
