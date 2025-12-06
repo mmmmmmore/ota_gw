@@ -25,8 +25,8 @@ function loadPendingTask() {
               <td>${task.version}</td>
               <td>${task.features || '-'}</td>
               <td>
-                <button onclick="sendUserResponse('accept', '${task.client_id}')">接受</button>
-                <button onclick="sendUserResponse('reject', '${task.client_id}')">拒绝</button>
+                <button onclick="sendUserResponse('accept', '${task.task_id}')">接受</button>
+                <button onclick="sendUserResponse('reject', '${task.task_id}')">拒绝</button>
               </td>
             </tr>
           `;
@@ -46,7 +46,10 @@ function sendUserResponse(decision, mac) {
   fetch('/ota_user_response', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ decision: decision, mac: mac })
+    body: JSON.stringify({ 
+      task_id: task_id,
+      response: response   //UI accept / reject 
+    })
   })
   .then(resp => resp.json())
   .then(data => {
@@ -68,5 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
 
