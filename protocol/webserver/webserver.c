@@ -108,19 +108,25 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
         return ESP_FAIL;
     }
 
-    cJSON *decision_item = cJSON_GetObjectItem(root, "decision");
-    cJSON *client_id_item = cJSON_GetObjectItem(root, "client_id");
+    cJSON *response_item = cJSON_GetObjectItem(root, "response");
+    cJSON *task_id_item = cJSON_GetObjectItem(root, "task_id");
 
-    if (!cJSON_IsString(decision_item) || !cJSON_IsString(client_id_item)) {
+    if (!cJSON_IsString(response_item) || !cJSON_IsString(task_id_item)) {
         httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "Missing fields");
         cJSON_Delete(root);
         return ESP_FAIL;
     }
 
-    bool accepted = (strcmp(decision_item->valuestring, "accept") == 0);
-    const char *client_id = client_id_item ->valuestring;
-    const char *task_id = cJSON_GetObjectItem(root, "task_id")->valuestring;
-    otaapp__update_response(task_id, client_id, accepted);  
+    user_response_t user_response_value ;
+    if (strcmp(response_item->valuestring, "accept") == 0) {
+        user_response_value = USER_RESPONSE_ACCEPT;
+    } else if (strcmp(response_item->valuestring, "reject") == 0) {
+        user_response_value = USER_RESPONSE_REJECT;
+    } else {
+        user_response_value = USER_RESPONSE_WAIT; // 默认兜底
+    }    // matching UI response with ota_task_t --> user_response value. 
+
+    otaapp_update_response(task_id_item->valuestring, user_response_value);  
 
     cJSON_Delete(root);
     httpd_resp_set_type(req, "application/json");
