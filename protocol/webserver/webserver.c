@@ -48,7 +48,7 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
 // ---------- 待确认任务信息 ----------
 static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
-    const char *json_str = msg_handler_get_pending_task_json();
+    const char *json_str = otaapp_get_task_list_json();
     httpd_resp_sendstr(req, json_str ? json_str : "{}");
     if (json_str) free((void*)json_str);
     return ESP_OK;
@@ -80,7 +80,9 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     }
 
     bool accepted = (strcmp(decision_item->valuestring, "accept") == 0);
-    msg_handler_user_response(client_id_item->valuestring, accepted);
+    const char *client_id = client_id_item ->valuestring;
+    const char *task_id = cJSON_GetObjectItem(root, "task_id")->valuestring;
+    otaapp__update_response(task_id, client_id, accepted);  
 
     cJSON_Delete(root);
     httpd_resp_set_type(req, "application/json");
@@ -96,6 +98,9 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     if (json_str) free((void*)json_str);
     return ESP_OK;
 }
+
+
+
 
 // ---------- 路由注册 ----------
 static void register_uri_handlers(httpd_handle_t server) {
