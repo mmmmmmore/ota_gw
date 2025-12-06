@@ -11,6 +11,13 @@ static ota_task_t pending_task;   // 唯一的挂起任务缓存
 static ota_task_t task_lists[MAX_TASKS] ;
 
 
+void ota_task_timeout_cb(TimerHandle_t xTimer) {
+    ota_task_t *task = (ota_task_t*) pvTimerGetTimerID(xTimer);
+    if (task->user_response == USER_RESPONSE_WAIT) {
+        ESP_LOGW(TAG, "Task %s timed out", task->task_id);
+        memset(task, 0, sizeof(*task));
+    }
+}
 
 void otaapp_add_task(const ota_task_t *task) {
     // 找到空槽位
@@ -53,13 +60,7 @@ void otaapp_update_response(const char *task_id, bool accepted) {
     }
 }
 
-void ota_task_timeout_cb(TimerHandle_t xTimer) {
-    ota_task_t *task = (ota_task_t*) pvTimerGetTimerID(xTimer);
-    if (task->user_response == USER_RESPONSE_WAIT) {
-        ESP_LOGW(TAG, "Task %s timed out", task->task_id);
-        memset(task, 0, sizeof(*task));
-    }
-}
+
 
 void otaapp_update_response(const char *task_id, const char *client_id, bool accepted) {
     for (int i = 0; i < MAX_TASKS; i++) {
@@ -221,6 +222,7 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     }
     return ret;
 }
+
 
 
 
