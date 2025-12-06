@@ -100,7 +100,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
 
             
             // 将任务存储到 otaapp 的 pending_task
-            otaapp_set_pending_task(task);
+            otaapp_add_task(task);
             
             ota_client_task_t *status = find_or_create_task(task->client_id);
             if (status){
@@ -193,6 +193,7 @@ const char* msg_handler_get_progress_json(void) {
     cJSON_Delete(root);
     return json_str;
 }
+
 
 
 
