@@ -61,6 +61,24 @@ void ota_task_timeout_cb(TimerHandle_t xTimer) {
     }
 }
 
+void otaapp_update_response(const char *task_id, const char *client_id, bool accepted) {
+    for (int i = 0; i < MAX_TASKS; i++) {
+        ota_task_t *t = &task_list[i];
+        if (strcmp(t->task_id, task_id) == 0 && strcmp(t->client_id, client_id) == 0) {
+            t->user_response = accepted ? USER_RESPONSE_ACCEPT : USER_RESPONSE_REJECT;
+
+            if (accepted) {
+                ota_dispatch_send_task(t->client_id, t);
+                memset(t, 0, sizeof(*t));
+            } else {
+                ESP_LOGI(TAG, "Task %s rejected", t->task_id);
+                memset(t, 0, sizeof(*t));
+            }
+            return;
+        }
+    }
+    ESP_LOGW(TAG, "No matching task found for user response");
+}
 
 
 
@@ -203,5 +221,6 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     }
     return ret;
 }
+
 
 
