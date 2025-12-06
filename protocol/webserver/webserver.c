@@ -7,6 +7,10 @@
 #include <string.h>
 
 static const char *TAG = "WEB_OTAGW";
+static char *pending_task_json = NULL;
+
+
+
 
 // ---------- 静态文件处理 ----------
 static esp_err_t static_file_handler(httpd_req_t *req) {
@@ -45,12 +49,46 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+//-----------valid task display in UI page ---------//
+char *webserver_get_task_list_json(void) {
+    cJSON *root = cJSON_CreateArray();
+
+    for (int i = 0; i < MAX_TASKS; i++) {
+        ota_task_t *t = &task_list[i];
+        if (t->task_id[0] == '\0') continue; // 空槽位跳过
+
+        // 检查是否过期
+        if (esp_log_timestamp() - t->created_ms > 60000) continue;
+
+        cJSON *obj = cJSON_CreateObject();
+        cJSON_AddStringToObject(obj, "task_id", t->task_id);
+        cJSON_AddStringToObject(obj, "client_id", t->client_id);
+        cJSON_AddStringToObject(obj, "version", t->version);
+        cJSON_AddStringToObject(obj, "features", t->features);
+        cJSON_AddNumberToObject(obj, "user_response", t->user_response);
+
+        cJSON_AddItemToArray(root, obj);
+    }
+
+    char *json_str = cJSON_PrintUnformatted(root);
+    cJSON_Delete(root);
+    return json_str; // 调用者负责 free()
+}
+
+const char *msg_handler_get_pending_task_json(void) {
+    return pending_task_json ? strdup(pending_task_json) : NULL;
+}
+
+
+
+
+
 // ---------- 待确认任务信息 ----------
 static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
-    const char *json_str = otaapp_get_task_list_json();
+    char *json_str = webserver_get_task_list_json();
     httpd_resp_sendstr(req, json_str ? json_str : "{}");
-    if (json_str) free((void*)json_str);
+    if (json_str) free(json_str);
     return ESP_OK;
 }
 
