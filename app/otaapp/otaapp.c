@@ -4,8 +4,16 @@
 #include "tcp_server.h"
 #include <string.h>
 
+
+#define MAX_CLIENT = 3
 static const char *TAG = "OTA_APP_MGMT";
 static ota_task_t pending_task;   // 唯一的挂起任务缓存
+
+
+
+
+
+
 
 // 清除挂起任务
 void otaapp_clear_pending_task(void) {
@@ -15,7 +23,10 @@ void otaapp_clear_pending_task(void) {
 
 // 设置挂起任务
 void otaapp_set_pending_task(const ota_task_t *task) {
-    if (task) {
+    ota_task_t *slot = find_slot_by_client_id(task->client_id);     //link to pending_tasks_list 
+    if (slot) {
+        *slot = *task;
+        slot->user_response = USER_RESPONSE_WAIT    // default setup as Wait for User decision. 
         pending_task = *task; // 结构体拷贝
         ESP_LOGI(TAG, "Pending task stored: id=%s, client=%s, version=%s",
                  pending_task.task_id, pending_task.client_id, pending_task.version);
@@ -32,8 +43,10 @@ ota_task_t* otaapp_get_pending_task(void) {
     return (pending_task.task_id[0] != '\0') ? &pending_task : NULL;
 }
 
+
+
 // 用户响应
-void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool accepted) {
+void ota_dispatch_user_response(const char *client_id, ota_task_t *task ) {
     client_info_t *client = client_register_find_by_client_id(client_id);
     if (!client || client->state == CLIENT_OFFLINE) {
         ESP_LOGW(TAG, "Client %s not found or offline, cannot send OTA task", client_id);
@@ -41,7 +54,7 @@ void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool ac
         return;
     }
 
-    if (accepted) {
+    if (task->user_response == USER_RESPONSE_ACCEPT) {
         ESP_LOGI(TAG, "User accepted OTA task %s for client %s", task->task_id, client_id);
 
         // 构造下发给 ECU 的 JSON
@@ -69,7 +82,7 @@ void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool ac
             ESP_LOGE(TAG, "Failed to send OTA task to client %s", client_id);
             otaapp_clear_pending_task(); // 失败时清理任务
         }
-    } else {
+    } else if (task->user_response == USER_RESPONSE_REJECT) {
         ESP_LOGW(TAG, "User rejected OTA task %s for client %s", task->task_id, client_id);
 
         // 构造反馈 JSON 给 OTA Server
@@ -90,6 +103,8 @@ void ota_dispatch_user_response(const char *client_id, ota_task_t *task, bool ac
         free(json_str);
 
         otaapp_clear_pending_task();
+    } else {
+        ESP_LOGW(TAG, "ota push task is waiting for user's decision ", task->task_id);
     }
 }
 

@@ -94,8 +94,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             if (cJSON_IsString(url))       strncpy(task->url, url->valuestring, sizeof(task->url)-1);
             if (cJSON_IsString(features))  strncpy(task->features, features->valuestring, sizeof(task->features)-1);
 
-            task->status = OTA_STATUS_PENDING;
-            task->created_ms = esp_log_timestamp(); 
+            task->status = OTA_STATUS_PENDING;          //default set pending
+            task->created_ms = esp_log_timestamp();     //default set time
+            task->user_response = USER_RESPONSE_WAIT;   //default set wait
 
             
             // 将任务存储到 otaapp 的 pending_task

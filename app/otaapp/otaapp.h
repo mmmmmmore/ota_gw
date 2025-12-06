@@ -7,6 +7,15 @@
 #include "msg_handler.h"
 
 
+//User response enum
+
+typedef enum{
+    USER_RESPONSE_REJECT = -1,
+    USER_RESPONSE_WAIT   = 0,
+    USER_RESPONSE_ACCEPT = 1
+} user_response_t;
+
+
 // OTA 任务结构
 typedef struct {
     char task_id[64];
@@ -18,6 +27,7 @@ typedef struct {
     char mac[18];
     ota_status_t status;  //ota push task ,default as pending
     uint32_t created_ms; //time stamp
+    user_response_t user_response; // indicate use response from UI accept or reject.
 } ota_task_t;
 
 
