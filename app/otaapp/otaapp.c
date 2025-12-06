@@ -41,15 +41,16 @@ void otaapp_add_task(const ota_task_t *task) {
 }
 
 
-void otaapp_update_response(const char *task_id, bool accepted) {
+void otaapp_update_response(const char *task_id, user_response_t response) {
     for (int i = 0; i < MAX_TASKS; i++) {
         if (strcmp(task_list[i].task_id, task_id) == 0) {
-            task_list[i].user_response = accepted ? USER_RESPONSE_ACCEPT : USER_RESPONSE_REJECT;
-
-            if (accepted) {
+            task_list[i].user_response = response;
+            if (response == USER_RESPONSE_ACCEPT) {
                 ota_dispatch_send_task(task_list[i].client_id, &task_list[i]);
-            } else {
+            } else if (response == USER_RESPONSE_REJECT){
                 ESP_LOGI(TAG, "Task %s rejected", task_id);
+            } else {
+                ESP_LOGI(TAG, "Task %s waiting ", task_id);
             }
 
             // 停止定时器并清理任务
@@ -58,6 +59,7 @@ void otaapp_update_response(const char *task_id, bool accepted) {
             return;
         }
     }
+    ESP_LOGW(TAG, "Task %s not found for update", task_id);
 }
 
 
@@ -222,6 +224,7 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     }
     return ret;
 }
+
 
 
 
