@@ -77,7 +77,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
                 cJSON_Delete(root);
                 return;
             }
-            memset(&task, 0, sizeof(ota_task_t));
+            memset(task, 0, sizeof(ota_task_t));
             //construct task msg
             cJSON *task_id   = cJSON_GetObjectItem(root, "task_id");
             cJSON *dev_name  = cJSON_GetObjectItem(root, "device_name");

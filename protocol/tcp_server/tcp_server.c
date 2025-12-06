@@ -122,7 +122,7 @@ static esp_err_t safe_send(int sock, const char *buf, size_t len) {
 }
 
 static void gw_keep_alive_task(void *pvParameters) {
-    const char *keep_alive_msg = "{\"msg_type\":\"keep_alive\"}";
+    const char *keep_alive_msg = "{\"msg_type\":\"keep_alive\"}\n";
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(5000));
         lock();
