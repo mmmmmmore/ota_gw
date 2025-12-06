@@ -42,18 +42,18 @@ function loadPendingTask() {
 }
 
 // 提交用户选择
-function sendUserResponse(decision, mac) {
+function sendUserResponse(response_value, task_id_value) {
   fetch('/ota_user_response', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
-      task_id: task_id,
-      response: response   //UI accept / reject 
+      task_id: task_id_value,
+      response: response_value   //UI accept / reject 
     })
   })
   .then(resp => resp.json())
   .then(data => {
-    alert('响应已提交: ' + decision);
+    alert('响应已提交: ' + response_value);
     // 清空表格或刷新
     loadPendingTask();
   })
@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
 
 
