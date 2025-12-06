@@ -12,26 +12,26 @@ function showSection(sectionId) {
 function loadPendingTask() {
   fetch('/task_info')
     .then(resp => resp.json())
-    .then(task => {
+    .then(tasks => {
       let tbody = document.getElementById('update-tbody');
       tbody.innerHTML = '';
 
-      if (task.version) {
-        tbody.innerHTML = `
-          <tr>
-            <td>${task.task_id || '-'}</td>
-            <td>${task.device_name || '-'}</td>
-            <td>${task.client_id || '-'}</td>
-            <td>${task.version}</td>
-            <td>${task.features || '-'}</td>
-            <td>
-              <button onclick="sendUserResponse('accept', '${task.client_id}')">接受</button>
-              <button onclick="sendUserResponse('reject', '${task.client_id}')">拒绝</button>
-            </td>
-          </tr>
-        `;
+      if (tasks.length > 0) {
+        tasks.forEach(task =>{
+          tbody.innerHTML = `
+            <tr>
+              <td>${task.task_id || '-'}</td>
+              <td>${task.client_id || '-'}</td>
+              <td>${task.version}</td>
+              <td>${task.features || '-'}</td>
+              <td>
+                <button onclick="sendUserResponse('accept', '${task.client_id}')">接受</button>
+                <button onclick="sendUserResponse('reject', '${task.client_id}')">拒绝</button>
+              </td>
+            </tr>
+          `;
 
-        
+        });
       } else {
         tbody.innerHTML = '<tr><td colspan="5">当前没有待确认任务</td></tr>';
       }
@@ -68,4 +68,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
