@@ -5,13 +5,75 @@
 #include <string.h>
 
 
-#define MAX_CLIENT = 3
+#define MAX_TASKS 6
 static const char *TAG = "OTA_APP_MGMT";
 static ota_task_t pending_task;   // 唯一的挂起任务缓存
+static ota_task_t task_lists[MAX_TASKS] ;
+
+
+
+void otaapp_add_task(const ota_task_t *task) {
+    // 找到空槽位
+    for (int i = 0; i < MAX_TASKS; i++) {
+        if (task_list[i].task_id[0] == '\0') {
+            task_list[i] = *task;
+            task_list[i].user_response = USER_RESPONSE_WAIT;
+
+            // 创建定时器，60s 后触发
+            task_list[i].timer = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
+                                              pdFALSE, (void*)&task_list[i],
+                                              ota_task_timeout_cb);
+            xTimerStart(task_list[i].timer, 0);
+
+            // 发给 Webserver 用于 UI 展示
+            webserver_notify_new_task(&task_list[i]);
+            return;
+        }
+    }
+    ESP_LOGW(TAG, "Task list full, discard new task");
+}
+
+
+void otaapp_update_response(const char *task_id, bool accepted) {
+    for (int i = 0; i < MAX_TASKS; i++) {
+        if (strcmp(task_list[i].task_id, task_id) == 0) {
+            task_list[i].user_response = accepted ? USER_RESPONSE_ACCEPT : USER_RESPONSE_REJECT;
+
+            if (accepted) {
+                ota_dispatch_send_task(task_list[i].client_id, &task_list[i]);
+            } else {
+                ESP_LOGI(TAG, "Task %s rejected", task_id);
+            }
+
+            // 停止定时器并清理任务
+            xTimerStop(task_list[i].timer, 0);
+            memset(&task_list[i], 0, sizeof(task_list[i]));
+            return;
+        }
+    }
+}
+
+void ota_task_timeout_cb(TimerHandle_t xTimer) {
+    ota_task_t *task = (ota_task_t*) pvTimerGetTimerID(xTimer);
+    if (task->user_response == USER_RESPONSE_WAIT) {
+        ESP_LOGW(TAG, "Task %s timed out", task->task_id);
+        memset(task, 0, sizeof(*task));
+    }
+}
 
 
 
 
+void otaapp_update_response(const char *task_id, bool accepted) {
+    for (int i = 0; i < MAX_TASKS; i++) {
+        if (strcmp(task_list[i].task_id, task_id) == 0) {
+            task_list[i].user_response = accepted ? USER_RESPONSE_ACCEPT : USER_RESPONSE_REJECT;
+            ESP_LOGI(TAG, "Task %s updated: %s", task_id, accepted ? "ACCEPT" : "REJECT");
+            return;
+        }
+    }
+    ESP_LOGW(TAG, "Task %s not found for user response", task_id);
+}
 
 
 
@@ -141,4 +203,5 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     }
     return ret;
 }
+
 
