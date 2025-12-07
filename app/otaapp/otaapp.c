@@ -27,13 +27,13 @@ void otaapp_add_task(const ota_task_t *task) {
             task_lists[i].user_response = USER_RESPONSE_WAIT;
 
             // 创建定时器，60s 后触发
-            task_lists[i].created_ms = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
+            task_lists[i].timer = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
                                               pdFALSE, (void*)&task_lists[i],
                                               ota_task_timeout_cb);
-            xTimerStart(task_lists[i].created_ms, 0);
+            xTimerStart(task_lists[i].timer, 0);
 
             // 发给 Webserver 用于 UI 展示
-            webserver_notify_new_task(&task_lists[i]);
+            //webserver_notify_new_task(&task_lists[i]);
             return;
         }
     }
@@ -63,39 +63,8 @@ void otaapp_update_response(const char *task_id, user_response_t response) {
     ESP_LOGW(TAG, "Task %s not found for update", task_id);
 }
 
-
-
-void otaapp_update_response(const char *task_id, const char *client_id, bool accepted) {
-    for (int i = 0; i < MAX_TASKS; i++) {
-        ota_task_t *t = &task_list[i];
-        if (strcmp(t->task_id, task_id) == 0 && strcmp(t->client_id, client_id) == 0) {
-            t->user_response = accepted ? USER_RESPONSE_ACCEPT : USER_RESPONSE_REJECT;
-
-            if (accepted) {
-                ota_dispatch_send_task(t->client_id, t);
-                memset(t, 0, sizeof(*t));
-            } else {
-                ESP_LOGI(TAG, "Task %s rejected", t->task_id);
-                ota_dispatch_user_reject(t->task_id);
-                memset(t, 0, sizeof(*t));
-            }
-            return;
-        }
-    }
-    ESP_LOGW(TAG, "No matching task found for user response");
-}
-
-
-
-void otaapp_update_response(const char *task_id, bool accepted) {
-    for (int i = 0; i < MAX_TASKS; i++) {
-        if (strcmp(task_list[i].task_id, task_id) == 0) {
-            task_list[i].user_response = accepted ? USER_RESPONSE_ACCEPT : USER_RESPONSE_REJECT;
-            ESP_LOGI(TAG, "Task %s updated: %s", task_id, accepted ? "ACCEPT" : "REJECT");
-            return;
-        }
-    }
-    ESP_LOGW(TAG, "Task %s not found for user response", task_id);
+ota_task_t* otaapp_get_task_list(void){
+    return task_lists;
 }
 
 
@@ -107,16 +76,16 @@ void otaapp_clear_pending_task(void) {
 }
 
 // 设置挂起任务
-void otaapp_set_pending_task(const ota_task_t *task) {
-    ota_task_t *slot = find_slot_by_client_id(task->client_id);     //link to pending_tasks_list 
-    if (slot) {
-        *slot = *task;
-        slot->user_response = USER_RESPONSE_WAIT;    // default setup as Wait for User decision. 
-        pending_task = *task; // 结构体拷贝
-        ESP_LOGI(TAG, "Pending task stored: id=%s, client=%s, version=%s",
-                 pending_task.task_id, pending_task.client_id, pending_task.version);
-    }
-}
+//void otaapp_set_pending_task(const ota_task_t *task) {
+//    ota_task_t *slot = find_slot_by_client_id(task->client_id);     //link to pending_tasks_list 
+//    if (slot) {
+//        *slot = *task;
+//        slot->user_response = USER_RESPONSE_WAIT;    // default setup as Wait for User decision. 
+//        pending_task = *task; // 结构体拷贝
+//        ESP_LOGI(TAG, "Pending task stored: id=%s, client=%s, version=%s",
+//                 pending_task.task_id, pending_task.client_id, pending_task.version);
+//    }
+//}
 
 void ota_dispatch_init(void) {
     otaapp_clear_pending_task();
@@ -179,9 +148,10 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     cJSON_AddStringToObject(root, "version", task->version);
     cJSON_AddStringToObject(root, "firmware_url", task->url);
     cJSON_AddStringToObject(root, "features", task->features);
+    cJSON_AddNumberToObject(root, "user_response", (int)task->user_response);
 
     char *json_str = cJSON_PrintUnformatted(root);
-    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s", client_id, client->ip, json_str);
+    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", client_id, client->ip, json_str, task->user_response);
 
     esp_err_t ret = tcp_server_send(client->sock, json_str);
 

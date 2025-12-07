@@ -34,22 +34,29 @@ typedef struct {
     ota_status_t status;  //ota push task ,default as pending
     uint32_t created_ms; //time stamp
     user_response_t user_response; // indicate use response from UI accept or reject.
+    TimerHandle_t timer;
 } ota_task_t;
 
 
+//---task management in otaapp -- //
+
 void otaapp_add_task(const ota_task_t *task);
 
-void otaapp_update_response(const char *task_id, user_response_t response);
-
-
+ota_task_t* otaapp_get_task_list();
 
 // 清除挂起任务
 void otaapp_clear_pending_task(void);
 
-// 设置挂起任务（由 msg_handler 调用）
-void otaapp_set_pending_task(const ota_task_t *task);
 // 获取挂起任务（供 msg_handler/webserver 查询）
 ota_task_t* otaapp_get_pending_task(void);
+
+
+
+void otaapp_update_response(const char *task_id, user_response_t response);
+
+// 设置挂起任务（由 msg_handler 调用） // old single case, disable in task list mode
+//void otaapp_set_pending_task(const ota_task_t *task);
+
 
 
 void ota_dispatch_init(void);

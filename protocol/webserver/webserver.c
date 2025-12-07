@@ -5,6 +5,7 @@
 #include "msg_handler.h"   // 替换 otaapp/ota_handler
 #include <stdio.h>
 #include <string.h>
+#include "otaapp.h"
 
 static const char *TAG = "WEB_OTAGW";
 static char *pending_task_json = NULL;
@@ -52,9 +53,9 @@ static esp_err_t static_file_handler(httpd_req_t *req) {
 //-----------valid task display in UI page ---------//
 char *webserver_get_task_list_json(void) {
     cJSON *root = cJSON_CreateArray();
-
+    ota_task_t *task_lists = otaapp_get_task_list();
     for (int i = 0; i < MAX_TASKS; i++) {
-        ota_task_t *t = &task_list[i];
+        ota_task_t *t = &task_lists[i];
         if (t->task_id[0] == '\0') continue; // 空槽位跳过
 
         // 检查是否过期
@@ -75,9 +76,9 @@ char *webserver_get_task_list_json(void) {
     return json_str; // 调用者负责 free()
 }
 
-const char *msg_handler_get_pending_task_json(void) {
-    return pending_task_json ? strdup(pending_task_json) : NULL;
-}
+//const char *msg_handler_get_pending_task_json(void) {
+//    return pending_task_json ? strdup(pending_task_json) : NULL;
+//}
 
 
 

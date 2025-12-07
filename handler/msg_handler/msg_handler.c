@@ -153,19 +153,19 @@ const char* msg_handler_get_pending_task_json(void) {
     return json_str;
 }
 
-void msg_handler_user_response(const char *client_id, bool accepted) {
-    ota_task_t *task = otaapp_get_pending_task();
-    if (task && strcmp(task->client_id, client_id) == 0 && task->status == OTA_STATUS_PENDING) {
-        if (accepted) {
-            ota_dispatch_user_response(client_id, task, true);
-        } else {
-            task->status = OTA_STATUS_REJECTED;
-            ESP_LOGW(TAG, "Task %s rejected by web", task->task_id);
-        }
-    } else {
-        ESP_LOGW(TAG, "No matching pending task for client %s", client_id);
-    }
-}
+//void msg_handler_user_response(const char *client_id, bool accepted) {
+//   ota_task_t *task = otaapp_get_pending_task();
+//    if (task && strcmp(task->client_id, client_id) == 0 && task->status == OTA_STATUS_PENDING) {
+//        if (accepted) {
+//            ota_dispatch_user_response(client_id, task, true);
+//        } else {
+//            task->status = OTA_STATUS_REJECTED;
+//            ESP_LOGW(TAG, "Task %s rejected by web", task->task_id);
+//        }
+//    } else {
+//        ESP_LOGW(TAG, "No matching pending task for client %s", client_id);
+//    }/
+//}
 
 
 const char* msg_handler_get_progress_json(void) {

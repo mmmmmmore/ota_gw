@@ -33,7 +33,7 @@ void msg_handler_init(void);
 void msg_handler_process(int sock, const char *json_str, msg_role_t role);
 
 // 提供给 webserver 的接口
-const char* msg_handler_get_pending_task_json(void);   // 返回待确认任务 JSON
+//const char* msg_handler_get_pending_task_json(void);   // 返回待确认任务 JSON
 void msg_handler_user_response(const char *client_id, bool accepted); // 用户响应
 const char* msg_handler_get_progress_json(void);       // 返回进度 JSON
 
