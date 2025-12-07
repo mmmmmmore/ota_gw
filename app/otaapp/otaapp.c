@@ -132,6 +132,20 @@ void ota_dispatch_user_reject(const ota_task_t *task ) {
     
 }
 
+static const char* user_response_to_str(user_response_t resp){
+    switch (resp)
+    {
+        case USER_RESPONSE_ACCEPT: return "User_Accept";
+        case USER_RESPONSE_REJECT: return "User_Reject";
+        case USER_RESPONSE_WAIT:   return "User_Wait";
+        default: return "User_Wait";
+    }
+}
+
+
+
+
+
 // 下发任务给指定客户端
 esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     client_info_t *client = client_register_find_by_client_id(client_id);
@@ -148,10 +162,10 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     cJSON_AddStringToObject(root, "version", task->version);
     cJSON_AddStringToObject(root, "firmware_url", task->url);
     cJSON_AddStringToObject(root, "features", task->features);
-    cJSON_AddNumberToObject(root, "user_response", (int)task->user_response);
+    cJSON_AddStringToObject(root, "user_response", user_response_to_str(task->user_response));
 
     char *json_str = cJSON_PrintUnformatted(root);
-    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", client_id, client->ip, json_str, task->user_response);
+    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", client_id, client->ip, json_str, user_response_to_str(task->user_response));
 
     esp_err_t ret = tcp_server_send(client->sock, json_str);
 

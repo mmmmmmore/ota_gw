@@ -33,16 +33,16 @@ static ota_client_task_t* find_or_create_task(const char *client_id) {
     }
     return NULL;
 }
-
-static void delayed_send_task(void *param) {
-    ota_task_t *task = (ota_task_t *) param;
-    vTaskDelay(pdMS_TO_TICKS(10000));
-    ESP_LOGI(TAG, "Delayed dispatch: sending task %s to client %s",
-             task->task_id, task->client_id);
-    ota_dispatch_send_task(task->client_id, task);
-    // vPortFree(task);
-    vTaskDelete(NULL);
-}
+///-- this is only for pending 10s test ---//
+//static void delayed_send_task(void *param) {
+//    ota_task_t *task = (ota_task_t *) param;
+//    vTaskDelay(pdMS_TO_TICKS(10000));
+//    ESP_LOGI(TAG, "Delayed dispatch: sending task %s to client %s",
+//             task->task_id, task->client_id);
+//    ota_dispatch_send_task(task->client_id, task);
+//    // vPortFree(task);
+//    vTaskDelete(NULL);
+//}
 // 在 msg_handler_process() 的 ota_task 分支
 
 ////
@@ -60,6 +60,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     if (cJSON_IsString(msg_type)) {
         if (strcmp(msg_type->valuestring, "register") == 0) {
             client_register_save(sock, root);
+        } else if(strcmp(msg_type->valuestring, "hellp") == 0){
+            ESP_LOGI(TAG, "OTA server hello received on sock %d", sock);
+            //tsp_server_set_ota_sock(sock);
         } else if (strcmp(msg_type->valuestring, "progress") == 0) {
             const char *client_id = cJSON_GetObjectItem(root,"client_id")->valuestring;
             ota_client_task_t *task = find_or_create_task(client_id);
@@ -109,7 +112,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
                 status->progress = 0;
             }
             //delay the task send 10s
-            xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
+            //xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
             
 
 
