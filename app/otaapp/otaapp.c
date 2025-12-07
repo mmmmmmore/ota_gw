@@ -22,18 +22,18 @@ void ota_task_timeout_cb(TimerHandle_t xTimer) {
 void otaapp_add_task(const ota_task_t *task) {
     // 找到空槽位
     for (int i = 0; i < MAX_TASKS; i++) {
-        if (task_list[i].task_id[0] == '\0') {
-            task_list[i] = *task;
-            task_list[i].user_response = USER_RESPONSE_WAIT;
+        if (task_lists[i].task_id[0] == '\0') {
+            task_lists[i] = *task;
+            task_lists[i].user_response = USER_RESPONSE_WAIT;
 
             // 创建定时器，60s 后触发
-            task_list[i].timer = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
-                                              pdFALSE, (void*)&task_list[i],
+            task_lists[i].created_ms = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
+                                              pdFALSE, (void*)&task_lists[i],
                                               ota_task_timeout_cb);
-            xTimerStart(task_list[i].timer, 0);
+            xTimerStart(task_lists[i].created_ms, 0);
 
             // 发给 Webserver 用于 UI 展示
-            webserver_notify_new_task(&task_list[i]);
+            webserver_notify_new_task(&task_lists[i]);
             return;
         }
     }
@@ -111,7 +111,7 @@ void otaapp_set_pending_task(const ota_task_t *task) {
     ota_task_t *slot = find_slot_by_client_id(task->client_id);     //link to pending_tasks_list 
     if (slot) {
         *slot = *task;
-        slot->user_response = USER_RESPONSE_WAIT    // default setup as Wait for User decision. 
+        slot->user_response = USER_RESPONSE_WAIT;    // default setup as Wait for User decision. 
         pending_task = *task; // 结构体拷贝
         ESP_LOGI(TAG, "Pending task stored: id=%s, client=%s, version=%s",
                  pending_task.task_id, pending_task.client_id, pending_task.version);
@@ -137,15 +137,15 @@ void ota_dispatch_user_reject(const ota_task_t *task ) {
 
         // 构造反馈 JSON 给 OTA Server
     cJSON *root = cJSON_CreateObject();        
-    cJSON_AddStringToObject(root, "msg_type", "ota_task_ack")
+    cJSON_AddStringToObject(root, "msg_type", "ota_task_ack");
     cJSON_AddStringToObject(root, "task_id", task->task_id);
     cJSON_AddStringToObject(root, "status", "rejected");
     cJSON_AddStringToObject(root, "version", task->version);
     char *json_str = cJSON_PrintUnformatted(root);
 
     size_t len = strlen(json_str);
-    char *send_buf = malloc(len + 2)
-    if (send_buf){
+    char *send_buf = malloc(len + 2); 
+    if (send_buf) {
         strcpy(send_buf, json_str);
         strcpy(send_buf, "\n");
     }

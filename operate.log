@@ -1001,3 +1001,35 @@ I (2406563) GW_TCP_SERVER: Received 31 bytes from client 38: {"msg_type": "keep_
 
 I (2406563) GW_TCP_SERVER: [OTA] Received keep_alive_ack from sock 38
 I (2411553) GW_TCP_SERVER: Received 31 bytes from client 38: {"msg_type": "keep_alive_ack"}
+
+
+
+251207-093000
+
+
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'otaapp_add_task':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:30:38: error: assignment to 'uint32_t' {aka 'long unsigned int'} from 'TimerHandle_t' {aka 'struct tmrTimerControl *'} makes integer from pointer without a cast [-Wint-conversion]
+   30 |             task_lists[i].created_ms = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
+      |                                      ^
+In file included from /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/event_groups.h:41,
+                 from /Users/maochun/esp32prj/esp-idf/components/freertos/esp_additions/include/freertos/idf_additions.h:25,
+                 from /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/FreeRTOS.h:1533,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:8,
+                 from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:1:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:33:38: error: passing argument 1 of 'xTimerGenericCommand' makes pointer from integer without a cast [-Wint-conversion]
+   33 |             xTimerStart(task_lists[i].created_ms, 0);
+/Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/timers.h:501:29: note: in definition of macro 'xTimerStart'
+  501 |     xTimerGenericCommand( ( xTimer ), tmrCOMMAND_START, ( xTaskGetTickCount() ), NULL, ( xTicksToWait ) )
+      |                             ^~~~~~
+/Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/timers.h:1313:48: note: expected 'TimerHandle_t' {aka 'struct tmrTimerControl *'} but argument is of type 'uint32_t' {aka 'long unsigned int'}
+ 1313 | BaseType_t xTimerGenericCommand( TimerHandle_t xTimer,
+      |                                  ~~~~~~~~~~~~~~^~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:36:13: error: implicit declaration of function 'webserver_notify_new_task' [-Wimplicit-function-declaration]
+   36 |             webserver_notify_new_task(&task_lists[i]);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'otaapp_update_response':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:58:37: error: 'ota_task_t' has no member named 'timer'
+   58 |             xTimerStop(task_lists[i].timer, 0);
+      |                                     ^
+/Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/include/freertos/timers.h:543:29: note: in definition of macro 'xTimerStop'
+  543 |     xTimerGenericCommand( ( xTimer ), tmrCOMMAND_STOP, 0U, NULL, ( xTicksToWait ) )
