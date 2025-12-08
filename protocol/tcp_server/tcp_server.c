@@ -26,6 +26,14 @@ static SemaphoreHandle_t s_sock_mutex;
 static void lock(void)   { if (s_sock_mutex) xSemaphoreTake(s_sock_mutex, portMAX_DELAY); }
 static void unlock(void) { if (s_sock_mutex) xSemaphoreGive(s_sock_mutex); }
 
+static int find_sock_index(int sock){
+    for (int i =0; i < MAX_SOCKS; i++){
+        if (sock_table[i].sock == sock) return i;
+    }
+    return -1;
+}
+
+
 void tcp_server_set_ota_sock(int sock) {
     ota_server_sock = sock;
     ESP_LOGI(TAG, "OTA Server socket set: %d", sock);
@@ -37,12 +45,8 @@ int tcp_server_get_ota_sock(void) {
 
 static void update_last_seen(int sock) {
     lock();
-    for (int i = 0; i < MAX_SOCKS; i++) {
-        if (sock_table[i].sock == sock) {
-            sock_table[i].last_seen_ms = esp_log_timestamp();
-            break;
-        }
-    }
+    int idx = find_sock_index(sock);
+    if (idx > 0) sock_table[idx].last_seen_ms = esp_log_timestamp();
     unlock();
 }
 
@@ -52,21 +56,25 @@ static void register_sock(int sock, msg_role_t role) {
         ESP_LOGW(TAG, "OTA server already connected on sock=%d, closing old one", ota_server_sock);
         shutdown(ota_server_sock, SHUT_RDWR);
         close(ota_server_sock);
-        for (int i = 0; i < MAX_SOCKS; i++) {
-            if (sock_table[i].sock == ota_server_sock) {
-                sock_table[i].sock = -1;
-                sock_table[i].role = ROLE_UNKNOWN;
-                sock_table[i].last_seen_ms = 0;
-                break;
-            }
+        int old = find_sock_index(ota_server_sock);
+        if (old >= 0) {
+            sock_table[old].sock = -1;
+            sock_table[old].role = ROLE_UNKNOWN;
+            sock_table[old].last_seen_ms = 0;
+            sock_table[old].rx_len = 0;
+            memset(sock_table[old].rx_buffer, 0, RX_BUF_SIZE);
         }
         ota_server_sock = -1;
     }
+
+    // allocate the slot
     for (int i = 0; i < MAX_SOCKS; i++) {
         if (sock_table[i].sock <= 0) {
             sock_table[i].sock = sock;
             sock_table[i].role = role;
             sock_table[i].last_seen_ms = esp_log_timestamp();
+            sock_table[i].rx_len = 0;
+            memset(sock_table[i].rx_buffer, 0, RX_BUF_SIZE);
             break;
         }
     }
@@ -79,14 +87,15 @@ static void register_sock(int sock, msg_role_t role) {
 
 static void unregister_sock(int sock) {
     lock();
-    for (int i = 0; i < MAX_SOCKS; i++) {
-        if (sock_table[i].sock == sock) {
-            sock_table[i].sock = -1;
-            sock_table[i].role = ROLE_UNKNOWN;
-            sock_table[i].last_seen_ms = 0;
-            break;
-        }
+    int idx = find_sock_index(sock);
+    if (idx >= 0){
+        sock_table[idx].sock = -1;
+        sock_table[idx].role = ROLE_UNKNOWN;
+        sock_table[idx].last_seen_ms = 0;
+        sock_table[idx].rx_len = 0;
+        memset(sock_table[idx].rx_buffer, 0, RX_BUF_SIZE);
     }
+
     if (ota_server_sock == sock) {
         ota_server_sock = -1;
         ESP_LOGW(TAG, "OTA Server disconnected");
@@ -94,6 +103,8 @@ static void unregister_sock(int sock) {
     unlock();
 }
 
+
+//-------------socket options --------------------------//
 static void set_socket_opts(int sock, int recv_timeout_ms) {
     int opt = 1;
     setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
@@ -136,6 +147,87 @@ static void gw_keep_alive_task(void *pvParameters) {
         }
     }
 }
+
+
+static void process_stream_json(int client_sock, msg_role_t role, const char *chunk, int len){
+    if (len < 0 ) return;
+
+    lock();
+    int idx = find_sock_index(client_sock);
+    if (idx <0){unlock(); return;}
+
+    //append the stream
+    sock_info_t *si = &sock_table[idx];
+    int cap = RX_BUF_SIZE - si->rx_len - 1 ;
+    if (len>cap) len =cap;  //prevent overflow
+    memcpy(si->rx_buffer+si->rx_len, chunk, len);
+    si->rx_len += len;
+    si->rx_buffer[si->rx_len] = '\0' ;
+    unlock();
+
+    ESP_LOGI(TAG, "Rx %d bytes from client %d :::%s , ", len, client_sock, si->rx_buffer);  
+    
+    //parse loop
+    char *start = si->rx_buffer;
+    
+    while (1)  
+    {
+        char *newline = strchr(start, '\n');  //
+        if (!newline) break;
+
+        int msg_len = newline - start ; 
+        if (msg_len <=0 ){
+            start = newline +1;
+            continue;
+        }
+        
+        char json_str[RX_BUF_SIZE];
+        if (msg_len >= RX_BUF_SIZE){
+            ESP_LOGW(TAG, "Single JSON length (- %d -) bigger than handler, drop ", msg_len);
+            start = newline +1;
+            continue;
+        } 
+
+        memcpy(json_str, start, msg_len);
+        json_str[msg_len] = '\0';
+
+        ESP_LOGI(TAG, "Rx JSON from sock %d :: %s", client_sock, json_str);  
+
+        cJSON *root = cJSON_Parse(json_str);  //rx buffer msg change to json format set as root; 
+
+        if (root) {
+            cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
+            if (msg_type && msg_type->valuestring){
+                if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0){
+                    ESP_LOGI(TAG, "[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
+                    update_last_seen(client_sock);
+                } else {
+                    ESP_LOGI(TAG, "[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
+                    msg_handler_process(client_sock, json_str, role);
+                    update_last_seen(client_sock);
+                   }
+            }else {
+                ESP_LOGW(TAG, "Failed to parse JSON data from sock %d: raw data is %s", client_sock, json_str);
+                update_last_seen(client_sock); 
+            } 
+            cJSON_Delete(root); //clear json object
+        } else {
+            // 非 JSON 数据，更新 last_seen 以免误判超时
+            ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
+            update_last_seen(client_sock);
+    }
+    start = newline + 1 ; // to next msg decode process
+    }
+    //compact remaining
+    lock();
+    int remain = (si->rx_buffer + si->rx_len) - start ;
+    if (remain > 0 ) memmove(si->rx_buffer, start, remain);
+    si->rx_len = remain ;
+    si->rx_buffer[si->rx_len] ='\0';
+    unlock();
+
+}
+
 
 static void tcp_server_task(void *pvParameters) {
     int port = (int)(intptr_t)pvParameters;
@@ -190,22 +282,19 @@ static void tcp_server_task(void *pvParameters) {
                           (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
         register_sock(client_sock, role);
 
-        char rx_buffer[512];
+        //char rx_buffer[512];
 
         while (1) {
-            int len = recv(client_sock, rx_buffer + rx_len, sizeof(rx_buffer) - rx_len - 1,0);  // 251208 optimize the tcp rx buffer method. 
+            char chunk[256];
+            int len = recv(client_sock, chunk, sizeof(chunk) ,0);  // 251208 optimize the tcp rx buffer method. 
         //    int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if (len < 0) {
                 if (errno == EWOULDBLOCK || errno == EAGAIN) {
                     uint32_t now = esp_log_timestamp();
                     uint32_t last = 0;
                     lock();
-                    for (int i = 0; i < MAX_SOCKS; i++) {
-                        if (sock_table[i].sock == client_sock) {
-                            last = sock_table[i].last_seen_ms;
-                            break;
-                        }
-                    }
+                    int idx = find_sock_index(client_sock);
+                    if (idx >=0) last = sock_table[idx].last_seen_ms;
                     unlock();
                     if (last == 0 || (now - last) > 20000) {
                         ESP_LOGW(TAG, "Sock %d timed out (no keep_alive_ack), closing", client_sock);
@@ -220,84 +309,12 @@ static void tcp_server_task(void *pvParameters) {
                     ESP_LOGW(TAG, "Client disconnected");
                     break;
                 } else {
-                    rx_len += len;
-                    rx_buffer[rx_len] = '\0'; 
-                    ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
+                    // per-role framing and parse the stream
+                    process_stream_json(client_sock, role, chunk, len);
                     
-
-                    // ring-buffer continue decode the tcp rx data , if json match provide for msg_handler for decode. 
-                    char *start = rx_buffer;
-
-                    while (1)  
-                    {
-                        char *newline = strchr(start, '\n');  //
-                        if (!newline) break;
-
-                        int msg_len = newline - start ; 
-                        char json_str[512]; 
-                        memcpy(json_str, start, msg_len);
-                        json_str[msg_len] = '\0';
-
-                        ESP_LOGI(TAG, "Rx JSON from sock %d :: %s", client_sock, json_str);  
-
-                        cJSON *root = cJSON_Parse(json_str);  //decode this json message
-
-                        if (root) {
-                            cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
-                            if (msg_type && msg_type->valuestring){
-                                if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0){
-                                    ESP_LOGI(TAG, "[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
-                                    update_last_seen(client_sock);
-                                } else {
-                                    ESP_LOGI(TAG, "[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
-                                    msg_handler_process(client_sock, json_str, role);
-                                    update_last_seen(client_sock);
-                                }
-                            }
-                            cJSON_Delete(root); //clear json object
-                        } else {
-                            ESP_LOGW(TAG, "Failed to parse JSON data from sock %d: raw data is %s", client_sock, json_str);
-                            update_last_seen(client_sock);
-                        } else {
-                            // 非 JSON 数据，更新 last_seen 以免误判超时
-                            ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
-                            update_last_seen(client_sock);
-                        }
-                        start = newline + 1 ; // to next msg decode process
-                    }
-                    int buffer_remain = rx_buffer + rx_len -start;
-                    memmove(rx_buffer, start, buffer_remain);
-                    rx_len = buffer_remain;
-                    //-- put buffer left data to buffer head for next round decode 
-
-                    //cJSON *root = cJSON_Parse(rx_buffer);
-                    //if (root) {
-		    		//	cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
-			    	//	if (msg_type && msg_type->valuestring) {
-				    //		if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
-					//    		ESP_LOGI(TAG, "[%s] Received keep_alive_ack from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
-
-					//	    	update_last_seen(client_sock);
-					//    	} else {
-                    //        // 交给消息处理模块
-                    //        ESP_LOGI(TAG, "[%s]Received msg_type =%s from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring,client_sock);
-                    //        msg_handler_process(client_sock, rx_buffer, role);
-                    //        update_last_seen(client_sock);
-                    //    }
-                    //} else {
-                    //    ESP_LOGW(TAG, "failed to parse JSON from sock %d : raw is %s", client_sock, rx_buffer);
-                    //    // 没有 msg_type 字段，仍然更新 last_seen
-                    //    update_last_seen(client_sock);
-                    //    continue;
-                    //}
-                    //cJSON_Delete(root);
-                    //} else {
-                    //    // 非 JSON 数据，更新 last_seen 以免误判超时
-                    //    ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
-                    //    update_last_seen(client_sock);
-                    //}
                 }
             }
+
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
         shutdown(client_sock, SHUT_RDWR);
         close(client_sock);
@@ -311,11 +328,17 @@ esp_err_t tcp_server_send(int client_sock, const char *json_str) {
     return safe_send(client_sock, json_str, strlen(json_str));
 }
 
+
 void gw_tcp_servers_init(void) {
     s_sock_mutex = xSemaphoreCreateMutex();
     memset(sock_table, 0, sizeof(sock_table));
-    for (int i = 0; i < MAX_SOCKS; i++) sock_table[i].sock = -1;
-
+    for (int i = 0; i < MAX_SOCKS; i++) {
+        sock_table[i].sock = -1;
+        sock_table[i].role = ROLE_UNKNOWN;
+        sock_table[i].last_seen_ms = 0;
+        sock_table[i].rx_len =0;
+        memset(sock_table[i].rx_buffer, 0, RX_BUF_SIZE);
+    }
     // 分别启动两个端口的服务
     xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9001", 4096, (void*)(intptr_t)9001, 5, NULL, 0);
     xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9002", 4096, (void*)(intptr_t)9002, 5, NULL, 0);

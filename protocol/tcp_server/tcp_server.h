@@ -4,11 +4,15 @@
 #include "esp_err.h"
 #include "msg_handler.h"
 
+#define RX_BUF_SIZE 1024
+#define MAX_SOCKS 10
 
 typedef struct {
     int sock;
     msg_role_t role;
     uint32_t last_seen_ms;
+    char rx_buffer[RX_BUF_SIZE];
+    int rx_len;
 } sock_info_t;
 
 // 初始化：启动两个端口监听
