@@ -18,7 +18,7 @@ function loadPendingTask() {
 
       if (tasks.length > 0) {
         tasks.forEach(task =>{
-          tbody.innerHTML = `
+          tbody.innerHTML += `
             <tr>
               <td>${task.task_id || '-'}</td>
               <td>${task.client_id || '-'}</td>

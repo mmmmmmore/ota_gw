@@ -26,6 +26,8 @@ typedef struct {
     int progress; // 百分比
 } ota_client_task_t;
 
+
+
 // 初始化
 void msg_handler_init(void);
 

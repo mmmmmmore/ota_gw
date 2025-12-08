@@ -7,20 +7,21 @@
 #include "msg_handler.h"
 #include "cJSON.h"
 
-static const char *TAG = "GW_TCP_SERVER";
-static const char *TAG_OTA = "--OTA_SERVER--";
-static const char *TAG_CLT = "--CLient--";
-
-typedef struct {
-    int sock;
-    msg_role_t role;
-    uint32_t last_seen_ms;
-} sock_info_t;
-
+#define RX_BUF_SIZE 1024
 #define MAX_SOCKS 10
+
+
+static char rx_buffer[RX_BUF_SIZE];
+static int rx_len = 0;
+
+static const char *TAG = "GW_TCP_SERVER";
+
 static sock_info_t sock_table[MAX_SOCKS];
 static int ota_server_sock = -1;
 static SemaphoreHandle_t s_sock_mutex;
+
+
+
 
 static void lock(void)   { if (s_sock_mutex) xSemaphoreTake(s_sock_mutex, portMAX_DELAY); }
 static void unlock(void) { if (s_sock_mutex) xSemaphoreGive(s_sock_mutex); }
@@ -192,7 +193,8 @@ static void tcp_server_task(void *pvParameters) {
         char rx_buffer[512];
 
         while (1) {
-            int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
+            int len = recv(client_sock, rx_buffer + rx_len, sizeof(rx_buffer) - rx_len - 1,0);  // 251208 optimize the tcp rx buffer method. 
+        //    int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if (len < 0) {
                 if (errno == EWOULDBLOCK || errno == EAGAIN) {
                     uint32_t now = esp_log_timestamp();
@@ -218,35 +220,82 @@ static void tcp_server_task(void *pvParameters) {
                     ESP_LOGW(TAG, "Client disconnected");
                     break;
                 } else {
-                    rx_buffer[len] = '\0';
+                    rx_len += len;
+                    rx_buffer[rx_len] = '\0'; 
                     ESP_LOGI(TAG, "Received %d bytes from client %d: %s", len, client_sock, rx_buffer);
+                    
 
-                    cJSON *root = cJSON_Parse(rx_buffer);
-                    if (root) {
-		    			cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
-			    		if (msg_type && msg_type->valuestring) {
-				    		if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
-					    		ESP_LOGI(TAG, "[%s] Received keep_alive_ack from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
+                    // ring-buffer continue decode the tcp rx data , if json match provide for msg_handler for decode. 
+                    char *start = rx_buffer;
 
-						    	update_last_seen(client_sock);
-					    	} else {
-                            // 交给消息处理模块
-                            ESP_LOGI(TAG, "[%s]Received msg_type =%s from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring,client_sock);
-                            msg_handler_process(client_sock, rx_buffer, role);
+                    while (1)  
+                    {
+                        char *newline = strchr(start, '\n');  //
+                        if (!newline) break;
+
+                        int msg_len = newline - start ; 
+                        char json_str[512]; 
+                        memcpy(json_str, start, msg_len);
+                        json_str[msg_len] = '\0';
+
+                        ESP_LOGI(TAG, "Rx JSON from sock %d :: %s", client_sock, json_str);  
+
+                        cJSON *root = cJSON_Parse(json_str);  //decode this json message
+
+                        if (root) {
+                            cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
+                            if (msg_type && msg_type->valuestring){
+                                if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0){
+                                    ESP_LOGI(TAG, "[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
+                                    update_last_seen(client_sock);
+                                } else {
+                                    ESP_LOGI(TAG, "[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
+                                    msg_handler_process(client_sock, json_str, role);
+                                    update_last_seen(client_sock);
+                                }
+                            }
+                            cJSON_Delete(root); //clear json object
+                        } else {
+                            ESP_LOGW(TAG, "Failed to parse JSON data from sock %d: raw data is %s", client_sock, json_str);
+                            update_last_seen(client_sock);
+                        } else {
+                            // 非 JSON 数据，更新 last_seen 以免误判超时
+                            ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
                             update_last_seen(client_sock);
                         }
-                    } else {
-                        ESP_LOGW(TAG, "failed to parse JSON from sock %d : raw is %s", client_sock, rx_buffer);
-                        // 没有 msg_type 字段，仍然更新 last_seen
-                        update_last_seen(client_sock);
-                        continue;
+                        start = newline + 1 ; // to next msg decode process
                     }
-                    cJSON_Delete(root);
-                    } else {
-                        // 非 JSON 数据，更新 last_seen 以免误判超时
-                        ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
-                        update_last_seen(client_sock);
-                    }
+                    int buffer_remain = rx_buffer + rx_len -start;
+                    memmove(rx_buffer, start, buffer_remain);
+                    rx_len = buffer_remain;
+                    //-- put buffer left data to buffer head for next round decode 
+
+                    //cJSON *root = cJSON_Parse(rx_buffer);
+                    //if (root) {
+		    		//	cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
+			    	//	if (msg_type && msg_type->valuestring) {
+				    //		if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0) {
+					//    		ESP_LOGI(TAG, "[%s] Received keep_alive_ack from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
+
+					//	    	update_last_seen(client_sock);
+					//    	} else {
+                    //        // 交给消息处理模块
+                    //        ESP_LOGI(TAG, "[%s]Received msg_type =%s from sock %d",(role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring,client_sock);
+                    //        msg_handler_process(client_sock, rx_buffer, role);
+                    //        update_last_seen(client_sock);
+                    //    }
+                    //} else {
+                    //    ESP_LOGW(TAG, "failed to parse JSON from sock %d : raw is %s", client_sock, rx_buffer);
+                    //    // 没有 msg_type 字段，仍然更新 last_seen
+                    //    update_last_seen(client_sock);
+                    //    continue;
+                    //}
+                    //cJSON_Delete(root);
+                    //} else {
+                    //    // 非 JSON 数据，更新 last_seen 以免误判超时
+                    //    ESP_LOGW(TAG, "Non JSON data from sock %d : raw is %s", client_sock, rx_buffer);
+                    //    update_last_seen(client_sock);
+                    //}
                 }
             }
         ESP_LOGI(TAG, "Closing client socket %d", client_sock);
