@@ -1,8 +1,11 @@
 #include "otaapp.h"
+#include "tcp_server.h"
+#include "client_register.h"
+
 #include "esp_log.h"
 #include "cJSON.h"
-#include "tcp_server.h"
 #include <string.h>
+#include "esp_log.h"
 
 
 
@@ -41,31 +44,6 @@ void otaapp_add_task(const ota_task_t *task) {
 }
 
 
-void otaapp_update_response(const char *task_id, user_response_t response) {
-    for (int i = 0; i < MAX_TASKS; i++) {
-        if (strcmp(task_lists[i].task_id, task_id) == 0) {
-            task_lists[i].user_response = response;
-            if (response == USER_RESPONSE_ACCEPT) {
-                ota_dispatch_send_task(task_lists[i].client_id, &task_lists[i]);
-            } else if (response == USER_RESPONSE_REJECT){
-                ESP_LOGI(TAG, "Task %s rejected", task_id);
-                ota_dispatch_user_reject(&task_lists[i]);
-            } else {
-                ESP_LOGI(TAG, "Task %s waiting ", &task_lists[i].task_id);
-            }
-
-            // 停止定时器并清理任务
-            xTimerStop(task_lists[i].timer, 0);
-            memset(&task_lists[i], 0, sizeof(task_lists[i]));
-            return;
-        }
-    }
-    ESP_LOGW(TAG, "Task %s not found for update", task_id);
-}
-
-ota_task_t* otaapp_get_task_list(void){
-    return task_lists;
-}
 
 
 
@@ -144,7 +122,48 @@ static const char* user_response_to_str(user_response_t resp){
 
 
 
+// 全局保存 Client 状态表
+static client_status_info_t client_status_list[MAX_CLIENTS];
+static int client_count = 0;
+static ota_progress_t ota_handler_progress;     
+static TimerHandle_t ota_handler_upgrade_time = NULL;
 
+
+
+
+
+
+
+
+
+
+
+void otahandler_upgrade_response(const char *task_id, user_response_t response) {
+    for (int i = 0; i < MAX_TASKS; i++) {
+        if (strcmp(task_lists[i].task_id, task_id) == 0) {
+            task_lists[i].user_response = response;
+            if (response == USER_RESPONSE_ACCEPT) {
+                //trigger the process update function in ota_handler
+                ota_dispatch_send_task(task_lists[i].client_id, &task_lists[i]);
+            } else if (response == USER_RESPONSE_REJECT){
+                ESP_LOGI(TAG, "Task %s rejected", task_id);
+                ota_dispatch_user_reject(&task_lists[i]);
+            } else {
+                ESP_LOGI(TAG, "Task %s waiting ", &task_lists[i].task_id);
+            }
+
+            // 停止定时器并清理任务
+            xTimerStop(task_lists[i].timer, 0);
+            memset(&task_lists[i], 0, sizeof(task_lists[i]));
+            return;
+        }
+    }
+    ESP_LOGW(TAG, "Task %s not found for update", task_id);
+}
+
+ota_task_t* otaapp_get_task_list(void){
+    return task_lists;
+}
 
 // 下发任务给指定客户端
 esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
@@ -180,6 +199,92 @@ esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task) {
     }
     return ret;
 }
+
+//-----------clock tick the progress ---------------//
+static void ota_handler_upgrade_timer_cb(TimerHandle_t xTimer){
+    if (ota_handler_progress.ota_state == OTA_PROGRESS_DWLD_DONE ||
+        ota_handler_progress.ota_state == OTA_PROGRESS_UPGRADING){
+            ota_handler_progress.ota_state = OTA_PROGRESS_UPGRADING;
+            uint32_t elapsed = esp_log_timestamp() - ota_handler_progress.start_ms ;
+            int pct = 15 + (elapsed / 1000) * 5;  // +5 / s
+            if(pct > 90) pct = 90;
+            if (pct > ota_handler_progress.percentage){
+                ota_handler_progress.percentage = pct ;
+                ESP_LOGI(TAG, " progress upgrading ::: %d%% ", ota_handler_progress.percentage);
+            }
+        }
+}
+
+
+// after user accept, when otaapp trigger
+void ota_handler_on_accept(const ota_task_t *task){
+    // setup the change
+    ota_handler_progress.task= *task;
+    ota_handler_progress.ota_state = OTA_PROGRESS_INIT;
+    ota_handler_progress.percentage = 5 ;
+    ota_handler_progress.start_ms = esp_log_timestamp();
+    ota_handler_progress.active = true;
+    ESP_LOGI(TAG, " [%s] init OTA progress for client = %s", ota_handler_progress.task.task_id, ota_handler_progress.task.client_id);
+}
+
+
+
+void ota_handler_on_client_dwld_done(const char *task_id){
+    if (strcmp(task_id, ota_handler_progress.task.task_id) == 0){
+        ota_handler_progress.ota_state = OTA_PROGRESS_DWLD_DONE;
+        ota_handler_progress.percentage = 15;
+        ota_handler_progress.start_ms = esp_log_timestamp(); 
+        // trigger auto clock 
+        if (!ota_handler_upgrade_time) {
+            ota_handler_upgrade_time = xTimerCreate("ota_upgrade_time",
+                                                    pdMS_TO_TICKS(1000),
+                                                    pdTRUE,
+                                                    NULL,
+                                                    ota_handler_upgrade_time_cb);
+            xTimerStart(ota_handler_upgrade_time, 0);
+        }
+    }
+}
+
+
+
+void ota_handler_on_client_register(const char *client_id){
+    if (strcmp(client_id, ota_handler_progress.task.client_id) == 0){
+        ota_handler_progress.ota_state = OTA_PROGRESS_COMPLETE;
+        ota_handler_progress.percentage = 100 ;
+        ota_handler_progress.active = false ;
+        if (ota_handler_upgrade_time){
+            xTimerStop(ota_handler_upgrade_timer, 0);
+            xTimerDelete(ota_handler_upgrade_timer, 0);
+            ota_handler_upgrade_timer = NULL;
+        }
+    }
+}
+
+
+
+
+// this function for webserver to check and call the result to display in UI.. 
+const char* ota_handler_get_progress_json(){
+    cJSON *root = cJSON_CreateObject();
+    cJSON_AddStringToObject(root, "task_id", ota_handler_progress.task.task_id);
+    cJSON_AddStringToObject(root, "client_id", ota_handler_progress.task.client_id);
+    cJSON_AddNumberToObject(root, "progress", ota_handler_progress.percentage);
+
+    const char *state=
+            (ota_handler_progress.ota_state == OTA_PROGRESS_INIT ) ? "init" :
+            (ota_handler_progress.ota_state == OTA_PROGRESS_DWLD_DONE ) ? "dwld_done" :
+            (ota_handler_progress.ota_state == OTA_PROGRESS_UPGRADING ) ? "upgrading" :
+            (ota_handler_progress.ota_state == OTA_PROGRESS_COMPLETE ) ? "complete" : "idle";
+    cJSON_AddStringToObject(root, "state", state);
+
+    char *json_str = cJSON_PrintUnformatted(root);
+    cJSON_Delete(root);
+    return json_str;  // call user use and free this memory
+
+}
+
+
 
 
 

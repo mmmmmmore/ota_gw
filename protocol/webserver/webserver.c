@@ -8,7 +8,7 @@
 #include "otaapp.h"
 
 static const char *TAG = "WEB_OTAGW";
-static char *pending_task_json = NULL;
+//static char *pending_task_json = NULL;
 
 
 
@@ -82,8 +82,6 @@ char *webserver_get_task_list_json(void) {
 
 
 
-
-
 // ---------- 待确认任务信息 ----------
 static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
@@ -126,8 +124,8 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     } else {
         user_response_value = USER_RESPONSE_WAIT; // 默认兜底
     }    // matching UI response with ota_task_t --> user_response value. 
-
-    otaapp_update_response(task_id_item->valuestring, user_response_value);  
+    // after webserver receive the UI accept / reject choice, then send to ota_handler execution
+    otahandler_upgrade_response(task_id_item->valuestring, user_response_value);  
 
     cJSON_Delete(root);
     httpd_resp_set_type(req, "application/json");
@@ -137,10 +135,10 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
 
 // ---------- 进度信息 ----------
 static esp_err_t progress_info_handler(httpd_req_t *req) {
+    char *json = ota_handler_get_progress_json();
     httpd_resp_set_type(req, "application/json");
-    const char *json_str = msg_handler_get_progress_json();
-    httpd_resp_sendstr(req, json_str ? json_str : "[]");
-    if (json_str) free((void*)json_str);
+    httpd_resp_send(req, json, strlen(json));
+    free(json);
     return ESP_OK;
 }
 

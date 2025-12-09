@@ -17,17 +17,17 @@ void msg_handler_init(void) {
     ESP_LOGI(TAG, "GW Message handler initialized");
 }
 
-static ota_client_task_t* find_or_create_task(const char *client_id) {
+static ota_client_task_t* find_or_create_task(const char *task_id) {
     for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
-        if (client_task_status[i].client_id[0] &&
-            strcmp(client_task_status[i].client_id, client_id) == 0) {
+        if (client_task_status[i].task_id[0] &&
+            strcmp(client_task_status[i].task_id, client_id) == 0) {
             return &client_task_status[i];
         }
     }
     for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
-        if (client_task_status[i].client_id[0] == '\0') {
-            strncpy(client_task_status[i].client_id, client_id,
-                    sizeof(client_task_status[i].client_id)-1);
+        if (client_task_status[i].task_id[0] == '\0') {
+            strncpy(client_task_status[i].task_id, client_id,
+                    sizeof(client_task_status[i].task_id)-1);
             return &client_task_status[i];
         }
     }
@@ -60,16 +60,18 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     if (cJSON_IsString(msg_type)) {
         if (strcmp(msg_type->valuestring, "register") == 0) {
             client_register_save(sock, root);
-        } else if(strcmp(msg_type->valuestring, "hellp") == 0){
+            //
+            //ota_handler_check_result();
+        } else if(strcmp(msg_type->valuestring, "hello") == 0){
             ESP_LOGI(TAG, "OTA server hello received on sock %d", sock);
             //tsp_server_set_ota_sock(sock);
-        } else if (strcmp(msg_type->valuestring, "progress") == 0) {
-            const char *client_id = cJSON_GetObjectItem(root,"client_id")->valuestring;
-            ota_client_task_t *task = find_or_create_task(client_id);
-            if (task) {
-                task->progress = cJSON_GetObjectItem(root,"percent")->valueint;
-                task->status = OTA_STATUS_UPDATING;
-            }
+        } else if (strcmp(msg_type->valuestring, "ota_progress") == 0) {
+            /// how to resolve this ota_progress message
+            const char *task_id = cJSON_GetObjectItem(root, "task_id")->valuestring;
+            const char *client_id = cJSON_GetObjectItem(root, "client_id")->valuestring;
+            const char *ota_state = cJSON_GetObjectItem(root, "state")->valuestring;
+            ota_rx_client_dwld_done(task_id, client_id, ota_state); // transfer the task id and ota state to ota handler
+            cJSON_Delete(root); 
 
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
             ESP_LOGI(TAG, "GW Rx ota task, schedule delay dispatch to otaapp ");
@@ -140,35 +142,23 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
 }
 
 // ---------- 提供给 webserver 的接口 ----------
-
-const char* msg_handler_get_pending_task_json(void) {
-    ota_task_t *task = otaapp_get_pending_task();
-    if (!task) return NULL;
-    cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "task_id", task->task_id);
-    cJSON_AddStringToObject(root, "device_name", task->device_name);
-    cJSON_AddStringToObject(root, "client_id", task->client_id);
-    cJSON_AddStringToObject(root, "version", task->version);
-    cJSON_AddStringToObject(root, "url", task->url);
-    cJSON_AddStringToObject(root, "features", task->features);
-    char *json_str = cJSON_PrintUnformatted(root);
-    cJSON_Delete(root);
-    return json_str;
-}
-
-//void msg_handler_user_response(const char *client_id, bool accepted) {
-//   ota_task_t *task = otaapp_get_pending_task();
-//    if (task && strcmp(task->client_id, client_id) == 0 && task->status == OTA_STATUS_PENDING) {
-//        if (accepted) {
-//            ota_dispatch_user_response(client_id, task, true);
-//        } else {
-//            task->status = OTA_STATUS_REJECTED;
-//            ESP_LOGW(TAG, "Task %s rejected by web", task->task_id);
-//        }
-//    } else {
-//        ESP_LOGW(TAG, "No matching pending task for client %s", client_id);
-//    }/
+//const char* msg_handler_get_pending_task_json(void) {
+//    ota_task_t *task = otaapp_get_pending_task();
+//    if (!task) return NULL;
+//    cJSON *root = cJSON_CreateObject();
+//    cJSON_AddStringToObject(root, "task_id", task->task_id);
+//    cJSON_AddStringToObject(root, "device_name", task->device_name);
+//    cJSON_AddStringToObject(root, "client_id", task->client_id);
+//    cJSON_AddStringToObject(root, "version", task->version);
+//    cJSON_AddStringToObject(root, "url", task->url);
+//    cJSON_AddStringToObject(root, "features", task->features);
+//    char *json_str = cJSON_PrintUnformatted(root);
+//    cJSON_Delete(root);
+//    return json_str;
 //}
+/// ----------251209 disable this function, since all task status was transfer to otaapp realize and maintain. 
+/// ----------this function callback in webserver also disable. 
+
 
 
 const char* msg_handler_get_progress_json(void) {

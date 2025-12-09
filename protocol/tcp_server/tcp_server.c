@@ -20,9 +20,6 @@ static sock_info_t sock_table[MAX_SOCKS];
 static int ota_server_sock = -1;
 static SemaphoreHandle_t s_sock_mutex;
 
-
-
-
 static void lock(void)   { if (s_sock_mutex) xSemaphoreTake(s_sock_mutex, portMAX_DELAY); }
 static void unlock(void) { if (s_sock_mutex) xSemaphoreGive(s_sock_mutex); }
 
@@ -148,7 +145,7 @@ static void gw_keep_alive_task(void *pvParameters) {
     }
 }
 
-
+//----------parse json, confirm msg_type, call msg_handler.c --> msg_handler_process(json) to parse the detail 
 static void process_stream_json(int client_sock, msg_role_t role, const char *chunk, int len){
     if (len < 0 ) return;
 
@@ -203,7 +200,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
                     update_last_seen(client_sock);
                 } else {
                     ESP_LOGI(TAG, "[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
-                    msg_handler_process(client_sock, json_str, role);
+                    msg_handler_process(client_sock, json_str, role);  // interface between tcp_server and msg_handler 
                     update_last_seen(client_sock);
                    }
             }else {

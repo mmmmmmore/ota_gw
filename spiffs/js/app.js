@@ -1,3 +1,5 @@
+let progressTimer =null;
+
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
   document.getElementById(sectionId).classList.remove('hidden');
@@ -7,6 +9,31 @@ function showSection(sectionId) {
     loadPendingTask();
   }
 }
+
+
+function updateotaprogressBar(percentage){
+  const bar = document.getElementById("progressBar");
+  bar.style.width = percentage + "%";
+  bar.textContent = percentage + "%";
+}
+
+
+function fetchProgress(){
+  fetch("/progress_info")
+    .then(response => response.json())
+    .then(data =>{
+      updateotaprogressBar(data.progress); // need matching with the ota_handler progress data
+      if (data.progress >= 100 && data.state == "complete"){
+        clearInterval(progressTimer);
+        document.getElementById("confirmBtn").style.display = "inline-block";
+      }
+      console.log("State:", data.state, "Progress: ", data.progress);
+    })
+    .catch(err => console.error("Error fetching progress",err));
+}
+
+
+
 
 // 加载待确认任务
 function loadPendingTask() {
@@ -52,15 +79,29 @@ function sendUserResponse(response_value, task_id_value) {
     })
   })
   .then(resp => resp.json())
-  .then(data => {
-    alert('响应已提交: ' + response_value);
-    // 清空表格或刷新
-    loadPendingTask();
+  .then(result =>{
+    if(response_value === 'accept'){
+      //display the progress bar
+      document.getElementById("progressContainer").style.display = "block";
+      //cycle check and update the value
+      progressTimer = setInterval(fetchProgress, 2000);
+    }else if(response_value ==='reject'){
+      console.log(" User Reject this task", task_id_value);
+    }
   })
   .catch(err => {
     console.error('提交响应失败', err);
   });
 }
+
+
+
+//update the upgrade progress percentage by cycle query the status.
+document.getElementById("confirmBtn").addEventListener("click", ()=>{
+  document.getElementById("progressContainer").style.display = "none";
+  document.getElementById("confirmBtn").style.display = "none";
+  updateotaprogressBar(0);
+});
 
 // 给刷新按钮绑定事件
 document.addEventListener('DOMContentLoaded', () => {
