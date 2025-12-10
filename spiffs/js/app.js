@@ -84,7 +84,8 @@ function sendUserResponse(response_value, task_id_value) {
       //display the progress bar
       document.getElementById("progressContainer").style.display = "block";
       //cycle check and update the value
-      progressTimer = setInterval(fetchProgress, 2000);
+      progressTimer = setInterval(fetchProgress, 500);
+      console.log("ota upgrade under progress... ")
     }else if(response_value ==='reject'){
       console.log(" User Reject this task", task_id_value);
     }

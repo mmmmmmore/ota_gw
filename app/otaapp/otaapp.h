@@ -64,7 +64,7 @@ typedef struct {
 
 
 typedef struct {
-    ota_task_t task;
+    char task_id_sts[64];
     ota_progress_state_t ota_state;
     int percentage;
     uint32_t start_ms;
@@ -90,7 +90,7 @@ void otahandler_upgrade_response(const char *task_id, user_response_t response);
         //--- send task first
 esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task);
         //--- start update the progress
-void ota_handler_on_accept(const ota_task_t *task);
+void ota_handler_on_accept(const char *task_id);
         //--- listen client download finish message, and change state
 void ota_handler_on_client_dwld_done(const char *task_id);
         //--- after client finish ota and reset register client,

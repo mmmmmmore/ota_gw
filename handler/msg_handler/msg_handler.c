@@ -73,9 +73,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             const char *task_id = cJSON_IsString(task_id_item)? task_id_item->valuestring : NULL;
             //const char *client_id = cJSON_GetObjectItem(root, "client_id")->valuestring;
             //const char *ota_state = cJSON_GetObjectItem(root, "state")->valuestring;
-            ota_handler_on_client_dwld_done(task_id); // transfer the task id and ota state to ota handler
-            cJSON_Delete(root); 
 
+            ota_handler_on_client_dwld_done(task_id); // transfer the task id and ota state to ota handler
+            ESP_LOGI(TAG, "msg_handler tx the ota_progress to otaapp finished");
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
             ESP_LOGI(TAG, "GW Rx ota task, schedule delay dispatch to otaapp ");
             // 构造 ota_task_t
@@ -114,15 +114,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
         } else if (strcmp(msg_type->valuestring, "ota_result") == 0) {
             cJSON *task_id_item = cJSON_GetObjectItem(root,"task_id");
             const char *task_id = cJSON_IsString(task_id_item)? task_id_item->valuestring:NULL;
-            
+            ota_handler_client_result_after_ota(task_id); 
             //cJSON *ota_state = cJSON_GetObjectItem(root,"state")->valuestring;
             //valid ota task result have task_id, invalid task id is Null
-            if (strcmp(task_id, "Null") == 0){
-                ESP_LOGI(TAG, " Normal Client Start, no OTA result report");
-            }else{
-                ota_handler_client_result_after_ota(task_id); 
-            }
-            cJSON_Delete(root);
         } else{
             ESP_LOGI(TAG, "non known json data rxed.");
         }

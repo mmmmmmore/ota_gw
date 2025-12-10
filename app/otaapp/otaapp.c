@@ -34,9 +34,10 @@ void otaapp_add_task(const ota_task_t *task) {
             task_lists[i].user_response = USER_RESPONSE_WAIT;
 
             // 创建定时器，60s 后触发
-            task_lists[i].timer = xTimerCreate("TaskTimer", pdMS_TO_TICKS(60000),
+            task_lists[i].timer = xTimerCreate("TaskTimer", pdMS_TO_TICKS(600000),
                                               pdFALSE, (void*)&task_lists[i],
                                               ota_task_timeout_cb);
+            ESP_LOGI(TAG, "New Task [%s] created in Queue, wait for User response ", task_lists[i].task_id);
             xTimerStart(task_lists[i].timer, 0);
 
             // 发给 Webserver 用于 UI 展示
@@ -100,14 +101,16 @@ void ota_dispatch_user_reject(const ota_task_t *task ) {
 }
 
 // after user accept, when otaapp trigger
-void ota_handler_on_accept(const ota_task_t *task){
+void ota_handler_on_accept(const char *task_id){
     // setup the change
-    ota_handler_progress.task= *task;
+    strncpy(ota_handler_progress.task_id_sts, task_id, sizeof(ota_handler_progress.task_id_sts)-1);
+    ota_handler_progress.task_id_sts[sizeof(ota_handler_progress.task_id_sts)-1] = '\0';
+    
     ota_handler_progress.ota_state = OTA_PROGRESS_INIT;
     ota_handler_progress.percentage = 5 ;
     ota_handler_progress.start_ms = esp_log_timestamp();
     ota_handler_progress.active = true;
-    ESP_LOGI(TAG, " [%s] init OTA progress for client = %s", ota_handler_progress.task.task_id, ota_handler_progress.task.client_id);
+    ESP_LOGI(TAG, " [%s] init OTA progress for client = ", ota_handler_progress.task_id_sts );
 }
 
 
@@ -133,6 +136,7 @@ void otahandler_upgrade_response(const char *task_id, user_response_t response) 
             if (response == USER_RESPONSE_ACCEPT) {
                 //trigger the process update function in ota_handler
                 ota_dispatch_send_task(task_lists[i].client_id, &task_lists[i]);
+                ota_handler_on_accept(task_id);
             } else if (response == USER_RESPONSE_REJECT){
                 ESP_LOGI(TAG, "Task %s rejected", task_id);
                 ota_dispatch_user_reject( &task_lists[i]);
@@ -209,12 +213,15 @@ static void ota_handler_upgrade_timer_cb(TimerHandle_t xTimer){
 
 
 void ota_handler_on_client_dwld_done(const char *task_id){
-    if (strcmp(task_id, ota_handler_progress.task.task_id) == 0){
+    ESP_LOGI(TAG, "OTA module Rx Client send download finish signal");
+    if (strcmp(task_id, ota_handler_progress.task_id_sts) == 0){
         ota_handler_progress.ota_state = OTA_PROGRESS_DWLD_DONE;
         ota_handler_progress.percentage = 15;
+        ESP_LOGI(TAG, "OTA progress update to %d percentage ", ota_handler_progress.percentage);
         ota_handler_progress.start_ms = esp_log_timestamp(); 
         // trigger auto clock 
         if (!ota_handler_upgrade_timer) {
+            ESP_LOGI(TAG, "OTA under progress, update the percentage");
             ota_handler_upgrade_timer = xTimerCreate("ota_upgrade_time",
                                                     pdMS_TO_TICKS(1000),
                                                     pdTRUE,
@@ -228,7 +235,7 @@ void ota_handler_on_client_dwld_done(const char *task_id){
 
 
 void ota_handler_client_result_after_ota(const char *task_id ){
-    if (strcmp(task_id, ota_handler_progress.task.task_id) == 0 ){
+    if (strcmp(task_id, ota_handler_progress.task_id_sts) == 0 ){
         ESP_LOGI(TAG, "Rx client report ota task [%s] after reset. setup the as complete", task_id);
         ota_handler_progress.ota_state = OTA_PROGRESS_COMPLETE;
         ota_handler_progress.percentage = 100 ;
@@ -248,8 +255,7 @@ void ota_handler_client_result_after_ota(const char *task_id ){
 // this function for webserver to check and call the result to display in UI.. 
 const char* ota_handler_get_progress_json(){
     cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "task_id", ota_handler_progress.task.task_id);
-    cJSON_AddStringToObject(root, "client_id", ota_handler_progress.task.client_id);
+    cJSON_AddStringToObject(root, "task_id", ota_handler_progress.task_id_sts);
     cJSON_AddNumberToObject(root, "progress", ota_handler_progress.percentage);
 
     const char *state=

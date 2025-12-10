@@ -126,7 +126,7 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
     }    // matching UI response with ota_task_t --> user_response value. 
     // after webserver receive the UI accept / reject choice, then send to ota_handler execution
     otahandler_upgrade_response(task_id_item->valuestring, user_response_value);  
-
+    ESP_LOGI(TAG, "User have response to task: %s", task_id_item->valuestring);
     cJSON_Delete(root);
     httpd_resp_set_type(req, "application/json");
     httpd_resp_sendstr(req, "{\"status\":\"ok\"}");
