@@ -3,6 +3,7 @@
 
 #include "cJSON.h"
 #include "esp_err.h"
+#include "otaapp.h"
 
 typedef enum {
     ROLE_UNKNOWN = 0,
@@ -12,7 +13,12 @@ typedef enum {
 
 
 
-
+//typedef struct {
+//    char client_id[32];
+//    char task_id[64];
+//    ota_status_t status;
+//    int progress; // 百分比
+//} ota_client_task_t;
 
 
 // 初始化

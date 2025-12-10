@@ -1,18 +1,22 @@
 #include "otaapp.h"
 #include "tcp_server.h"
 #include "client_register.h"
-
 #include "esp_log.h"
 #include "cJSON.h"
 #include <string.h>
-#include "esp_log.h"
+
 
 
 
 static const char *TAG = "OTA_APP_MGMT";
 static ota_task_t pending_task;   // 唯一的挂起任务缓存
 static ota_task_t task_lists[MAX_TASKS] ;
+// 全局保存 Client 状态表
 
+
+static int client_count = 0;
+static ota_progress_t ota_handler_progress;     
+static TimerHandle_t ota_handler_upgrade_timer = NULL;
 
 void ota_task_timeout_cb(TimerHandle_t xTimer) {
     ota_task_t *task = (ota_task_t*) pvTimerGetTimerID(xTimer);
@@ -44,26 +48,11 @@ void otaapp_add_task(const ota_task_t *task) {
 }
 
 
-
-
-
 // 清除挂起任务
 void otaapp_clear_pending_task(void) {
     memset(&pending_task, 0, sizeof(pending_task));
     ESP_LOGI(TAG, "Pending task cleared");
 }
-
-// 设置挂起任务
-//void otaapp_set_pending_task(const ota_task_t *task) {
-//    ota_task_t *slot = find_slot_by_client_id(task->client_id);     //link to pending_tasks_list 
-//    if (slot) {
-//        *slot = *task;
-//        slot->user_response = USER_RESPONSE_WAIT;    // default setup as Wait for User decision. 
-//        pending_task = *task; // 结构体拷贝
-//        ESP_LOGI(TAG, "Pending task stored: id=%s, client=%s, version=%s",
-//                 pending_task.task_id, pending_task.client_id, pending_task.version);
-//    }
-//}
 
 void ota_dispatch_init(void) {
     otaapp_clear_pending_task();
@@ -110,6 +99,20 @@ void ota_dispatch_user_reject(const ota_task_t *task ) {
     
 }
 
+// after user accept, when otaapp trigger
+void ota_handler_on_accept(const ota_task_t *task){
+    // setup the change
+    ota_handler_progress.task= *task;
+    ota_handler_progress.ota_state = OTA_PROGRESS_INIT;
+    ota_handler_progress.percentage = 5 ;
+    ota_handler_progress.start_ms = esp_log_timestamp();
+    ota_handler_progress.active = true;
+    ESP_LOGI(TAG, " [%s] init OTA progress for client = %s", ota_handler_progress.task.task_id, ota_handler_progress.task.client_id);
+}
+
+
+
+
 static const char* user_response_to_str(user_response_t resp){
     switch (resp)
     {
@@ -121,23 +124,8 @@ static const char* user_response_to_str(user_response_t resp){
 }
 
 
-
-// 全局保存 Client 状态表
-static client_status_info_t client_status_list[MAX_CLIENTS];
-static int client_count = 0;
-static ota_progress_t ota_handler_progress;     
-static TimerHandle_t ota_handler_upgrade_time = NULL;
-
-
-
-
-
-
-
-
-
-
-
+// inside Webserver after UI select choise in page, will trigger this function
+// 
 void otahandler_upgrade_response(const char *task_id, user_response_t response) {
     for (int i = 0; i < MAX_TASKS; i++) {
         if (strcmp(task_lists[i].task_id, task_id) == 0) {
@@ -147,7 +135,7 @@ void otahandler_upgrade_response(const char *task_id, user_response_t response) 
                 ota_dispatch_send_task(task_lists[i].client_id, &task_lists[i]);
             } else if (response == USER_RESPONSE_REJECT){
                 ESP_LOGI(TAG, "Task %s rejected", task_id);
-                ota_dispatch_user_reject(&task_lists[i]);
+                ota_dispatch_user_reject( &task_lists[i]);
             } else {
                 ESP_LOGI(TAG, "Task %s waiting ", &task_lists[i].task_id);
             }
@@ -216,16 +204,7 @@ static void ota_handler_upgrade_timer_cb(TimerHandle_t xTimer){
 }
 
 
-// after user accept, when otaapp trigger
-void ota_handler_on_accept(const ota_task_t *task){
-    // setup the change
-    ota_handler_progress.task= *task;
-    ota_handler_progress.ota_state = OTA_PROGRESS_INIT;
-    ota_handler_progress.percentage = 5 ;
-    ota_handler_progress.start_ms = esp_log_timestamp();
-    ota_handler_progress.active = true;
-    ESP_LOGI(TAG, " [%s] init OTA progress for client = %s", ota_handler_progress.task.task_id, ota_handler_progress.task.client_id);
-}
+
 
 
 
@@ -235,30 +214,32 @@ void ota_handler_on_client_dwld_done(const char *task_id){
         ota_handler_progress.percentage = 15;
         ota_handler_progress.start_ms = esp_log_timestamp(); 
         // trigger auto clock 
-        if (!ota_handler_upgrade_time) {
-            ota_handler_upgrade_time = xTimerCreate("ota_upgrade_time",
+        if (!ota_handler_upgrade_timer) {
+            ota_handler_upgrade_timer = xTimerCreate("ota_upgrade_time",
                                                     pdMS_TO_TICKS(1000),
                                                     pdTRUE,
                                                     NULL,
-                                                    ota_handler_upgrade_time_cb);
-            xTimerStart(ota_handler_upgrade_time, 0);
+                                                    ota_handler_upgrade_timer_cb);
+            xTimerStart(ota_handler_upgrade_timer, 0);
         }
     }
 }
 
 
 
-void ota_handler_on_client_register(const char *client_id){
-    if (strcmp(client_id, ota_handler_progress.task.client_id) == 0){
+void ota_handler_client_result_after_ota(const char *task_id, const char *ota_state){
+    if (strcmp(task_id, ota_handler_progress.task.task_id) == 0 ){
+        ESP_LOGI(TAG, "Rx client report ota task [%s] after reset. setup the as complete", task_id);
         ota_handler_progress.ota_state = OTA_PROGRESS_COMPLETE;
         ota_handler_progress.percentage = 100 ;
         ota_handler_progress.active = false ;
-        if (ota_handler_upgrade_time){
+        if (ota_handler_upgrade_timer){
             xTimerStop(ota_handler_upgrade_timer, 0);
             xTimerDelete(ota_handler_upgrade_timer, 0);
             ota_handler_upgrade_timer = NULL;
         }
     }
+
 }
 
 

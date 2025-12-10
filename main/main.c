@@ -9,7 +9,6 @@
 #include "init.h"
 #include "esp_psram.h"
 #include "esp_heap_caps.h"
-#include "ota_handler.h"
 #include <dirent.h>   // 用于目录遍历
 #include "esp_log.h"
 

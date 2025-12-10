@@ -4,6 +4,6 @@ idf_component_register(
     REQUIRES 
         driver common_gpio 
         client_register otaapp ledapp
-        webserver wifi_ap tcp_server ota_handler
+        webserver wifi_ap tcp_server
         cJSON msg_handler
     )

@@ -10,29 +10,31 @@
 static const char *TAG = "GW_MSG_HANDLER";
 
 #define MAX_CLIENT_TASKS 16
-static ota_client_task_t client_task_status[MAX_CLIENT_TASKS];
+//static ota_client_task_t client_task_status[MAX_CLIENT_TASKS];
 
-void msg_handler_init(void) {
-    memset(client_task_status, 0, sizeof(client_task_status));
-    ESP_LOGI(TAG, "GW Message handler initialized");
-}
+//void msg_handler_init(void) {
+//    memset(client_task_status, 0, sizeof(client_task_status));
+//    ESP_LOGI(TAG, "GW Message handler initialized");
+//}
 
-static ota_client_task_t* find_or_create_task(const char *task_id) {
-    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
-        if (client_task_status[i].task_id[0] &&
-            strcmp(client_task_status[i].task_id, client_id) == 0) {
-            return &client_task_status[i];
-        }
-    }
-    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
-        if (client_task_status[i].task_id[0] == '\0') {
-            strncpy(client_task_status[i].task_id, client_id,
-                    sizeof(client_task_status[i].task_id)-1);
-            return &client_task_status[i];
-        }
-    }
-    return NULL;
-}
+
+//-------reverse here, will disable in next version patch--------//
+//static ota_client_task_t* find_or_create_task(const char *task_id) {
+//    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+//        if (client_task_status[i].task_id[0] &&
+//            strcmp(client_task_status[i].task_id, task_id) == 0) {
+//            return &client_task_status[i];
+//        }
+//    }
+//    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+//        if (client_task_status[i].task_id[0] == '\0') {
+//            strncpy(client_task_status[i].task_id, task_id,
+//                    sizeof(client_task_status[i].task_id)-1);
+//            return &client_task_status[i];
+//        }
+//    }
+//    return NULL;
+//}
 ///-- this is only for pending 10s test ---//
 //static void delayed_send_task(void *param) {
 //    ota_task_t *task = (ota_task_t *) param;
@@ -68,9 +70,10 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
         } else if (strcmp(msg_type->valuestring, "ota_progress") == 0) {
             /// how to resolve this ota_progress message
             const char *task_id = cJSON_GetObjectItem(root, "task_id")->valuestring;
-            const char *client_id = cJSON_GetObjectItem(root, "client_id")->valuestring;
-            const char *ota_state = cJSON_GetObjectItem(root, "state")->valuestring;
-            ota_rx_client_dwld_done(task_id, client_id, ota_state); // transfer the task id and ota state to ota handler
+            //const char *client_id = cJSON_GetObjectItem(root, "client_id")->valuestring;
+            //const char *ota_state = cJSON_GetObjectItem(root, "state")->valuestring;
+
+            ota_handler_on_client_dwld_done(task_id); // transfer the task id and ota state to ota handler
             cJSON_Delete(root); 
 
         } else if (strcmp(msg_type->valuestring, "ota_task") == 0) {
@@ -106,35 +109,20 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             
             // 将任务存储到 otaapp 的 pending_task
             otaapp_add_task(task);
-            
-            ota_client_task_t *status = find_or_create_task(task->client_id);
-            if (status){
-                strncpy(status->task_id, task->task_id, sizeof(status->task_id)-1);
-                status->status = OTA_STATUS_PENDING;
-                status->progress = 0;
+            // task trasnfer to otaapp , manage by otaapp, include the task list. 
+
+        } else if (strcmp(msg_type->valuestring, "ota_result") == 0) {
+            char cJSON *task_id = cJSON_GetObjectItem(root,"task_id")->valuestring;
+            char cJSON *ota_state = cJSON_GetObjectItem(root,"state")->valuestring;
+            //valid ota task result have task_id, invalid task id is Null
+            if (strcmp(task_id, "Null") == 0){
+                ESP_LOGI(TAG, " Normal Client Start, no OTA result report");
+            }else{
+                ota_handler_client_result_after_ota(task_id); 
             }
-            //delay the task send 10s
-            //xTaskCreate(delayed_send_task, "DelayedSendTask", 4096, task, 5, NULL);
-            
-
-
-            // 用 client_id 来推送任务
-            //if (task.client_id[0] != '\0') {
-            //    ota_dispatch_send_task(task.client_id, &task);
-            //} else {
-            //    ESP_LOGW(TAG, "OTA task missing client_id, cannot dispatch");
-            //}
-
-        } else if (strcmp(msg_type->valuestring, "result") == 0) {
-            cJSON *cid = cJSON_GetObjectItem(root,"client_id");
-            cJSON *status = cJSON_GetObjectItem(root,"status");
-            if (cJSON_IsString(cid) && cJSON_IsString(status)) {
-                ota_client_task_t *task = find_or_create_task(cid->valuestring);
-                if (task) {
-                    task->status = (strcmp(status->valuestring,"success")==0) ? OTA_STATUS_SUCCESS : OTA_STATUS_FAILED;
-                    task->progress = 100;
-                }
-            }   
+            cJSON_Delete(root);
+        } else{
+            ESP_LOGI(TAG, "non known json data rxed.");
         }
     }
 
