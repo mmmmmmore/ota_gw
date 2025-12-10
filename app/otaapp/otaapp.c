@@ -227,7 +227,7 @@ void ota_handler_on_client_dwld_done(const char *task_id){
 
 
 
-void ota_handler_client_result_after_ota(const char *task_id, const char *ota_state){
+void ota_handler_client_result_after_ota(const char *task_id ){
     if (strcmp(task_id, ota_handler_progress.task.task_id) == 0 ){
         ESP_LOGI(TAG, "Rx client report ota task [%s] after reset. setup the as complete", task_id);
         ota_handler_progress.ota_state = OTA_PROGRESS_COMPLETE;

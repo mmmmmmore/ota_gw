@@ -10,31 +10,31 @@
 static const char *TAG = "GW_MSG_HANDLER";
 
 #define MAX_CLIENT_TASKS 16
-//static ota_client_task_t client_task_status[MAX_CLIENT_TASKS];
+static ota_client_task_t client_task_status[MAX_CLIENT_TASKS];
 
-//void msg_handler_init(void) {
-//    memset(client_task_status, 0, sizeof(client_task_status));
-//    ESP_LOGI(TAG, "GW Message handler initialized");
-//}
+void msg_handler_init(void) {
+    memset(client_task_status, 0, sizeof(client_task_status));
+    ESP_LOGI(TAG, "GW Message handler initialized");
+}
 
 
 //-------reverse here, will disable in next version patch--------//
-//static ota_client_task_t* find_or_create_task(const char *task_id) {
-//    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
-//        if (client_task_status[i].task_id[0] &&
-//            strcmp(client_task_status[i].task_id, task_id) == 0) {
-//            return &client_task_status[i];
-//        }
-//    }
-//    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
-//        if (client_task_status[i].task_id[0] == '\0') {
-//            strncpy(client_task_status[i].task_id, task_id,
-//                    sizeof(client_task_status[i].task_id)-1);
-//            return &client_task_status[i];
-//        }
-//    }
-//    return NULL;
-//}
+static ota_client_task_t* find_or_create_task(const char *task_id) {
+    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+        if (client_task_status[i].task_id[0] &&
+            strcmp(client_task_status[i].task_id, task_id) == 0) {
+            return &client_task_status[i];
+        }
+    }
+    for (int i = 0; i < MAX_CLIENT_TASKS; i++) {
+        if (client_task_status[i].task_id[0] == '\0') {
+            strncpy(client_task_status[i].task_id, task_id,
+                    sizeof(client_task_status[i].task_id)-1);
+            return &client_task_status[i];
+        }
+    }
+    return NULL;
+}
 ///-- this is only for pending 10s test ---//
 //static void delayed_send_task(void *param) {
 //    ota_task_t *task = (ota_task_t *) param;
@@ -69,10 +69,10 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             //tsp_server_set_ota_sock(sock);
         } else if (strcmp(msg_type->valuestring, "ota_progress") == 0) {
             /// how to resolve this ota_progress message
-            const char *task_id = cJSON_GetObjectItem(root, "task_id")->valuestring;
+            cJSON *task_id_item = cJSON_GetObjectItem(root, "task_id");
+            const char *task_id = cJSON_IsString(task_id_item)? task_id_item->valuestring : NULL;
             //const char *client_id = cJSON_GetObjectItem(root, "client_id")->valuestring;
             //const char *ota_state = cJSON_GetObjectItem(root, "state")->valuestring;
-
             ota_handler_on_client_dwld_done(task_id); // transfer the task id and ota state to ota handler
             cJSON_Delete(root); 
 
@@ -112,8 +112,10 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             // task trasnfer to otaapp , manage by otaapp, include the task list. 
 
         } else if (strcmp(msg_type->valuestring, "ota_result") == 0) {
-            char cJSON *task_id = cJSON_GetObjectItem(root,"task_id")->valuestring;
-            char cJSON *ota_state = cJSON_GetObjectItem(root,"state")->valuestring;
+            cJSON *task_id_item = cJSON_GetObjectItem(root,"task_id");
+            const char *task_id = cJSON_IsString(task_id_item)? task_id_item->valuestring:NULL;
+            
+            //cJSON *ota_state = cJSON_GetObjectItem(root,"state")->valuestring;
             //valid ota task result have task_id, invalid task id is Null
             if (strcmp(task_id, "Null") == 0){
                 ESP_LOGI(TAG, " Normal Client Start, no OTA result report");

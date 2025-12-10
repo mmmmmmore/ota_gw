@@ -39,7 +39,12 @@ typedef enum{
 } ota_progress_state_t ;
 
 
-
+typedef struct {
+    char client_id[32];
+    char task_id[64];
+    ota_status_t status;
+    int progress; // 百分比
+} ota_client_task_t;
 
 // OTA 任务结构
 typedef struct {
@@ -89,7 +94,7 @@ void ota_handler_on_accept(const ota_task_t *task);
         //--- listen client download finish message, and change state
 void ota_handler_on_client_dwld_done(const char *task_id);
         //--- after client finish ota and reset register client,
-void ota_handler_client_result_after_ota(const char *task_id, const char *ota_state);
+void ota_handler_client_result_after_ota(const char *task_id);
     // ------after user reject from UI, print log 
 void ota_dispatch_user_reject(const ota_task_t *task);
 

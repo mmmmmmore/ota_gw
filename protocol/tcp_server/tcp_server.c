@@ -151,7 +151,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
 
     lock();
     int idx = find_sock_index(client_sock);
-    if (idx <0){unlock(); return;}
+    if (idx < 0 ) { unlock(); return; }
 
     //append the stream
     sock_info_t *si = &sock_table[idx];
@@ -178,13 +178,14 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
             continue;
         }
         
-        char json_str[RX_BUF_SIZE];
+        //
         if (msg_len >= RX_BUF_SIZE){
             ESP_LOGW(TAG, "Single JSON length (- %d -) bigger than handler, drop ", msg_len);
             start = newline +1;
             continue;
         } 
-
+        
+        char json_str[RX_BUF_SIZE];
         memcpy(json_str, start, msg_len);
         json_str[msg_len] = '\0';
 
