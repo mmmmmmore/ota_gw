@@ -144,12 +144,12 @@ static void gw_keep_alive_task(void *pvParameters) {
     }
 }
 
+
 //----------parse json, confirm msg_type, call msg_handler.c --> msg_handler_process(json) to parse the detail 
 static void process_stream_json(int client_sock, msg_role_t role, const char *chunk, int len){
     if (len < 0 ) return;
 
-    lock();  
-
+    lock();
     int idx = find_sock_index(client_sock);
     if (idx < 0 ) { unlock(); return; }
 
@@ -157,81 +157,54 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
     sock_info_t *si = &sock_table[idx];
     ESP_LOGI(TAG, "tcp-00-01-process stream json from sock:: %d, role = %d, len = %d  rx_len(before)= %d", 
                     client_sock, role, len, si->rx_len);
-    int cap = RX_BUF_SIZE - si->rx_len - 1 ;   //剩余的buffer长度
-
+    int cap = RX_BUF_SIZE - si->rx_len - 1 ;
     if (len>cap) len =cap;  //prevent overflow
-    memcpy(si->rx_buffer+si->rx_len, chunk, len); 
+    memcpy(si->rx_buffer+si->rx_len, chunk, len);
 
     ESP_LOGI(TAG, "tcp-00-02-after memcopy buffer appended, new rx_len = %d , buffers = %s", si->rx_len, si->rx_buffer );
     si->rx_len += len;
     si->rx_buffer[si->rx_len] = '\0' ;
 
     ESP_LOGI(TAG, "tcp-00-03-before unlocked, new rx_len = %d , buffers = %s", si->rx_len, si->rx_buffer );
-    unlock();   //251211-100700 新的修改，改为更大的环来处理
+    // 添加处理  local current 
+    int current_len = si->rx_len;
+    char buffer_copy[RX_BUF_SIZE];
+    memcpy(buffer_copy, si->rx_buffer, current_len);
+    buffer_copy[current_len]= '\0';
+    unlock();
 
     ESP_LOGI(TAG, "tcp-00-04-Rx %d bytes from client %d ::%s , ", len, client_sock, si->rx_buffer);  
     
-    //parse loop 
-    char *start = si->rx_buffer;
-    while ((start < si->rx_buffer+si->rx_len)&&(*start == '\r' || *start =='\n')){
-        start++;
-    }
-    
+    //parse loop
+    char *start = buffer_copy;
     
     while (1)  
     {
+       
+        char *newline = strchr(start, '\n');  // find new line,
+        ESP_LOGW(TAG, "tcp-01-02-No newline found, waiting for more data, current buffer = %s ", start);
         ESP_LOGW(TAG, "tcp-01-01-Parse loop: start offset = %d,  remain = %d",
                     (int)(start- si->rx_buffer), (int)((si->rx_buffer + si->rx_len)-start));
-        char *newline = strchr(start, '\n');  // find new line,
-
-        if (!newline) {
-            ESP_LOGW(TAG, "tcp-01-02-No newline found, waiting for more data, current buffer = %s ", start);
-            break;
-        }
+        if (!newline) break;
 
         int msg_len = newline - start ; 
         if (msg_len <=0 ){
-
             start = newline +1;
-            while((start < si->rx_buffer+si->rx_len)&&(*start =='\r' || *start =='\n')){
-                start++;
-            }
             continue;
         }
         
-    
         //
         if (msg_len >= RX_BUF_SIZE){
             ESP_LOGW(TAG, "tcp-01-03-Single JSON length (- %d -) bigger than handler, drop ", msg_len);
             start = newline +1;
-            while ((start < si->rx_buffer+si->rx_len) && (*start =='\r' || *start == '\n'))
-            {
-                start++;
-            }
-            
             continue;
         } 
         
-        if (start[msg_len -1 ] == '\r'){
-            msg_len--;
-            if (msg_len <= 0){
-                start = newline +1;
-                while ((start < si->rx_buffer+si->rx_len) && (*start == '\r'||*start == '\n'))
-                {
-                    start++;
-                }
-                continue;
-            }
-        }
-
         char json_str[RX_BUF_SIZE];
         memcpy(json_str, start, msg_len);
         json_str[msg_len] = '\0';
-        ESP_LOGI(TAG, "tcp-01-04-Rx JSON from sock %d :: %s", client_sock, json_str);  
-        if(msg_len > 0 && json_str[msg_len -1] == '\r'){
-            json_str[msg_len-1] = '\0';
-        }
 
+        ESP_LOGI(TAG, "tcp-01-04-Rx JSON from sock %d :: %s", client_sock, json_str);  
 
         cJSON *root = cJSON_Parse(json_str);  //rx buffer msg change to json format set as root; 
 
@@ -242,9 +215,10 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
                     ESP_LOGI(TAG, "tcp-02-01-[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), client_sock);
                     update_last_seen(client_sock);
                 } else {
-                    ESP_LOGI(TAG, "tcp-02-02-[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
+                    //ESP_LOGI(TAG, "tcp-02-02-[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
                     ESP_LOGI(TAG, "tcp-02-03-dispatching to msg_handler : sock = %d.  role = %d,  json= %s", client_sock, role, json_str);
                     msg_handler_process(client_sock, json_str, role);  // interface between tcp_server and msg_handler 
+                    ESP_LOGI(TAG, "tcp-02-04-msg dispatched continuing parse loop");
                     update_last_seen(client_sock);
                    }
             }else {
@@ -256,26 +230,20 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
             // 非 JSON 数据，更新 last_seen 以免误判超时
             ESP_LOGW(TAG, "tcp-02-05-Non JSON data from sock %d : raw is %s", client_sock, si->rx_buffer);
             update_last_seen(client_sock);
-    }
-
-    start = newline + 1 ; // to next msg decode process
-    while ((start < si->rx_buffer+si->rx_len) && (*start == '\r' || *start == '\n'))
-    {
-        start++;
-    }
-    
+        }
+        start = newline + 1 ; // to next msg decode process
     }
     //compact remaining
     lock();
     int remain = (si->rx_buffer + si->rx_len) - start ;
-
     ESP_LOGI(TAG, "tcp-03-01-compacting buffer : %d", remain);
     if (remain > 0 ) memmove(si->rx_buffer, start, remain);
     si->rx_len = remain ;
     si->rx_buffer[si->rx_len] ='\0';
     unlock();
-
 }
+
+
 
 
 static void tcp_server_task(void *pvParameters) {
@@ -358,7 +326,11 @@ static void tcp_server_task(void *pvParameters) {
                     ESP_LOGW(TAG, "Client disconnected");
                     break;
                 } else {
-
+                    ESP_LOGI(TAG, "TCP__10__tcp rx all raw data:  :: len = %d,  raw = %.*s", len, len, chunk);
+                    for(int i=0;i<len;i++){
+                        printf("%02X ",(unsigned char)chunk[i]);
+                    }
+                    printf("\n");
                     // per-role framing and parse the stream
                     process_stream_json(client_sock, role, chunk, len);
                     
