@@ -82,7 +82,7 @@ function sendUserResponse(response_value, task_id_value) {
   .then(result =>{
     if(response_value === 'accept'){
       //display the progress bar
-      document.getElementById("progressContainer").style.display = "block";
+      document.getElementById("progressModal").classList.remove("hidden");
       //cycle check and update the value
       progressTimer = setInterval(fetchProgress, 500);
       console.log("ota upgrade under progress... ")
@@ -99,7 +99,7 @@ function sendUserResponse(response_value, task_id_value) {
 
 //update the upgrade progress percentage by cycle query the status.
 document.getElementById("confirmBtn").addEventListener("click", ()=>{
-  document.getElementById("progressContainer").style.display = "none";
+  document.getElementById("progressModal").classList.add("hidden"));
   document.getElementById("confirmBtn").style.display = "none";
   updateotaprogressBar(0);
 });
@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
 
 
