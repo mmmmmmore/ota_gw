@@ -121,7 +121,7 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             ESP_LOGI(TAG, "non known json data rxed.");
         }
     }
-
+    ESP_LOGI(TAG, "Msg_handler Finish parse for msg_type = %s", msg_type->valuestring);
     cJSON_Delete(root);
 }
 

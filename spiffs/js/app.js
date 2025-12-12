@@ -25,6 +25,7 @@ function fetchProgress(){
       updateotaprogressBar(data.progress); // need matching with the ota_handler progress data
       if (data.progress >= 100 && data.state == "complete"){
         clearInterval(progressTimer);
+        progressTimer = null;
         document.getElementById("confirmBtn").style.display = "inline-block";
       }
       console.log("State:", data.state, "Progress: ", data.progress);
@@ -98,10 +99,12 @@ function sendUserResponse(response_value, task_id_value) {
 
 
 //update the upgrade progress percentage by cycle query the status.
-document.getElementById("confirmBtn").addEventListener("click", ()=>{
-  document.getElementById("progressModal").classList.add("hidden"));
+document.getElementById("confirmBtn").addEventListener("click", ()=>{  
   document.getElementById("confirmBtn").style.display = "none";
+  clearInterval(progressTimer);
+  progressTimer = null;
   updateotaprogressBar(0);
+  document.getElementById("progressModal").classList.add("hidden");
 });
 
 // 给刷新按钮绑定事件
