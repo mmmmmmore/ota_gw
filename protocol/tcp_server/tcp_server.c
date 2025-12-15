@@ -15,6 +15,7 @@
 
 static const char *TAG = "GW_TCP_SERVER";
 static const char *TAG_D = "GW_TCP_DEBUG::";
+static const char *TAG_Sock = "GW_TCP_Sock";
 
 static sock_info_t sock_table[MAX_SOCKS];
 static int ota_server_sock = -1;
@@ -399,7 +400,14 @@ static void tcp_server_task(void *pvParameters) {
 
     ESP_LOGI(TAG, "TCP Server listening on port %d", port);
 
+    int big_while_loop_seq = 0;
+    int sec_while_loop_seq = 0;
+    int sec_while_lens0_seq =0;
+    int sec_while_lenis0_seq =0;
+    int sec_while_lenb0_seq =0;
+    int sec_while_process_seq =0;
     while (1) {
+        big_while_loop_seq ++;
         struct sockaddr_in source_addr;
         socklen_t addr_len = sizeof(source_addr);
         int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
@@ -416,20 +424,24 @@ static void tcp_server_task(void *pvParameters) {
         msg_role_t role = (port == 9001) ? ROLE_OTA_SERVER :
                           (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
         register_sock(client_sock, role);
-
+        ESP_LOGW(TAG_Sock, "Big while loop seq is [%d]", big_while_loop_seq);
         //char rx_buffer[512];
 
         while (1) {
+            sec_while_loop_seq++;
             char chunk[512];
             int len = recv(client_sock, chunk, sizeof(chunk) ,0);  // 251208 optimize the tcp rx buffer method. 
         //    int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if (len < 0) {
+                sec_while_lens0_seq++;
+                ESP_LOGW(TAG_Sock, "smaller 0 len seq is [%d]", sec_while_lenis0_seq);
                 if (errno == EWOULDBLOCK || errno == EAGAIN) {
                     uint32_t now = esp_log_timestamp();
                     uint32_t last = 0;
                     lock();
                     int idx = find_sock_index(client_sock);
                     if (idx >=0) last = sock_table[idx].last_seen_ms;
+                    ESP_LOGW(TAG_Sock, "smaller than 0 socket data received! ");
                     unlock();
                     if (last == 0 || (now - last) > 20000) {
                         ESP_LOGW(TAG, "Sock %d timed out (no keep_alive_ack), closing", client_sock);
@@ -441,16 +453,22 @@ static void tcp_server_task(void *pvParameters) {
                         break;
                     }
                 } else if (len == 0) {
+                    sec_while_lenis0_seq++;
                     ESP_LOGW(TAG, "Client disconnected");
+                    ESP_LOGW(TAG_Sock,"socket len is 0 seq : [%d]", sec_while_lenis0_seq);
                     break;
                 } else {
+                    sec_while_lenb0_seq++;
                     ESP_LOGI(TAG, "TCP__10__tcp rx all raw data:  :: len = %d,  raw = %.*s", len, len, chunk);
                     for(int i=0;i<len;i++){
                         printf("%02X ",(unsigned char)chunk[i]);
                     }
+                    ESP_LOGW(TAG_Sock, "recv Rx seq is [%d]",sec_while_lenb0_seq);
                     printf("\n");
                     // per-role framing and parse the stream
                     process_stream_json(client_sock, role, chunk, len);
+                    sec_while_process_seq++;
+                    ESP_LOGW(TAG_Sock, "recv function exec data to process stream function seq [%d]",sec_while_process_seq);
                     
                 }
             }
