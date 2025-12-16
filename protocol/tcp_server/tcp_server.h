@@ -24,7 +24,6 @@ esp_err_t tcp_server_start(uint16_t port);
 // OTA Server socket 管理
 void tcp_server_set_ota_sock(int sock);
 int tcp_server_get_ota_sock(void);
-
 // 发送 JSON 数据
 esp_err_t tcp_server_send(int client_sock, const char *json_str);
 

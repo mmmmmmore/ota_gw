@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "otaapp.h"
+#include "tcp_server.h"
 
 static const char *TAG = "WEB_OTAGW";
 //static char *pending_task_json = NULL;
@@ -84,6 +85,7 @@ char *webserver_get_task_list_json(void) {
 
 // ---------- 待确认任务信息 ----------
 static esp_err_t task_info_handler(httpd_req_t *req) {
+    //clear flush the socket
     httpd_resp_set_type(req, "application/json");
     char *json_str = webserver_get_task_list_json();
     httpd_resp_sendstr(req, json_str ? json_str : "{}");

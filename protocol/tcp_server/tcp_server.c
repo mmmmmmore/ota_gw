@@ -186,25 +186,11 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
     
     //parse loop
     //char *start = buffer_copy;
-    int while_loop_seq =0;
-    int if1_loop_seq=0;
-    int if2_loop_seq=0;
-    int if3_loop_seq=0;
-    int if4_s512_seq=0;
-    int if4_s512_root_seq = 0;
-    int if4_s512_root_msg_seq =0;
-    int if4_s512_root_nonmsg_seq=0;
-    int if4_s512_nonroot_seq =0;
-    int if4_b512_seq=0;
-    int if4_b512_root_seq =0;
-    int if4_b512_root_msg_seq =0;
-    int if4_b512_root_nonmsg_seq=0;
-    int if4_b512_root_nonroot_seq =0;
-    int if4_loop_seq=0;
+
     while (1)  
     {
-        while_loop_seq++;
-        ESP_LOGI(TAG_D, "While loop Seq___: %d", while_loop_seq);
+        //while_loop_seq++;
+        //ESP_LOGI(TAG_D, "While loop Seq___: %d", while_loop_seq);
         //ESP_LOGI(TAG_D, "tcp-loop start: sock: %d,  start_idx = %d,  rx_len = %d",
         //                client_sock, start_idx, si->rx_len);
         //char *newline = strchr(start, '\n');  // find new line,
@@ -213,99 +199,99 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
         //ESP_LOGW(TAG, "tcp-01-01-Parse loop: start offset = %d,  remain = %d",
         //            (int)(start- si->rx_buffer), (int)((si->rx_buffer + si->rx_len)-start));
         if (!newline) {
-            if1_loop_seq++;
-            ESP_LOGI(TAG, "if1 loop new line in sock : %d, remain = %d, Seq___: %d", client_sock, si->rx_len-start_idx, if1_loop_seq);
+            //if1_loop_seq++;
+            //ESP_LOGI(TAG, "if1 loop new line in sock : %d, remain = %d, Seq___: %d", client_sock, si->rx_len-start_idx, if1_loop_seq);
             break;
         }
-        ESP_LOGI(TAG_D, "Seq___:%d:tcp-loop-new-line-found: line_end_idx= %d", while_loop_seq,(int)(newline - si->rx_buffer));
+        //ESP_LOGI(TAG_D, "Seq___:%d:tcp-loop-new-line-found: line_end_idx= %d", while_loop_seq,(int)(newline - si->rx_buffer));
         int line_end_idx = (int)(newline - si->rx_buffer);
         int msg_len = line_end_idx - start_idx;
 
         if (msg_len <=0 ){
-            if2_loop_seq++;
+            //if2_loop_seq++;
             start_idx = line_end_idx +1;
-            ESP_LOGI(TAG_D, "if2 loop seq: %d,  start_idx =%d", if2_loop_seq, start_idx);
+            //ESP_LOGI(TAG_D, "if2 loop seq: %d,  start_idx =%d", if2_loop_seq, start_idx);
             continue;
         }
         
         //
         if (si->rx_buffer[line_end_idx -1] == '\r'){
-            if3_loop_seq++;
-            ESP_LOGW(TAG, "if3 loop Seq___:%d:tcp-01-03-Single JSON length (- %d -) bigger than handler, drop ",if3_loop_seq, msg_len);
+            //if3_loop_seq++;
+            //ESP_LOGW(TAG, "if3 loop Seq___:%d:tcp-01-03-Single JSON length (- %d -) bigger than handler, drop ",if3_loop_seq, msg_len);
             msg_len -=1; 
         } 
 
         if(msg_len <512){
-            if4_s512_seq++;
+            //if4_s512_seq++;
             char json_lines[512];
             memcpy(json_lines, si->rx_buffer+start_idx, msg_len);
             json_lines[msg_len] ='\0';
             // push first then unlock
             start_idx = line_end_idx +1;
             unlock();
-            ESP_LOGI(TAG, "if < 512 loop Seq :%d: tcp-01-03json: sock =%d , msg_len = %d, json = %s ", 
-                if4_s512_seq, client_sock, msg_len, json_lines);
+            //ESP_LOGI(TAG, "if < 512 loop Seq :%d: tcp-01-03json: sock =%d , msg_len = %d, json = %s ", 
+            //    if4_s512_seq, client_sock, msg_len, json_lines);
             //char json_str[RX_BUF_SIZE];
             //memcpy(json_str, start, msg_len);
             //json_str[msg_len] = '\0';
 
             //ESP_LOGI(TAG, "Seq___:%d:tcp-01-04-Rx JSON from sock %d :: %s",log_seq,client_sock, json_lines);  
-            ESP_LOGW(TAG_D, "while loop: [%d], if 512 loop [%d]",while_loop_seq, if4_s512_seq);
+            //ESP_LOGW(TAG_D, "while loop: [%d], if 512 loop [%d]",while_loop_seq, if4_s512_seq);
             cJSON *root = cJSON_Parse(json_lines);  //rx buffer msg change to json format set as root; 
 
             if (root) {
-                if4_s512_root_seq++;
+                //if4_s512_root_seq++;
                 cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
                 if (msg_type && msg_type->valuestring){
-                    if4_s512_root_msg_seq++;
+                    //if4_s512_root_msg_seq++;
                     if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0){
                         ESP_LOGI(TAG, "if4_s512_root_seq-[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"),client_sock);
                         update_last_seen(client_sock);
-                        ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootmsg_loop[%d]",
-                                        while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_msg_seq);
+                        //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootmsg_loop[%d]",
+                        //                while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_msg_seq);
                     } else {
                         //ESP_LOGI(TAG, "tcp-02-02-[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
-                        ESP_LOGI(TAG, "if4_s512_root_seq [%d]-dispatching to msg_handler : sock = %d.  role = %d,  json= %s", if4_s512_root_seq,client_sock, role, json_lines);
+                        //ESP_LOGI(TAG, "if4_s512_root_seq [%d]-dispatching to msg_handler : sock = %d.  role = %d,  json= %s", if4_s512_root_seq,client_sock, role, json_lines);
                         msg_handler_process(client_sock, json_lines, role);  // interface between tcp_server and msg_handler 
                         ESP_LOGI(TAG, "tcp-02-04-msg dispatched continuing parse loop");
                         update_last_seen(client_sock);
-                        ESP_LOGW(TAG_D, "msg_handler__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootmsg_loop[%d]",
-                                        while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_msg_seq);
+                        //ESP_LOGW(TAG_D, "msg_handler__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootmsg_loop[%d]",
+                        //                while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_msg_seq);
                     }
                 }else {
-                    if4_s512_root_nonmsg_seq++;
+                    //if4_s512_root_nonmsg_seq++;
                     ESP_LOGW(TAG, "tcp-02-04-Failed to parse JSON data from sock %d: raw data is %s", client_sock, json_lines);
                     update_last_seen(client_sock); 
-                    ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootnonmsg_loop[%d]",
-                                        while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_nonmsg_seq);
+                    //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootnonmsg_loop[%d]",
+                    //                    while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_nonmsg_seq);
 
                 } 
                 cJSON_Delete(root); //clear json object
-                ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}",
-                                        while_loop_seq, if4_s512_seq, if4_s512_root_seq);
+                //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}",
+                //                        while_loop_seq, if4_s512_seq, if4_s512_root_seq);
             } else {
-                if4_s512_nonroot_seq++;
+                //if4_s512_nonroot_seq++;
             // 非 JSON 数据，更新 last_seen 以免误判超时
                 ESP_LOGW(TAG, "tcp-02-05-Non JSON data from sock %d : raw is %s", client_sock, si->rx_buffer);
                 update_last_seen(client_sock);
-                ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_non-root_loop{%d}",
-                                        while_loop_seq, if4_s512_seq, if4_s512_nonroot_seq);
+                //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_non-root_loop{%d}",
+                //                        while_loop_seq, if4_s512_seq, if4_s512_nonroot_seq);
             }
             //start = newline + 1 ; // to next msg decode process
-            ESP_LOGI(TAG_D, "tcp-before-lock sock =%d", client_sock);
+            //ESP_LOGI(TAG_D, "tcp-before-lock sock =%d", client_sock);
             lock();
-            ESP_LOGI(TAG_D, "tcp-after-lock sock =%d", client_sock);
+            //ESP_LOGI(TAG_D, "tcp-after-lock sock =%d", client_sock);
 
 
         } else {
-            if4_b512_seq++;
+            //if4_b512_seq++;
 
             char *json_lines = (char *)malloc((size_t)msg_len + 1);
             if (!json_lines){
-                if4_loop_seq++;
+                //if4_loop_seq++;
                 ESP_LOGE(TAG, "tcp-05-allocate fail : sock: %d, need = %d", client_sock, msg_len+1);
                 start_idx = line_end_idx +1;
-                ESP_LOGW(TAG_D, "while loop seq [%dif loop4 [%d], start_idx of data [%d]",while_loop_seq ,if4_loop_seq, start_idx);
+                //ESP_LOGW(TAG_D, "while loop seq [%dif loop4 [%d], start_idx of data [%d]",while_loop_seq ,if4_loop_seq, start_idx);
                 continue;
             }
 
@@ -315,40 +301,40 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
             unlock();
 
             ESP_LOGI(TAG, "tcp-02-03 json heap: sock = %d, msg_len = %d", client_sock, msg_len);
-            ESP_LOGW(TAG_D, "while loop [%d], if4 b512 loop seq [%d]", while_loop_seq, if4_b512_seq);
+            //ESP_LOGW(TAG_D, "while loop [%d], if4 b512 loop seq [%d]", while_loop_seq, if4_b512_seq);
             cJSON *root = cJSON_Parse(json_lines);
             if (root) {
-                if4_b512_root_seq++;
+                //if4_b512_root_seq++;
                 cJSON *msg_type = cJSON_GetObjectItem(root, "msg_type");
-                ESP_LOGW(TAG_D, "while loop [%d], if4 b512 loop seq [%d]", while_loop_seq, if4_b512_root_seq);
+                //ESP_LOGW(TAG_D, "while loop [%d], if4 b512 loop seq [%d]", while_loop_seq, if4_b512_root_seq);
                 if (msg_type && cJSON_IsString(msg_type) && msg_type->valuestring){
-                    if4_b512_root_msg_seq++;
+                    //if4_b512_root_msg_seq++;
                     if(strcmp(msg_type->valuestring, "keep_alive_ack") ==0 ){
                         ESP_LOGI(TAG, "tcp-06-01 keepalive sock=%d, ",client_sock);
                         update_last_seen(client_sock);
-                        ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootmsg_loop[%d]",
-                                        while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_msg_seq);
+                        //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootmsg_loop[%d]",
+                        //                while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_msg_seq);
                     } else {
                         ESP_LOGI(TAG, "tcp-06-03 dispatch to msg handler sock: %d, type=%s", client_sock, msg_type->valuestring);
                         msg_handler_process(client_sock, json_lines, role);
                         update_last_seen(client_sock);
-                        ESP_LOGW(TAG_D, "msg_handler__while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootmsg_loop[%d]",
-                                        while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_msg_seq);
+                        //ESP_LOGW(TAG_D, "msg_handler__while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootmsg_loop[%d]",
+                        //                while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_msg_seq);
                     }
                 } else {
-                    if4_b512_root_nonmsg_seq++;
+                    //if4_b512_root_nonmsg_seq++;
                     ESP_LOGW(TAG, "tcp-06-05 missing type: sock : %d, ", client_sock);
                     update_last_seen(client_sock);
-                    ESP_LOGW(TAG_D, "while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootnonmsg_loop[%d]",
-                                        while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_nonmsg_seq);
+                    //ESP_LOGW(TAG_D, "while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootnonmsg_loop[%d]",
+                    //                    while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_nonmsg_seq);
                 }
                 cJSON_Delete(root);
             } else {
-                if4_b512_root_nonroot_seq++;
+                //if4_b512_root_nonroot_seq++;
                 ESP_LOGW(TAG, "tcp-07-01 parse fail sock =%d", client_sock);
                 update_last_seen(client_sock);
-                ESP_LOGW(TAG_D, "while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}",
-                                        while_loop_seq, if4_b512_seq, if4_b512_root_nonroot_seq);
+                //ESP_LOGW(TAG_D, "while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}",
+                //                        while_loop_seq, if4_b512_seq, if4_b512_root_nonroot_seq);
             }
             free(json_lines);
             lock();
@@ -361,6 +347,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
     si->rx_buffer[si->rx_len] ='\0';
     unlock();
 }
+
 
 
 
@@ -400,14 +387,14 @@ static void tcp_server_task(void *pvParameters) {
 
     ESP_LOGI(TAG, "TCP Server listening on port %d", port);
 
-    int big_while_loop_seq = 0;
-    int sec_while_loop_seq = 0;
-    int sec_while_lens0_seq =0;
-    int sec_while_lenis0_seq =0;
-    int sec_while_lenb0_seq =0;
-    int sec_while_process_seq =0;
+    //int big_while_loop_seq = 0;
+    //int sec_while_loop_seq = 0;
+    //int sec_while_lens0_seq =0;
+    //int sec_while_lenis0_seq =0;
+    //int sec_while_lenb0_seq =0;
+    //int sec_while_process_seq =0;
     while (1) {
-        big_while_loop_seq ++;
+        //big_while_loop_seq ++;
         struct sockaddr_in source_addr;
         socklen_t addr_len = sizeof(source_addr);
         int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
@@ -418,23 +405,26 @@ static void tcp_server_task(void *pvParameters) {
 
         ESP_LOGI(TAG, "Client connected, sock=%d, ip=%s, port=%d",
                  client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
-
+        
+        int one = 1;
+        setsockopt(client_sock, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
+        
         set_socket_opts(client_sock, 15000);
 
         msg_role_t role = (port == 9001) ? ROLE_OTA_SERVER :
                           (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
         register_sock(client_sock, role);
-        ESP_LOGW(TAG_Sock, "Big while loop seq is [%d]", big_while_loop_seq);
+        //ESP_LOGW(TAG_Sock, "Big while loop seq is [%d]", big_while_loop_seq);
         //char rx_buffer[512];
 
         while (1) {
-            sec_while_loop_seq++;
+            //sec_while_loop_seq++;
             char chunk[512];
             int len = recv(client_sock, chunk, sizeof(chunk) ,0);  // 251208 optimize the tcp rx buffer method. 
         //    int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
             if (len < 0) {
-                sec_while_lens0_seq++;
-                ESP_LOGW(TAG_Sock, "smaller 0 len seq is [%d]", sec_while_lenis0_seq);
+                //sec_while_lens0_seq++;
+                //ESP_LOGW(TAG_Sock, "smaller 0 len seq is [%d]", sec_while_lenis0_seq);
                 if (errno == EWOULDBLOCK || errno == EAGAIN) {
                     uint32_t now = esp_log_timestamp();
                     uint32_t last = 0;
@@ -453,22 +443,22 @@ static void tcp_server_task(void *pvParameters) {
                         break;
                     }
                 } else if (len == 0) {
-                    sec_while_lenis0_seq++;
+                    //sec_while_lenis0_seq++;
                     ESP_LOGW(TAG, "Client disconnected");
-                    ESP_LOGW(TAG_Sock,"socket len is 0 seq : [%d]", sec_while_lenis0_seq);
+                    //ESP_LOGW(TAG_Sock,"socket len is 0 seq : [%d]", sec_while_lenis0_seq);
                     break;
                 } else {
-                    sec_while_lenb0_seq++;
+                    //sec_while_lenb0_seq++;
                     ESP_LOGI(TAG, "TCP__10__tcp rx all raw data:  :: len = %d,  raw = %.*s", len, len, chunk);
                     for(int i=0;i<len;i++){
                         printf("%02X ",(unsigned char)chunk[i]);
                     }
-                    ESP_LOGW(TAG_Sock, "recv Rx seq is [%d]",sec_while_lenb0_seq);
+                    //ESP_LOGW(TAG_Sock, "recv Rx seq is [%d]",sec_while_lenb0_seq);
                     printf("\n");
                     // per-role framing and parse the stream
                     process_stream_json(client_sock, role, chunk, len);
-                    sec_while_process_seq++;
-                    ESP_LOGW(TAG_Sock, "recv function exec data to process stream function seq [%d]",sec_while_process_seq);
+                    //sec_while_process_seq++;
+                    //ESP_LOGW(TAG_Sock, "recv function exec data to process stream function seq [%d]",sec_while_process_seq);
                     
                 }
             }
