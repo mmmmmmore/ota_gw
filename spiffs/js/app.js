@@ -1,4 +1,5 @@
 let progressTimer =null;
+let upgradeTimerOutFlag = null;
 
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
@@ -27,10 +28,27 @@ function fetchProgress(){
         clearInterval(progressTimer);
         progressTimer = null;
         document.getElementById("confirmBtn").style.display = "inline-block";
+        console.log("Upgrade_Success_Finished");
+        return;
+      }
+      const elapsed = Date.now() - upgradeTimerOutFlag;  //calculate the time interval;
+      if (elapsed > 60000){
+        clearInterval(progressTimer);
+        progressTimer=null;
+        console.log("Upgrade_Time_Out");
+        //
+        document.getElementById("progressBar").clearList.add("Failed");
+        document.getElementById("confirmBtn").style.display = "inline-block";
+        alert("Upgrade_Failed: Time_Out");
       }
       console.log("State:", data.state, "Progress: ", data.progress);
     })
-    .catch(err => console.error("Error fetching progress",err));
+    .catch(err => {
+      console.error("Error fetching progress", err);
+      clearInterval(progressTimer);
+      progressTimer = null;
+      alert("Upgrade_Fail: Fail Get Progress Info");
+    });
 }
 
 
@@ -85,6 +103,7 @@ function sendUserResponse(response_value, task_id_value) {
       //display the progress bar
       document.getElementById("progressModal").classList.remove("hidden");
       //cycle check and update the value
+      upgradeTimerOutFlag = Date.now();   // timer out trigger start.
       progressTimer = setInterval(fetchProgress, 500);
       console.log("ota upgrade under progress... ")
     }else if(response_value ==='reject'){

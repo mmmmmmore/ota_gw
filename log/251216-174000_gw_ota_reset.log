@@ -1,0 +1,172 @@
+
+I (206704) GW_MSG_HANDLER: non known json data rxed.
+I (206704) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack29
+I (206714) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+W (206724) GW_TCP_DEBUG::: tcp-15-01-update last seen finish and lock
+W (206724) GW_TCP_DEBUG::: tcp-35-01-time is 206724..
+W (206734) GW_TCP_DEBUG::: tcp-15-02-update last seen finish and unlock
+I (206744) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (210554) OTA_APP_MGMT: Sending OTA task to client 759 (IP=192.168.4.4): {"msg_type":"ota_task","task_id":"20251216_173752_759","device_name":"Veh1_SCM2","client_id":"759","version":"v2.4.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_759_v2.4.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (210574) OTA_APP_MGMT: Client 759 state updated to UPDATING
+I (210584) OTA_APP_MGMT:  [20251216_173752_759] init OTA progress for client = 
+I (210594) WEB_OTAGW: User have response to task: 20251216_173752_759
+I (210634) GW_TCP_SERVER: TCP__10__tcp rx all raw data:  :: len = 80,  raw = {"msg_type":"ota_progress","task_id":"20251216_173752_759","state":"DWLD_DONE"}
+
+7B 22 6D 73 67 5F 74 79 70 65 22 3A 22 6F 74 61 5F 70 72 6F 67 72 65 73 73 22 2C 22 74 61 73 6B 5F 69 64 22 3A 22 32 30 32 35 31 32 31 36 5F 31 37 33 37 35 32 5F 37 35 39 22 2C 22 73 74 61 74 65 22 3A 22 44 57 4C 44 5F 44 4F 4E 45 22 7D 0A 
+W (210654) GW_TCP_DEBUG::: tcp-25-01-update last seen finish find sock 
+I (210664) GW_MSG_HANDLER: Processing message from sock 38 (role=2): {"msg_type":"ota_progress","task_id":"20251216_173752_759","state":"DWLD_DONE"}
+I (210674) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (210684) OTA_APP_MGMT: OTA progress update to 15 percentage 
+I (210684) OTA_APP_MGMT: OTA under progress, update the percentage
+I (210694) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (210694) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (210704) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+W (210714) GW_TCP_DEBUG::: tcp-15-01-update last seen finish and lock
+W (210714) GW_TCP_DEBUG::: tcp-25-01-update last seen finish find sock 
+W (210724) GW_TCP_DEBUG::: tcp-35-01-time is 210724..
+W (210734) GW_TCP_DEBUG::: tcp-15-02-update last seen finish and unlock
+I (210734) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (211684) GW_TCP_SERVER: TCP__10__tcp rx all raw data:  :: len = 33,  raw = {"msg_type": "keep_alive_ack30"}
+
+7B 22 6D 73 67 5F 74 79 70 65 22 3A 20 22 6B 65 65 70 5F 61 6C 69 76 65 5F 61 63 6B 33 30 22 7D 0A 
+I (211694) OTA_APP_MGMT:  progress upgrading ::: 20% 
+I (211694) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack30"}
+I (211714) GW_MSG_HANDLER: non known json data rxed.
+I (211714) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack30
+I (211724) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+W (211724) GW_TCP_DEBUG::: tcp-15-01-update last seen finish and lock
+W (211734) GW_TCP_DEBUG::: tcp-35-01-time is 211734..
+W (211734) GW_TCP_DEBUG::: tcp-15-02-update last seen finish and unlock
+I (211744) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (212694) OTA_APP_MGMT:  progress upgrading ::: 25% 
+I (213694) OTA_APP_MGMT:  progress upgrading ::: 30% 
+I (214694) OTA_APP_MGMT:  progress upgrading ::: 35% 
+I (215694) OTA_APP_MGMT:  progress upgrading ::: 40% 
+I (216624) GW_TCP_SERVER: TCP__10__tcp rx all raw data:  :: len = 33,  raw = {"msg_type": "keep_alive_ack31"}
+
+7B 22 6D 73 67 5F 74 79 70 65 22 3A 20 22 6B 65 65 70 5F 61 6C 69 76 65 5F 61 63 6B 33 31 22 7D 0A 
+I (216634) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack31"}
+I (216644) GW_MSG_HANDLER: non known json data rxed.
+I (216644) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack31
+I (216654) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+W (216664) GW_TCP_DEBUG::: tcp-15-01-update last seen finish and lock
+W (216664) GW_TCP_DEBUG::: tcp-35-01-time is 216664..
+W (216674) GW_TCP_DEBUG::: tcp-15-02-update last seen finish and unlock
+I (216674) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (216694) OTA_APP_MGMT:  progress upgrading ::: 45% 
+I (217694) OTA_APP_MGMT:  progress upgrading ::: 50% 
+I (218694) OTA_APP_MGMT:  progress upgrading ::: 55% 
+I (219694) OTA_APP_MGMT:  progress upgrading ::: 60% 
+I (220694) OTA_APP_MGMT:  progress upgrading ::: 65% 
+I (221624) GW_TCP_SERVER: TCP__10__tcp rx all raw data:  :: len = 33,  raw = {"msg_type": "keep_alive_ack32"}
+
+7B 22 6D 73 67 5F 74 79 70 65 22 3A 20 22 6B 65 65 70 5F 61 6C 69 76 65 5F 61 63 6B 33 32 22 7D 0A 
+I (221634) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack32"}
+I (221644) GW_MSG_HANDLER: non known json data rxed.
+I (221644) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack32
+I (221654) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+W (221664) GW_TCP_DEBUG::: tcp-15-01-update last seen finish and lock
+W (221664) GW_TCP_DEBUG::: tcp-35-01-time is 221664..
+W (221674) GW_TCP_DEBUG::: tcp-15-02-update last seen finish and unlock
+I (221674) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (221694) OTA_APP_MGMT:  progress upgrading ::: 70% 
+
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+
+
+Backtrace: 0x4037d0a5:0x3fcab4f0 0x4037d06d:0x3fcab510 0x4209ac6e:0x3fcab530 0x4037e357:0x3fcab5b0 0x4037d920:0x3fcab5d0 0x4037d916:0x3fcab610 0x3fcab62d:0x00000000 |<-CORRUPTED
+--- 0x4037d0a5: panic_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/panic.c:480
+--- 0x4037d06d: esp_system_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/esp_system_chip.c:87
+--- 0x4209ac6e: vApplicationStackOverflowHook at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:563
+--- 0x4037e357: vTaskSwitchContext at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/tasks.c:3698
+--- 0x4037d920: _frxt_dispatch at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:451
+--- 0x4037d916: _frxt_int_exit at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:246
+
+
+
+
+ELF file SHA256: 0df31fec1
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037d245
+--- 0x4037d245: esp_restart_noos at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:164
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x16fc
+load:0x403c8700,len:0xf14
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x3214
+entry 0x403c8930
+--- 0x403c8930: call_start_cpu0 at /Users/maochun/esp32prj/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+I (29) boot: ESP-IDF v6.0-dev-2039-g2044fba6e7 2nd stage bootloader
+I (29) boot: compile time Dec  5 2025 11:19:21
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v0.2
+I (34) boot: efuse block revision: v1.3
+I (37) qio_mode: Enabling default flash chip QIO
+I (42) boot.esp32s3: Boot SPI Speed : 80MHz
+I (46) boot.esp32s3: SPI Mode       : QIO
+I (49) boot.esp32s3: SPI Flash Size : 16MB
+I (53) boot: Enabling RNG early entropy source...
+I (58) boot: Partition Table:
+I (60) boot: ## Label            Usage          Type ST Offset   Length
+I (67) boot:  0 nvs              WiFi data        01 02 00009000 00005000
+I (73) boot:  1 otadata          OTA data         01 00 0000e000 00002000
+I (80) boot:  2 app0             OTA app          00 10 00010000 00400000
+I (86) boot:  3 app1             OTA app          00 11 00410000 00400000
+I (93) boot:  4 spiffs           Unknown data     01 82 00810000 00770000
+I (99) boot: End of partition table
+I (103) esp_image: segment 0: paddr=00010020 vaddr=3c0a0020 size=1f0f0h (127216) map
+I (129) esp_image: segment 1: paddr=0002f118 vaddr=3fc99800 size=00f00h (  3840) load
+I (130) esp_image: segment 2: paddr=00030020 vaddr=42000020 size=9e238h (647736) map
+I (231) esp_image: segment 3: paddr=000ce260 vaddr=3fc9a700 size=04238h ( 16952) load
+I (234) esp_image: segment 4: paddr=000d24a0 vaddr=40374000 size=15708h ( 87816) load
+I (252) esp_image: segment 5: paddr=000e7bb0 vaddr=50000000 size=00020h (    32) load
+I (261) boot: Loaded app from partition at offset 0x10000
+I (262) boot: Disabling RNG early entropy source...
+I (272) octal_psram: vendor id    : 0x0d (AP)
+I (272) octal_psram: dev id       : 0x02 (generation 3)
+I (272) octal_psram: density      : 0x03 (64 Mbit)
+I (274) octal_psram: good-die     : 0x01 (Pass)
+I (278) octal_psram: Latency      : 0x01 (Fixed)
+I (283) octal_psram: VCC          : 0x01 (3V)
+I (287) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (292) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (296) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (301) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (306) octal_psram: DriveStrength: 0x00 (1/1)
+I (311) MSPI Timing: PSRAM timing tuning index: 5
+I (315) esp_psram: Found 8MB PSRAM device
+I (319) esp_psram: Speed: 80MHz
+I (321) cpu_start: Multicore app
+I (757) esp_psram: SPI SRAM memory test OK
+I (765) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (766) cpu_start: Pro cpu start user code
+I (766) cpu_start: cpu freq: 160000000 Hz
+I (767) app_init: Application information:
+I (771) app_init: Project name:     ota_gw
+I (775) app_init: App version:      2.1.1
+I (779) app_init: Compile time:     Dec  5 2025 12:48:53
+I (784) app_init: ELF file SHA256:  0df31fec1...
+I (788) app_init: ESP-IDF:          v6.0-dev-2039-g2044fba6e7
+I (794) efuse_init: Min chip rev:     v0.0
+I (798) efuse_init: Max chip rev:     v0.99 
+I (802) efuse_init: Chip rev:         v0.2
+I (805) heap_init: Initializing. RAM available for dynamic allocation:
+I (812) heap_init: At 3FCA6418 len 000432F8 (268 KiB): RAM
+I (817) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (822) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (827) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (833) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (840) spi_flash: detected chip: boya
+I (842) spi_flash: flash io: qio
+W (846) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`
+I (855) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (862) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (869) main_task: Started on CPU0
+I (889) main_task: Calling app_main()
+ESP32S3 Boot Success...
+
