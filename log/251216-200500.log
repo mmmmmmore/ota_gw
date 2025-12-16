@@ -1,0 +1,240 @@
+
+I (1554) GW_TCP_SERVER: TCP Server listening on port 9002
+I (1564) WEB_OTAGW: OTA Gateway Webserver started
+系统初始化完成，等待客户端连接...
+I (1574) main_task: Returned from app_main()
+I (165604) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (165604) wifi:station: 1c:db:d4:af:1f:60 join, AID=1, bgn, 40U
+I (165624) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (165624) wifi:station: dc:b4:d9:04:7c:04 join, AID=2, bgn, 40U
+I (165654) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (165654) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 40U
+I (165674) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (165694) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (165724) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (166714) wifi:<ba-add>idx:2 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (166734) wifi:<ba-add>idx:3 (ifx:1, dc:b4:d9:04:7c:04), tid:0, ssn:0, winSize:64
+I (166744) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.3, port=52005
+I (166764) wifi:<ba-add>idx:4 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+I (166764) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","version":"1.1.0","ip":"192.168.4.3"}
+I (166774) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=DC:B4:D9:04:7C:04, ip=192.168.4.3, ver=1.1.0, sock=37
+I (166794) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (166794) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (166804) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (166974) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"Null","state":"NA"}
+I (166974) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (166974) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (166984) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (171574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (171574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (176574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (176574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (181574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (181574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (186564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (186574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (191564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (191564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (196564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (196564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (201564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (201574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (206564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (206574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (211564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (211564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (216564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (216564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (221574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (221574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (226564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (226564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (231564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (231564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (236564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (236564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (241574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (241574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (246564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (246564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (251564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (251564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (256564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (256564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (261564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (261574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (266574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (266574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (271564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (271564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (276564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (276564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (281564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (281564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (286564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (286574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (291564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (291564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (296564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (296574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (301564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (301564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (306574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (306574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (311574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (311574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (316564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (316564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (321564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (321574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (326564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (326564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (331564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (331564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (336564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (336564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (341574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (341574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (346564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (346564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (351574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (351574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (356564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (356564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (361564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (361564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (366564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (366564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (371564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (371564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (376564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (376564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (381564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (381574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (386564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (386564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (391574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (391574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (396574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (396574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (401564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (401564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (406564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (406564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (411564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (411564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (416574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (416574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (421564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (421564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (426564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (426564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (431564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (431574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (436564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (436564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (441574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (441574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (446564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (446564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (451564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (451564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (456564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (456564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (461574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (461574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (466574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (466574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (471574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (471574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (476574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (476574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (481564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (481564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (486574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (486574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (491564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (491564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (496574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (496574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (501564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (501564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (506564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (506564) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (511564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (511574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (513014) wifi:starting SA query procedure with STA(dc:b4:d9:04:7c:04)
+I (513014) wifi:Send SA Query req with transaction id 68ce
+I (513214) wifi:Send SA Query req with transaction id 68cf
+I (513414) wifi:Send SA Query req with transaction id 68d0
+I (513614) wifi:Send SA Query req with transaction id 68d1
+I (513814) wifi:Send SA Query req with transaction id 68d2
+I (514014) wifi:Send SA Query req with transaction id 68d3
+I (514044) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (514044) wifi:station: dc:b4:d9:04:7c:04 leave, AID = 2, reason = 209, bss_flags is 756835, bss:0x3c0d12d4
+I (514054) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (514054) wifi:<ba-del>idx:3, tid:0
+I (514064) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (514664) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (514664) wifi:station: dc:b4:d9:04:7c:04 join, AID=2, bgn, 40U
+I (514724) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (515764) wifi:<ba-add>idx:3 (ifx:1, dc:b4:d9:04:7c:04), tid:0, ssn:0, winSize:64
+E (516574) GW_TCP_SERVER: recv failed: errno 104
+I (516574) GW_TCP_SERVER: Closing client socket 37
+I (516574) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.2, port=59506
+I (516574) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.2"}
+I (516594) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.2, ver=1.1.0, sock=37
+I (516604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (516614) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (516614) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"20251216_181124_759","state":"complete"}
+I (516634) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (516634) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (516644) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+E (516964) GW_TCP_SERVER: recv failed: errno 113
+I (516964) GW_TCP_SERVER: Closing client socket 37
+I (516964) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.4, port=54665
+I (516964) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (516984) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=37
+I (516994) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (517004) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (517004) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"Null","state":"NA"}
+I (517014) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (517024) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (517034) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+E (517464) GW_TCP_SERVER: recv failed: errno 113
+I (517464) GW_TCP_SERVER: Closing client socket 37
+I (517464) GW_TCP_SERVER: Client connected, sock=37, ip=192.168.4.3, port=58077
+I (517464) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","version":"1.1.0","ip":"192.168.4.3"}
+I (517484) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=DC:B4:D9:04:7C:04, ip=192.168.4.3, ver=1.1.0, sock=37
+I (517494) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (517504) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (517504) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"Null","state":"NA"}
+I (517514) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (517524) GW_TCP_SERVER: tcp-02-04-msg dispatched continuing parse loop
+I (517534) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (521574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (521574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (526584) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (526584) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (531574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (531574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (536574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (536574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (541574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (541574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (546574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (546574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (551574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (551574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (556574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (556574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (561574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (561574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (566564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (566574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (571574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (571574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (576564) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (576574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0
+I (581574) GW_TCP_SERVER: if4_s512_root_seq-[CLIENT] Rx keep_alive_ack from sock: 37
+I (581574) GW_TCP_SERVER: tcp-03-01-compacting buffer : 0

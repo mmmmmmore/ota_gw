@@ -27,9 +27,9 @@ static void unlock(void) { if (s_sock_mutex) xSemaphoreGive(s_sock_mutex); }
 static int find_sock_index(int sock){
     for (int i =0; i < MAX_SOCKS; i++){
         if (sock_table[i].sock == sock) return i;
-        ESP_LOGW(TAG_D, "tcp-25-01-update last seen finish find sock ");
+        //ESP_LOGW(TAG_D, "tcp-25-01-update last seen finish find sock ");
     }
-    ESP_LOGW(TAG_D, "tcp-25-02-update last seen not  find sock ");
+    //ESP_LOGW(TAG_D, "tcp-25-02-update last seen not  find sock ");
     return -1;
 }
 
@@ -45,14 +45,14 @@ int tcp_server_get_ota_sock(void) {
 
 static void update_last_seen(int sock) {
     lock();
-    ESP_LOGW(TAG_D, "tcp-15-01-update last seen finish and lock");
+    //ESP_LOGW(TAG_D, "tcp-15-01-update last seen finish and lock");
     int idx = find_sock_index(sock);
     if (idx >= 0) {
         sock_table[idx].last_seen_ms = esp_log_timestamp();
-        ESP_LOGW(TAG_D, "tcp-35-01-time is %d..", sock_table[idx].last_seen_ms);
+        //ESP_LOGW(TAG_D, "tcp-35-01-time is %d..", sock_table[idx].last_seen_ms);
     }
     unlock();
-    ESP_LOGW(TAG_D, "tcp-15-02-update last seen finish and unlock");
+    //ESP_LOGW(TAG_D, "tcp-15-02-update last seen finish and unlock");
 }
 
 static void register_sock(int sock, msg_role_t role) {
@@ -272,9 +272,9 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
             } else {
                 //if4_s512_nonroot_seq++;
             // 非 JSON 数据，更新 last_seen 以免误判超时
-                ESP_LOGW(TAG, "tcp-02-05-Non JSON data from sock %d : raw is %s", client_sock, si->rx_buffer);
+                //ESP_LOGW(TAG, "tcp-02-05-Non JSON data from sock %d : raw is %s", client_sock, si->rx_buffer);
                 update_last_seen(client_sock);
-                //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_non-root_loop{%d}",
+                //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_5idf12_loop[%d], if512_non-root_loop{%d}",
                 //                        while_loop_seq, if4_s512_seq, if4_s512_nonroot_seq);
             }
             //start = newline + 1 ; // to next msg decode process
@@ -323,7 +323,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
                     }
                 } else {
                     //if4_b512_root_nonmsg_seq++;
-                    ESP_LOGW(TAG, "tcp-06-05 missing type: sock : %d, ", client_sock);
+                    //ESP_LOGW(TAG, "tcp-06-05 missing type: sock : %d, ", client_sock);
                     update_last_seen(client_sock);
                     //ESP_LOGW(TAG_D, "while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootnonmsg_loop[%d]",
                     //                    while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_nonmsg_seq);
@@ -431,7 +431,7 @@ static void tcp_server_task(void *pvParameters) {
                     lock();
                     int idx = find_sock_index(client_sock);
                     if (idx >=0) last = sock_table[idx].last_seen_ms;
-                    ESP_LOGW(TAG_Sock, "smaller than 0 socket data received! ");
+                    //ESP_LOGW(TAG_Sock, "smaller than 0 socket data received! ");
                     unlock();
                     if (last == 0 || (now - last) > 20000) {
                         ESP_LOGW(TAG, "Sock %d timed out (no keep_alive_ack), closing", client_sock);
@@ -449,12 +449,12 @@ static void tcp_server_task(void *pvParameters) {
                     break;
                 } else {
                     //sec_while_lenb0_seq++;
-                    ESP_LOGI(TAG, "TCP__10__tcp rx all raw data:  :: len = %d,  raw = %.*s", len, len, chunk);
-                    for(int i=0;i<len;i++){
-                        printf("%02X ",(unsigned char)chunk[i]);
-                    }
+                    //ESP_LOGI(TAG, "TCP__10__tcp rx all raw data:  :: len = %d,  raw = %.*s", len, len, chunk);
+                    //for(int i=0;i<len;i++){
+                    //    printf("%02X ",(unsigned char)chunk[i]);
+                    //}
                     //ESP_LOGW(TAG_Sock, "recv Rx seq is [%d]",sec_while_lenb0_seq);
-                    printf("\n");
+                    //printf("\n");
                     // per-role framing and parse the stream
                     process_stream_json(client_sock, role, chunk, len);
                     //sec_while_process_seq++;
