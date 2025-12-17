@@ -1,89 +1,17 @@
 
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c: In function 'msg_handler_process':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:83:56: error: 'task' is a pointer; did you mean to use '->'?
-   83 |             if (cJSON_IsString(task_id))   strncpy(task.task_id, task_id->valuestring, sizeof(task.task_id)-1);
-      |                                                        ^
-      |                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:83:99: error: 'task' is a pointer; did you mean to use '->'?
-   83 |             if (cJSON_IsString(task_id))   strncpy(task.task_id, task_id->valuestring, sizeof(task.task_id)-1);
-      |                                                                                                   ^
-      |                                                                                                   ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:84:56: error: 'task' is a pointer; did you mean to use '->'?
-   84 |             if (cJSON_IsString(dev_name))  strncpy(task.device_name, dev_name->valuestring, sizeof(task.device_name)-1);
-      |                                                        ^
-      |                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:84:104: error: 'task' is a pointer; did you mean to use '->'?
-   84 |             if (cJSON_IsString(dev_name))  strncpy(task.device_name, dev_name->valuestring, sizeof(task.device_name)-1);
-      |                                                                                                        ^
-      |                                                                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:85:56: error: 'task' is a pointer; did you mean to use '->'?
-   85 |             if (cJSON_IsString(client_id)) strncpy(task.client_id, client_id->valuestring, sizeof(task.client_id)-1);
-      |                                                        ^
-      |                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:85:103: error: 'task' is a pointer; did you mean to use '->'?
-   85 |             if (cJSON_IsString(client_id)) strncpy(task.client_id, client_id->valuestring, sizeof(task.client_id)-1);
-      |                                                                                                       ^
-      |                                                                                                       ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:86:56: error: 'task' is a pointer; did you mean to use '->'?
-   86 |             if (cJSON_IsString(version))   strncpy(task.version, version->valuestring, sizeof(task.version)-1);
-      |                                                        ^
-      |                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:86:99: error: 'task' is a pointer; did you mean to use '->'?
-   86 |             if (cJSON_IsString(version))   strncpy(task.version, version->valuestring, sizeof(task.version)-1);
-      |                                                                                                   ^
-      |                                                                                                   ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:87:56: error: 'task' is a pointer; did you mean to use '->'?
-   87 |             if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
-      |                                                        ^
-      |                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:87:91: error: 'task' is a pointer; did you mean to use '->'?
-   87 |             if (cJSON_IsString(url))       strncpy(task.url, url->valuestring, sizeof(task.url)-1);
-      |                                                                                           ^
-      |                                                                                           ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:88:56: error: 'task' is a pointer; did you mean to use '->'?
-   88 |             if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
-      |                                                        ^
-      |                                                        ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:88:101: error: 'task' is a pointer; did you mean to use '->'?
-   88 |             if (cJSON_IsString(features))  strncpy(task.features, features->valuestring, sizeof(task.features)-1);
-      |                                                                                                     ^
-      |                                                                                                     ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:90:17: error: 'task' is a pointer; did you mean to use '->'?
-   90 |             task.status = OTA_STATUS_PENDING;
-      |                 ^
-      |                 ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:91:17: error: 'task' is a pointer; did you mean to use '->'?
-   91 |             task.created_ms = esp_log_timestamp();
-      |                 ^
-      |                 ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:95:37: error: passing argument 1 of 'otaapp_set_pending_task' from incompatible pointer type [-Wincompatible-pointer-types]
-   95 |             otaapp_set_pending_task(&task);
-      |                                     ^~~~~
-      |                                     |
-      |                                     ota_task_t **
-In file included from /Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:5:
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:28:48: note: expected 'const ota_task_t *' but argument is of type 'ota_task_t **'
-   28 | void otaapp_set_pending_task(const ota_task_t *task);
-      |                              ~~~~~~~~~~~~~~~~~~^~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:99:21: error: 'task' is a pointer; did you mean to use '->'?
-   99 |             if (task.client_id[0] != '\0') {
-      |                     ^
-      |                     ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:100:44: error: 'task' is a pointer; did you mean to use '->'?
-  100 |                 ota_dispatch_send_task(task.client_id, &task);
-      |                                            ^
-      |                                            ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:100:56: error: passing argument 2 of 'ota_dispatch_send_task' from incompatible pointer type [-Wincompatible-pointer-types]
-  100 |                 ota_dispatch_send_task(task.client_id, &task);
-      |                                                        ^~~~~
-      |                                                        |
-      |                                                        ota_task_t **
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.h:37:69: note: expected 'ota_task_t *' but argument is of type 'ota_task_t **'
-   37 | esp_err_t ota_dispatch_send_task(const char *client_id, ota_task_t *task);
-      |                                                         ~~~~~~~~~~~~^~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:105:65: error: 'task' is a pointer; did you mean to use '->'?
-  105 |             ota_client_task_t *status = find_or_create_task(task.client_id);
-      |                                                                 ^
-      |                                                                 ->
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:107:46: error: 'task' is a pointer; did you mean to use '->'?
-  107 |                 strncpy(status->task_id, task.task_id, sizeof(status->task_id)-1);
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c: In function 'progress_info_handler':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:141:18: error: initialization of 'size_t' {aka 'unsigned int'} from 'const char *' makes integer from pointer without a cast [-Wint-conversion]
+  141 |     size_t len = ota_handler_get_progress_json(json_buf, sizeof(json_buf));
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:144:9: error: implicit declaration of function 'http_resp_send'; did you mean 'httpd_resp_send'? [-Wimplicit-function-declaration]
+  144 |         http_resp_send(req, buf, len);
+      |         ^~~~~~~~~~~~~~
+      |         httpd_resp_send
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:144:29: error: 'buf' undeclared (first use in this function)
+  144 |         http_resp_send(req, buf, len);
+      |                             ^~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:144:29: note: each undeclared identifier is reported only once for each function it appears in
+[7/17] Building C object esp-idf/msg_handler/CMakeFiles/__idf_msg_handler.dir/msg_handler.c.obj
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:22:27: warning: 'find_or_create_task' defined but not used [-Wunused-function]
+   22 | static ota_client_task_t* find_or_create_task(const char *task_id) {
+      |                           ^~~~~~~~~~~~~~~~~~~

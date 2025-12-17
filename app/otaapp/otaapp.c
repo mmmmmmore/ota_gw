@@ -20,10 +20,13 @@ static TimerHandle_t ota_handler_upgrade_timer = NULL;
 
 void ota_task_timeout_cb(TimerHandle_t xTimer) {
     ota_task_t *task = (ota_task_t*) pvTimerGetTimerID(xTimer);
-    if (task->user_response == USER_RESPONSE_WAIT) {
-        ESP_LOGW(TAG, "Task %s timed out", task->task_id);
-        memset(task, 0, sizeof(*task));
+    //Second Change_2, release memory resource
+    if (task->timer){
+        xTimerStop(task->timer, 0);
+        xTimerDelete(task->timer, 0);
+        task->timer =NULL;
     }
+    memset(task, 0, sizeof(*task));
 }
 
 void otaapp_add_task(const ota_task_t *task) {
@@ -83,8 +86,9 @@ void ota_dispatch_user_reject(const ota_task_t *task ) {
     size_t len = strlen(json_str);
     char *send_buf = malloc(len + 2); 
     if (send_buf) {
-        strcpy(send_buf, json_str);
-        strcpy(send_buf, "\n");
+        memcpy(send_buf, json_str, len);
+        send_buf[len] = '\n';
+        send_buf[len+1] = '\0';
     }
 
     int ota_sock = tcp_server_get_ota_sock();
@@ -144,8 +148,12 @@ void otahandler_upgrade_response(const char *task_id, user_response_t response) 
                 ESP_LOGI(TAG, "Task %s waiting ", &task_lists[i].task_id);
             }
 
-            // 停止定时器并清理任务
-            xTimerStop(task_lists[i].timer, 0);
+            // 停止定时器并清理任务   change_1
+            if (task_lists[i].timer){
+                xTimerStop(task_lists[i].timer, 0);
+                xTimerDelete(task_lists[i].timer, 0);
+                task_lists[i].timer = NULL;
+            }
             memset(&task_lists[i], 0, sizeof(task_lists[i]));
             return;
         }
@@ -209,9 +217,6 @@ static void ota_handler_upgrade_timer_cb(TimerHandle_t xTimer){
 
 
 
-
-
-
 void ota_handler_on_client_dwld_done(const char *task_id){
     ESP_LOGI(TAG, "OTA module Rx Client send download finish signal");
     if (strcmp(task_id, ota_handler_progress.task_id_sts) == 0){
@@ -245,15 +250,46 @@ void ota_handler_client_result_after_ota(const char *task_id ){
             xTimerDelete(ota_handler_upgrade_timer, 0);
             ota_handler_upgrade_timer = NULL;
         }
+        memset(&ota_handler_progress, 0, sizeof(ota_handler_progress));  //release all finished resource.
     }
 
 }
 
 
+static void ota_cleanup_progress(void){
+    if (ota_handler_upgrade_timer) {
+        xTimerStop(ota_handler_upgrade_timer, 0);
+        xTimerDelete(ota_handler_upgrade_timer, 0);
+        ota_handler_upgrade_timer = NULL;
+    }
+    memset(&ota_handler_upgrade_timer, 0, sizeof(ota_handler_upgrade_timer));
+}
 
+static void ota_cleanup_task_entry(ota_task_t *t){
+    if(!t) return;
+    if(t->timer){
+        xTimerStop(t->timer, 0);
+        xTimerDelete(t->timer, 0);
+        t->timer =NULL;
+    }
+    memset(t, 0, sizeof(*t));
+}
+
+static void ota_on_terminal_state(const char *task_id, ota_termimal_t term){
+    //cleanup all task
+    ota_cleanup_progress();
+
+    //clean by task list table
+    for (int i =0; i<MAX_TASKS; i++){
+        if(task_lists[i].task_id[0] && strcmp(task_lists[i].task_id, task_id)== 0){
+            ota_cleanup_task_entry(&task_lists[i]);
+            break;
+        }
+    }
+}
 
 // this function for webserver to check and call the result to display in UI.. 
-const char* ota_handler_get_progress_json(){
+const char* ota_handler_get_progress_json(char *buf,  size_t buflen){
     cJSON *root = cJSON_CreateObject();
     cJSON_AddStringToObject(root, "task_id", ota_handler_progress.task_id_sts);
     cJSON_AddNumberToObject(root, "progress", ota_handler_progress.percentage);
@@ -266,8 +302,16 @@ const char* ota_handler_get_progress_json(){
     cJSON_AddStringToObject(root, "state", state);
 
     char *json_str = cJSON_PrintUnformatted(root);
+    size_t len = json_str? strlen(json_str) :0 ;
+    if (json_str && len < buflen) {
+        memcpy(buf, json_str, len+1);
+    }else if ( buflen > 0){
+        buf[0] = '\0';
+    }
+
     cJSON_Delete(root);
-    return json_str;  // call user use and free this memory
+    if (json_str) free(json_str);
+    return len;  // call user use and free this memory
 
 }
 
