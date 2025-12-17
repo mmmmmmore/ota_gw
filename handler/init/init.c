@@ -7,6 +7,11 @@
 #include "esp_log.h"
 #include "client_register.h"
 #include "msg_handler.h"
+#include "esp_system.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
+
 
 void platform_init(void) {
     // 初始化 NVS 已在 app_main 中完成
@@ -27,7 +32,23 @@ void platform_init(void) {
     //start the webserver
     start_webserver_otagw();
 
-
 }
 
 
+void system_monitor_task(void *pvParameters){
+    while (1)
+    {
+        //ram status
+        size_t free_heap = esp_get_free_heap_size();
+        size_t min_heap = esp_get_minimum_free_heap_size();
+        ESP_LOGI("SYS_INFO", "Free heap : %d, Min Heap : %d", free_heap, min_heap);
+
+        //CPU status
+        char stats_buff[512];
+        vTaskGetRunTimeStats(stats_buff);
+        ESP_LOGI("SYS_INFO", "Task CPU usage : \n%s", stats_buff);
+
+        vTaskDelay(pdMS_TO_TICKS(10000));
+    }
+    
+}

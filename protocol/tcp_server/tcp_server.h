@@ -15,6 +15,12 @@ typedef struct {
     int rx_len;
 } sock_info_t;
 
+
+typedef struct {
+    int sock;
+    msg_role_t role;
+} client_arg_t;
+
 // 初始化：启动两个端口监听
 void gw_tcp_servers_init(void);
 

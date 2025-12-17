@@ -245,7 +245,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
                 if (msg_type && msg_type->valuestring){
                     //if4_s512_root_msg_seq++;
                     if (strcmp(msg_type->valuestring, "keep_alive_ack") == 0){
-                        ESP_LOGI(TAG, "if4_s512_root_seq-[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"),client_sock);
+                        ESP_LOGI(TAG, "Rx_from_Role::->[%s] Rx keep_alive_ack from sock: %d", (role==ROLE_CLIENT ? "CLIENT" : "OTA"),client_sock);
                         update_last_seen(client_sock);
                         //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootmsg_loop[%d]",
                         //                while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_msg_seq);
@@ -253,14 +253,14 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
                         //ESP_LOGI(TAG, "tcp-02-02-[%s] Rx msg_type = %s from sock%d ", (role==ROLE_CLIENT ? "CLIENT" : "OTA"), msg_type->valuestring, client_sock);
                         //ESP_LOGI(TAG, "if4_s512_root_seq [%d]-dispatching to msg_handler : sock = %d.  role = %d,  json= %s", if4_s512_root_seq,client_sock, role, json_lines);
                         msg_handler_process(client_sock, json_lines, role);  // interface between tcp_server and msg_handler 
-                        ESP_LOGI(TAG, "tcp-02-04-msg dispatched continuing parse loop");
+                        //ESP_LOGI(TAG, "tcp-02-04-msg dispatched continuing parse loop");
                         update_last_seen(client_sock);
                         //ESP_LOGW(TAG_D, "msg_handler__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootmsg_loop[%d]",
                         //                while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_msg_seq);
                     }
                 }else {
                     //if4_s512_root_nonmsg_seq++;
-                    ESP_LOGW(TAG, "tcp-02-04-Failed to parse JSON data from sock %d: raw data is %s", client_sock, json_lines);
+                    //ESP_LOGW(TAG, "tcp-02-04-Failed to parse JSON data from sock %d: raw data is %s", client_sock, json_lines);
                     update_last_seen(client_sock); 
                     //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_512_loop[%d], if512_root_loop{%d}, if512rootnonmsg_loop[%d]",
                     //                    while_loop_seq, if4_s512_seq, if4_s512_root_seq, if4_s512_root_nonmsg_seq);
@@ -289,7 +289,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
             char *json_lines = (char *)malloc((size_t)msg_len + 1);
             if (!json_lines){
                 //if4_loop_seq++;
-                ESP_LOGE(TAG, "tcp-05-allocate fail : sock: %d, need = %d", client_sock, msg_len+1);
+                //ESP_LOGE(TAG, "tcp-05-allocate fail : sock: %d, need = %d", client_sock, msg_len+1);
                 start_idx = line_end_idx +1;
                 //ESP_LOGW(TAG_D, "while loop seq [%dif loop4 [%d], start_idx of data [%d]",while_loop_seq ,if4_loop_seq, start_idx);
                 continue;
@@ -300,7 +300,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
             start_idx = line_end_idx +1;
             unlock();
 
-            ESP_LOGI(TAG, "tcp-02-03 json heap: sock = %d, msg_len = %d", client_sock, msg_len);
+            //ESP_LOGI(TAG, "tcp-02-03 json heap: sock = %d, msg_len = %d", client_sock, msg_len);
             //ESP_LOGW(TAG_D, "while loop [%d], if4 b512 loop seq [%d]", while_loop_seq, if4_b512_seq);
             cJSON *root = cJSON_Parse(json_lines);
             if (root) {
@@ -310,12 +310,12 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
                 if (msg_type && cJSON_IsString(msg_type) && msg_type->valuestring){
                     //if4_b512_root_msg_seq++;
                     if(strcmp(msg_type->valuestring, "keep_alive_ack") ==0 ){
-                        ESP_LOGI(TAG, "tcp-06-01 keepalive sock=%d, ",client_sock);
+                        //ESP_LOGI(TAG, "tcp-06-01 keepalive sock=%d, ",client_sock);
                         update_last_seen(client_sock);
                         //ESP_LOGW(TAG_D, "keepalive__while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootmsg_loop[%d]",
                         //                while_loop_seq, if4_b512_seq, if4_b512_root_seq, if4_b512_root_msg_seq);
                     } else {
-                        ESP_LOGI(TAG, "tcp-06-03 dispatch to msg handler sock: %d, type=%s", client_sock, msg_type->valuestring);
+                        //ESP_LOGI(TAG, "tcp-06-03 dispatch to msg handler sock: %d, type=%s", client_sock, msg_type->valuestring);
                         msg_handler_process(client_sock, json_lines, role);
                         update_last_seen(client_sock);
                         //ESP_LOGW(TAG_D, "msg_handler__while loop [%d], if4_b512_loop[%d], ifb512_root_loop{%d}, if512rootmsg_loop[%d]",
@@ -341,7 +341,7 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
         }
     }
     int remain = si->rx_len - start_idx ;
-    ESP_LOGI(TAG, "tcp-03-01-compacting buffer : %d", remain);
+    //ESP_LOGI(TAG, "tcp-03-01-compacting buffer : %d", remain);
     if (remain > 0 ) memmove(si->rx_buffer, si->rx_buffer+start_idx, remain);
     si->rx_len = remain ;
     si->rx_buffer[si->rx_len] ='\0';
@@ -349,10 +349,123 @@ static void process_stream_json(int client_sock, msg_role_t role, const char *ch
 }
 
 
+static void tcp_client_task(void *pvParameters){
+    client_arg_t *arg = (client_arg_t*)pvParameters;
+    int client_sock = arg->sock;
+    msg_role_t role = arg->role;
+    free(arg);
+    ESP_LOGI(TAG_Sock, "tcp_client_task started for sock = %d", client_sock);
 
+    register_sock(client_sock, role);
+
+    char chunk[512];
+    while (1)
+    {
+        int len = recv(client_sock, chunk, sizeof(chunk), 0);
+        if (len < 0){
+            //sock error
+            if(errno == EWOULDBLOCK || errno == EAGAIN) {
+                uint32_t now = esp_log_timestamp();
+                uint32_t last =0;
+                lock();
+                int idx = find_sock_index(client_sock);
+                if (idx >= 0) last = sock_table[idx].last_seen_ms;
+                unlock();
+                if (last == 0 || (now - last)>20000){
+                    ESP_LOGW(TAG_Sock, " Socket %d time out , closing", client_sock);
+                    break;
+                }
+                continue;
+            }else {
+                ESP_LOGE(TAG_Sock, "recv failed : errno: %d ", errno);
+                break;
+            }
+        }else if (len == 0){
+            ESP_LOGW(TAG_Sock, "Client disconnected sock = %d", client_sock);
+            break;
+        }else {
+            process_stream_json(client_sock, role, chunk, len);
+        }
+    }
+    ESP_LOGI(TAG_Sock, "Closing client socket : %d", client_sock);
+    shutdown(client_sock, SHUT_RDWR);
+    close(client_sock);
+    unregister_sock(client_sock);
+    vTaskDelete(NULL);
+}
 
 
 static void tcp_server_task(void *pvParameters) {
+    client_arg_t *arg = (client_arg_t*)pvParameters;
+    int port = (int)(intptr_t)pvParameters;
+    ESP_LOGI(TAG_Sock, "tcp_server_task started on port : %d", port);
+
+
+    struct sockaddr_in dest_addr = {0};
+    dest_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = htons(port);
+
+
+    int listen_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
+    if (listen_sock < 0) {
+        ESP_LOGE(TAG_Sock, "Unable to create socket : errno %d", errno);
+        vTaskDelete(NULL);
+        return;
+    }
+
+    int opt =1;
+    setsockopt(listen_sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    if (bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr)) < 0){
+        ESP_LOGE(TAG_Sock, "Socket unable to bind: errno %d", errno);
+        close(listen_sock);
+        vTaskDelete(NULL);
+        return;
+    }
+
+    if (listen(listen_sock, 8) < 0){
+        ESP_LOGE(TAG_Sock, " Error occurred during listen: errno %d", errno);
+        close(listen_sock);
+        vTaskDelete(NULL);
+        return;
+    }
+
+    ESP_LOGI(TAG_Sock, "TCP_Server listening on port : %d ", port);
+
+    while (1)
+    {
+        struct sockaddr_in source_addr;
+        socklen_t addr_len = sizeof(source_addr);
+        int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
+        if (client_sock < 0){
+            ESP_LOGE(TAG_Sock, "Unable to accept the connection : errno : %d", errno);
+            continue;
+        }
+        ESP_LOGI(TAG_Sock, "Client connected, sock = %d, ip = %s, port = %d", 
+                            client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
+        
+        int one =1 ;
+        setsockopt(client_sock, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
+        set_socket_opts(client_sock, 15000);
+
+        msg_role_t role =   (port == 9001) ? ROLE_OTA_SERVER :
+                            (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
+        
+        client_arg_t *arg = malloc(sizeof(client_arg_t));
+        arg->sock = client_sock;
+        arg->role = role;
+        
+        xTaskCreate(tcp_client_task, "tcp_client_task started", 4096, arg, 5, NULL);
+        
+    }
+    
+    
+}
+
+
+
+static void tcp_server_task_legacy(void *pvParameters) {
     int port = (int)(intptr_t)pvParameters;
     ESP_LOGI(TAG, "tcp_server_task started on port %d", port);
 
@@ -488,8 +601,8 @@ void gw_tcp_servers_init(void) {
         memset(sock_table[i].rx_buffer, 0, RX_BUF_SIZE);
     }
     // 分别启动两个端口的服务
-    xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9001", 4096, (void*)(intptr_t)9001, 5, NULL, 0);
-    xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9002", 4096, (void*)(intptr_t)9002, 5, NULL, 0);
+    xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9001", 4096, (void*)9001, 5, NULL, 0);
+    xTaskCreatePinnedToCore(tcp_server_task, "tcp_server_9002", 4096, (void*)9002, 5, NULL, 1);
 
     // 心跳任务
     xTaskCreatePinnedToCore(gw_keep_alive_task, "gw_keep_alive_task", 4096, NULL, 4, NULL, 0);

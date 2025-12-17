@@ -5,4 +5,6 @@
 
 void platform_init(void);
 
+void system_monitor_task(void *pvParameters);
+
 #endif  //define init.h
