@@ -275,7 +275,7 @@ static void ota_cleanup_task_entry(ota_task_t *t){
     memset(t, 0, sizeof(*t));
 }
 
-static void ota_on_terminal_state(const char *task_id, ota_termimal_t term){
+static void ota_on_terminal_state(const char *task_id, ota_progress_t term){
     //cleanup all task
     ota_cleanup_progress();
 
@@ -289,18 +289,16 @@ static void ota_on_terminal_state(const char *task_id, ota_termimal_t term){
 }
 
 // this function for webserver to check and call the result to display in UI.. 
-const char* ota_handler_get_progress_json(char *buf,  size_t buflen){
+size_t ota_handler_get_progress_json(char *buf,  size_t buflen){
     cJSON *root = cJSON_CreateObject();
     cJSON_AddStringToObject(root, "task_id", ota_handler_progress.task_id_sts);
     cJSON_AddNumberToObject(root, "progress", ota_handler_progress.percentage);
-
     const char *state=
             (ota_handler_progress.ota_state == OTA_PROGRESS_INIT ) ? "init" :
             (ota_handler_progress.ota_state == OTA_PROGRESS_DWLD_DONE ) ? "dwld_done" :
             (ota_handler_progress.ota_state == OTA_PROGRESS_UPGRADING ) ? "upgrading" :
             (ota_handler_progress.ota_state == OTA_PROGRESS_COMPLETE ) ? "complete" : "idle";
     cJSON_AddStringToObject(root, "state", state);
-
     char *json_str = cJSON_PrintUnformatted(root);
     size_t len = json_str? strlen(json_str) :0 ;
     if (json_str && len < buflen) {

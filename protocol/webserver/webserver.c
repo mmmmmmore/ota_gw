@@ -137,10 +137,14 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
 
 // ---------- 进度信息 ----------
 static esp_err_t progress_info_handler(httpd_req_t *req) {
-    char *json = ota_handler_get_progress_json();
+    char json_buf[256];
+    size_t len = ota_handler_get_progress_json(json_buf, sizeof(json_buf));
     httpd_resp_set_type(req, "application/json");
-    httpd_resp_send(req, json, strlen(json));
-    free(json);
+    if (len >0){
+        httpd_resp_send(req, json_buf, len);
+    }else {
+        httpd_resp_send(req, "{}", strlen("{}"));
+    }
     return ESP_OK;
 }
 

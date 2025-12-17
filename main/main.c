@@ -91,7 +91,7 @@ void app_main(void) {
 
     platform_init();
 
-    xTaskCreate(system_monitor_task, "sys_mon", 4096, NULL, 5, NULL);
+    //xTaskCreate(system_monitor_task, "sys_mon", 4096, NULL, 5, NULL);
     //camera_init();
     // 初始化摄像头（GPIO + SCCB + 寄存器配置）
     //ov7670_config();
