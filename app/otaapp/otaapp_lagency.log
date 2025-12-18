@@ -29,19 +29,22 @@ void ota_task_timeout_cb(TimerHandle_t xTimer) {
     memset(task, 0, sizeof(*task));
 }
 
-void otaapp_add_task( ota_task_t *task) {
-    // variant transfer not use const
+void otaapp_add_task(const ota_task_t *task) {
     // 找到空槽位
     for (int i = 0; i < MAX_TASKS; i++) {
         if (task_lists[i].task_id[0] == '\0') {
             task_lists[i] = *task;
             task_lists[i].user_response = USER_RESPONSE_WAIT;
+
             // 创建定时器，600s 后触发
             task_lists[i].timer = xTimerCreate("TaskTimer", pdMS_TO_TICKS(600000),
                                               pdFALSE, (void*)&task_lists[i],
                                               ota_task_timeout_cb);
             ESP_LOGI(TAG, "New Task [%s] created in Queue, wait for User response ", task_lists[i].task_id);
             xTimerStart(task_lists[i].timer, 0);
+
+            // 发给 Webserver 用于 UI 展示
+            //webserver_notify_new_task(&task_lists[i]);
             return;
         }
     }
@@ -49,13 +52,29 @@ void otaapp_add_task( ota_task_t *task) {
 }
 
 
+// 清除挂起任务
+//void otaapp_clear_pending_task(void) {
+//    memset(&pending_task, 0, sizeof(pending_task));
+//    ESP_LOGI(TAG, "Pending task cleared");
+//}
+
+//void ota_dispatch_init(void) {
+//    otaapp_clear_pending_task();
+//}
+
+
+// 获取挂起任务
+//ota_task_t* otaapp_get_pending_task(void) {
+//    return (pending_task.task_id[0] != '\0') ? &pending_task : NULL;
+//}
+
+
 
 // 用户响应
-void ota_dispatch_user_reject( ota_task_t *task ) {
+void ota_dispatch_user_reject(const ota_task_t *task ) {
 
     ESP_LOGW(TAG, "User rejected OTA task %s ", task->task_id);
-    task->active = false;
-    task->status = OTA_STATUS_REJECTED;
+
         // 构造反馈 JSON 给 OTA Server
     cJSON *root = cJSON_CreateObject();        
     cJSON_AddStringToObject(root, "msg_type", "ota_task_ack");
@@ -82,18 +101,23 @@ void ota_dispatch_user_reject( ota_task_t *task ) {
     free(send_buf);
     cJSON_Delete(root);
     free(json_str);
+    
+    //clear memory inside the task_lists[]
+    ota_cleanup_task_entry(task);
 }
 
 // after user accept, when otaapp trigger, only execution task will maintain the struct.
-void ota_handler_on_accept(ota_task_t *task){
-    // setup the change, eliminate the invalid task before task dispatch;
-    ota_task_valid_check(task);
-    //-----setup new task progress
-    task->ota_progress_state = OTA_PROGRESS_INIT;
-    task->percentage = 5 ;
-    task->created_ms = esp_log_timestamp();
-    task->active = true;
-    ESP_LOGI(TAG, " [%s] init OTA progress for client = %s", task->task_id, task->client_id);  
+void ota_handler_on_accept(const ota_task_t *task){
+    // setup the change
+    
+    strncpy(ota_handler_progress.task_id_sts, task->task_id, sizeof(ota_handler_progress.task_id_sts)-1);
+    ota_handler_progress.task_id_sts[sizeof(ota_handler_progress.task_id_sts)-1] = '\0';
+    
+    ota_handler_progress.ota_state = OTA_PROGRESS_INIT;
+    ota_handler_progress.percentage = 5 ;
+    ota_handler_progress.start_ms = esp_log_timestamp();
+    ota_handler_progress.active = true;
+    ESP_LOGI(TAG, " [%s] init OTA progress for client = ", ota_handler_progress.task_id_sts );
 
     ota_dispatch_send_task(task);
     // after send out , wait for the dwld_done from client
@@ -130,7 +154,7 @@ void otahandler_upgrade_response(const char *task_id, user_response_t response) 
                 ESP_LOGI(TAG, "Task %s waiting ", &task_lists[i].task_id);
             }
 
-            // 停止定时器并清理任务   change_1 eliminate below action, setup in accept or reject task
+            // 停止定时器并清理任务   change_1
             if (task_lists[i].timer){
                 xTimerStop(task_lists[i].timer, 0);
                 xTimerDelete(task_lists[i].timer, 0);
@@ -168,7 +192,7 @@ esp_err_t ota_dispatch_send_task(ota_task_t *task) {
     cJSON_AddStringToObject(root, "user_response", user_response_to_str(task->user_response));
 
     char *json_str = cJSON_PrintUnformatted(root);
-    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", task->client_id, client->ip, json_str, user_response_to_str(task->user_response));
+    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", client_id, client->ip, json_str, user_response_to_str(task->user_response));
 
     esp_err_t ret = tcp_server_send(client->sock, json_str);
 
@@ -184,64 +208,72 @@ esp_err_t ota_dispatch_send_task(ota_task_t *task) {
     return ret;
 }
 
-
 //-----------clock tick the progress ---------------//
 static void ota_handler_upgrade_timer_cb(TimerHandle_t xTimer){
-    ota_task_t *task = (ota_task_t*) pvTimerGetTimerID(xTimer);
-    if (task->ota_progress_state == OTA_PROGRESS_DWLD_DONE ||
-        task->ota_progress_state == OTA_PROGRESS_UPGRADING){
-            task->ota_progress_state = OTA_PROGRESS_UPGRADING;
-            uint32_t elapsed = esp_log_timestamp() - task->created_ms ;
+    if (ota_handler_progress.ota_state == OTA_PROGRESS_DWLD_DONE ||
+        ota_handler_progress.ota_state == OTA_PROGRESS_UPGRADING){
+            ota_handler_progress.ota_state = OTA_PROGRESS_UPGRADING;
+            uint32_t elapsed = esp_log_timestamp() - ota_handler_progress.start_ms ;
             int pct = 15 + (elapsed / 1000) * 5;  // +5 / s
             if(pct > 90) pct = 90;
-            if (pct > task->percentage){
-                task->percentage = pct ;
-                ESP_LOGI(TAG, " progress upgrading :: %d%% ", task->percentage);
+            if (pct > ota_handler_progress.percentage){
+                ota_handler_progress.percentage = pct ;
+                ESP_LOGI(TAG, " progress upgrading ::: %d%% ", ota_handler_progress.percentage);
             }
         }
 }
+
+
 
 //from client trigger this change
 void ota_handler_on_client_dwld_done(const char *task_id){
     ESP_LOGI(TAG, "OTA module Rx Client send download finish signal");
-    for (int i =0; i< MAX_TASKS; i++){
-        if (strcmp(task_id, task_lists[i].task_id) == 0){
-            task_lists[i].percentage = 15;
-            task_lists[i].ota_progress_state = OTA_PROGRESS_DWLD_DONE;
-            task_lists[i].created_ms = esp_log_timestamp();
-            if (!task_lists[i].timer) {
-                task_lists[i].timer= xTimerCreate("ota_upgrade_time", pdMS_TO_TICKS(1000), pdTRUE, (void*)&task_lists[i] ota_handler_upgrade_timer_cb);
-            }
+    if (strcmp(task_id, ota_handler_progress.task_id_sts) == 0){
+        ota_handler_progress.ota_state = OTA_PROGRESS_DWLD_DONE;
+        ota_handler_progress.percentage = 15;
+        ESP_LOGI(TAG, "OTA progress update to %d percentage ", ota_handler_progress.percentage);
+        ota_handler_progress.start_ms = esp_log_timestamp(); 
+        // trigger auto clock 
+        if (!ota_handler_upgrade_timer) {
+            ESP_LOGI(TAG, "OTA under progress, update the percentage");
+            ota_handler_upgrade_timer = xTimerCreate("ota_upgrade_time",
+                                                    pdMS_TO_TICKS(1000),
+                                                    pdTRUE,
+                                                    NULL,
+                                                    ota_handler_upgrade_timer_cb);
+            xTimerStart(ota_handler_upgrade_timer, 0);
         }
     }
 }
+
 
 
 void ota_handler_client_result_after_ota(const char *task_id ){
-    for (int i =0; i<MAX_TASKS; i++){
-        if (strcmp(task_id, task_lists[i].task_id) == 0){
-            ESP_LOGI(TAG, "Rx client [%s] tx ota task [%s], result complete", task_lists[i].client_id, task_lists[i].task_id);
-
-            task_lists[i].percentage = 100;
-            task_lists[i].active = false;
-            task_lists[i].ota_progress_state = OTA_PROGRESS_COMPLETE;
-            task_lists[i].status = OTA_STATUS_SUCCESS;
-            //need cleanup the resource afterwards before next task;
-        }
+    if (strcmp(task_id, ota_handler_progress.task_id_sts) == 0 ){
+        ESP_LOGI(TAG, "Rx client report ota task [%s] after reset. setup the as complete", task_id);
+        ota_handler_progress.ota_state = OTA_PROGRESS_COMPLETE;
+        ota_handler_progress.percentage = 100 ;
+        ota_handler_progress.active = false ;
+        //after client success finish ota, 100% state should keep a time, after UI click confirmBtn, this resource can be cleanup. 
+        //if (ota_handler_upgrade_timer){
+        //    xTimerStop(ota_handler_upgrade_timer, 0);
+        //    xTimerDelete(ota_handler_upgrade_timer, 0);
+        //    ota_handler_upgrade_timer = NULL;
+        //}
+        //memset(&ota_handler_progress, 0, sizeof(ota_handler_progress));  //release all finished resource.
     }
+
 }
 
 
-static void ota_task_valid_check(ota_task_t *task){
-    for (int i=0; i < MAX_TASKS; i++){
-        if (task_lists[i].status == OTA_STATUS_SUCCESS ||
-            task_lists[i].percentage == 100 ||
-            task_lists[i].active == false){
-                ota_cleanup_task_entry(task_lists[i]);
-            }
+static void ota_cleanup_progress(void){
+    if (ota_handler_upgrade_timer) {
+        xTimerStop(ota_handler_upgrade_timer, 0);
+        xTimerDelete(ota_handler_upgrade_timer, 0);
+        ota_handler_upgrade_timer = NULL;
     }
+    memset(&ota_handler_upgrade_timer, 0, sizeof(ota_handler_upgrade_timer));
 }
-
 
 static void ota_cleanup_task_entry(ota_task_t *t){
     if(!t) return;

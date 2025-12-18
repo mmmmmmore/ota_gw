@@ -105,7 +105,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             task->status = OTA_STATUS_PENDING;          //default set pending
             task->created_ms = esp_log_timestamp();     //default set time
             task->user_response = USER_RESPONSE_WAIT;   //default set wait
-
+            task->active = true;                        //default set true
+            task->percentage = 0;                       //default execution percentage is 0;
+            task->ota_progress_state = OTA_PREGRESS_IDLE;   //default setup as IDLE, matching with 0 percentage;
             
             // 将任务存储到 otaapp 的 pending_task
             otaapp_add_task(task);
