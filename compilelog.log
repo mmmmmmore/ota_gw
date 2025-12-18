@@ -1,17 +1,30 @@
-
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c: In function 'progress_info_handler':
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:141:18: error: initialization of 'size_t' {aka 'unsigned int'} from 'const char *' makes integer from pointer without a cast [-Wint-conversion]
-  141 |     size_t len = ota_handler_get_progress_json(json_buf, sizeof(json_buf));
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:144:9: error: implicit declaration of function 'http_resp_send'; did you mean 'httpd_resp_send'? [-Wimplicit-function-declaration]
-  144 |         http_resp_send(req, buf, len);
-      |         ^~~~~~~~~~~~~~
-      |         httpd_resp_send
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:144:29: error: 'buf' undeclared (first use in this function)
-  144 |         http_resp_send(req, buf, len);
-      |                             ^~~
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/protocol/webserver/webserver.c:144:29: note: each undeclared identifier is reported only once for each function it appears in
-[7/17] Building C object esp-idf/msg_handler/CMakeFiles/__idf_msg_handler.dir/msg_handler.c.obj
-/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/handler/msg_handler/msg_handler.c:22:27: warning: 'find_or_create_task' defined but not used [-Wunused-function]
-   22 | static ota_client_task_t* find_or_create_task(const char *task_id) {
-      |                           ^~~~~~~~~~~~~~~~~~~
+Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'ota_handler_on_accept':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:100:5: error: implicit declaration of function 'ota_task_valid_check' [-Wimplicit-function-declaration]
+  100 |     ota_task_valid_check();
+      |     ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: At top level:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:239:13: warning: conflicting types for 'ota_task_valid_check'; have 'void(void)'
+  239 | static void ota_task_valid_check(){
+      |             ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:239:13: error: static declaration of 'ota_task_valid_check' follows non-static declaration
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:100:5: note: previous implicit declaration of 'ota_task_valid_check' with type 'void(void)'
+  100 |     ota_task_valid_check();
+      |     ^~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: In function 'ota_task_valid_check':
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:244:17: error: implicit declaration of function 'ota_cleanup_task_entry' [-Wimplicit-function-declaration]
+  244 |                 ota_cleanup_task_entry(&task_lists[i]);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c: At top level:
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:250:13: warning: conflicting types for 'ota_cleanup_task_entry'; have 'void(ota_task_t *)'
+  250 | static void ota_cleanup_task_entry(ota_task_t *t){
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:250:13: error: static declaration of 'ota_cleanup_task_entry' follows non-static declaration
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:244:17: note: previous implicit declaration of 'ota_cleanup_task_entry' with type 'void(ota_task_t *)'
+  244 |                 ota_cleanup_task_entry(&task_lists[i]);
+      |                 ^~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:250:13: warning: 'ota_cleanup_task_entry' defined but not used [-Wunused-function]
+  250 | static void ota_cleanup_task_entry(ota_task_t *t){
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+/Users/maochun/esp32prj/Project_CAM/branch/ota_GW/ota_gw/app/otaapp/otaapp.c:239:13: warning: 'ota_task_valid_check' defined but not used [-Wunused-function]
+  239 | static void ota_task_valid_check(){
+      |             ^~~~~~~~~~~~~~~~~~~~

@@ -7,7 +7,6 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/timers.h"
 #include "client_register.h"
-#include "otaapp.h"
 
 
 
@@ -31,7 +30,7 @@ typedef enum{
 
 
 typedef enum{
-    OTA_PREGRESS_IDLE = 1,
+    OTA_PROGRESS_IDLE = 1,
     OTA_PROGRESS_INIT,
     OTA_PROGRESS_DWLD_DONE,
     OTA_PROGRESS_UPGRADING,
@@ -57,7 +56,8 @@ typedef struct {
     ota_status_t status;    //default setup in msg_handler
     uint32_t created_ms;    //time stamp, default in msg handler
     user_response_t user_response; // indicate use response from UI accept or reject.
-    TimerHandle_t timer;
+    TimerHandle_t life_timer;
+    TimerHandle_t upgrade_timer;
     ota_progress_state_t ota_progress_state; //from ota_state --> change to ota_progress_state default setup in msghandler
     int percentage;     //default setup 0 in msghandler
     bool active; // true is active, only after ota_task dispatch , this will change to false, 
