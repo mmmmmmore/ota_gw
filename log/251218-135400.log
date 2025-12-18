@@ -1,0 +1,573 @@
+
+two OTA client upgrade success, but GW crack after sending 2nd task to client.
+free earlier than operation.
+
+UI interface not sync with the Webserver
+
+I (884) main_task: Calling app_main()
+ESP32S3 Boot Success...
+I (904) pp: pp rom version: e7ae62f
+I (904) net80211: net80211 rom version: e7ae62f
+I (914) wifi:wifi driver task: 3fcb7718, prio:23, stack:6656, core=0
+I (914) wifi:wifi firmware version: df85326
+I (914) wifi:wifi certification version: v7.0
+I (914) wifi:config NVS flash: enabled
+I (914) wifi:config nano formatting: disabled
+I (924) wifi:Init data frame dynamic rx buffer num: 64
+I (924) wifi:Init static rx mgmt buffer num: 5
+I (934) wifi:Init management short buffer num: 32
+I (934) wifi:Init static tx buffer num: 32
+I (944) wifi:Init tx cache buffer num: 32
+I (944) wifi:Init static tx FG buffer num: 2
+I (944) wifi:Init static rx buffer size: 1600
+I (954) wifi:Init static rx buffer num: 16
+I (954) wifi:Init dynamic rx buffer num: 64
+I (964) wifi_init: rx ba win: 6
+I (964) wifi_init: accept mbox: 6
+I (964) wifi_init: tcpip mbox: 32
+I (964) wifi_init: udp mbox: 6
+I (974) wifi_init: tcp mbox: 6
+I (974) wifi_init: tcp tx win: 5760
+I (974) wifi_init: tcp rx win: 5760
+I (984) wifi_init: tcp mss: 1440
+I (984) wifi_init: WiFi/LWIP prefer SPIRAM
+I (984) wifi_init: WiFi IRAM OP enabled
+I (994) wifi_init: WiFi RX IRAM OP enabled
+I (1004) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
+I (1034) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
+I (1044) wifi:Total power save buffer number: 16
+I (1044) wifi:Init max length of beacon: 752/752
+I (1044) wifi:Init max length of beacon: 752/752
+I (1044) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (1054) wifi_ap: SoftAP started: SSID=OTA-GW, gateway=192.168.4.1, netmask=255.255.255.0, protocol=b/g/n, PMF=capable/not-required
+I (1064) PSRAM: PSRAM size: 8388608 bytes
+I (1064) PSRAM: Free heap: 8476232 bytes
+I (1074) PSRAM: PSRAM is initialized and ready.
+I (1074) PSRAM: Successfully allocated 1KB from PSRAM.
+I (1524) SPIFFS: SPIFFS mounted successfully
+I (1524) SPIFFS: Partition size: total=7161281, used=2940716
+I (1524) common_gpio: Starting GPIO initialization...
+I (1524) common_gpio: STBY GPIO 17 set to HIGH
+I (1534) common_gpio: Motor GPIOs initialized
+I (1534) common_gpio: All GPIOs initialized
+I (1534) common_gpio: LEDC channels initialized
+I (1544) GW_TCP_Sock: tcp_server_task started on port : 9001
+I (1544) GW_TCP_Sock: TCP_Server listening on port : 9001 
+I (1554) GW_TCP_Sock: tcp_server_task started on port : 9002
+I (1554) WEB_OTAGW: OTA Gateway Webserver started
+I (1564) GW_TCP_Sock: TCP_Server listening on port : 9002 
+系统初始化完成，等待客户端连接...
+I (1574) main_task: Returned from app_main()
+I (8734) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (8734) wifi:station: 5c:5f:67:ed:16:1a join, AID=1, bgn, 40U
+I (14674) GW_TCP_Sock: Client connected, sock = 37, ip = 169.254.169.162, port = 54170
+I (14674) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (14684) GW_TCP_SERVER: OTA Server socket set: 37
+I (14684) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (14694) GW_MSG_HANDLER: OTA server hello received on sock 37
+I (14704) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (16554) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack173"}
+I (16554) GW_MSG_HANDLER: non known json data rxed.
+I (16554) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack173
+I (20394) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (20674) wifi:<ba-add>idx:2 (ifx:1, 5c:5f:67:ed:16:1a), tid:0, ssn:101, winSize:64
+I (25454) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.2, port = 54175
+I (25464) GW_TCP_Sock: tcp_client_task started for sock = 38
+W (25464) GW_TCP_SERVER: OTA server already connected on sock=37, closing old one
+E (25464) GW_TCP_Sock: recv failed : errno: 128 
+I (25464) GW_TCP_SERVER: OTA Server socket set: 38
+I (25474) GW_TCP_Sock: Closing client socket : 37
+I (25474) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (25494) GW_MSG_HANDLER: OTA server hello received on sock 38
+I (25494) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (26654) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack174"}
+I (26654) GW_MSG_HANDLER: non known json data rxed.
+I (26654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack174
+I (31634) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack175"}
+I (31634) GW_MSG_HANDLER: non known json data rxed.
+I (31634) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack175
+I (36584) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack176"}
+I (36584) GW_MSG_HANDLER: non known json data rxed.
+I (36584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack176
+I (41564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack177"}
+I (41564) GW_MSG_HANDLER: non known json data rxed.
+I (41564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack177
+I (46564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack178"}
+I (46564) GW_MSG_HANDLER: non known json data rxed.
+I (46574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack178
+I (51564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack179"}
+I (51564) GW_MSG_HANDLER: non known json data rxed.
+I (51564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack179
+I (51744) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (51744) wifi:station: dc:b4:d9:10:5f:a8 join, AID=2, bgn, 40U
+I (51744) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (51754) wifi:station: 1c:db:d4:af:1f:60 join, AID=3, bgn, 40U
+I (51804) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (51824) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (52834) wifi:<ba-add>idx:3 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+I (52844) GW_TCP_Sock: Client connected, sock = 44, ip = 192.168.4.3, port = 64702
+I (52844) GW_TCP_Sock: tcp_client_task started for sock = 44
+I (52854) wifi:<ba-add>idx:4 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (52864) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.3"}
+I (52864) GW_TCP_Sock: Client connected, sock = 45, ip = 192.168.4.4, port = 56210
+I (52874) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.3, ver=1.1.0, sock=44
+I (52874) GW_TCP_Sock: tcp_client_task started for sock = 45
+I (52884) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (52894) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.4"}
+I (52914) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_result","task_id":"20251217_124307_759","state":"complete"}
+I (52914) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.4, ver=1.1.0, sock=45
+I (52934) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (52944) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (52954) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"ota_result","task_id":"20251217_124436_760","state":"complete"}
+I (52964) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (56564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (56574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (56624) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack180"}
+I (56624) GW_MSG_HANDLER: non known json data rxed.
+I (56634) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack180
+I (61574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (61574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (61834) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack181"}
+I (61844) GW_MSG_HANDLER: non known json data rxed.
+I (61844) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack181
+I (66574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (66574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (66594) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack182"}
+I (66594) GW_MSG_HANDLER: non known json data rxed.
+I (66594) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack182
+I (71564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (71564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (71724) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack183"}
+I (71724) GW_MSG_HANDLER: non known json data rxed.
+I (71734) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack183
+I (74494) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "ota_task", "task_id": "20251218_134751_759", "device_name": "Veh1_SCM2", "client_id": "759", "version": "v2.4.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_759_v2.4.0.bin", "timestamp": "20251218_134751", "status": "pending"}
+I (74504) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (74514) OTA_APP_MGMT: New Task [20251218_134751_759] created in Queue, wait for User response 
+I (74524) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (76564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (76564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (76624) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack184"}
+I (76624) GW_MSG_HANDLER: non known json data rxed.
+I (76624) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack184
+I (77914) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "ota_task", "task_id": "20251218_134755_760", "device_name": "Veh2_SCM3", "client_id": "760", "version": "v2.4.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_760_v2.4.0.bin", "timestamp": "20251218_134755", "status": "pending"}
+I (77924) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (77934) OTA_APP_MGMT: New Task [20251218_134755_760] created in Queue, wait for User response 
+I (77944) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (81574) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack185"}
+I (81574) GW_MSG_HANDLER: non known json data rxed.
+I (81574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack185
+I (81574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (81574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (83664) OTA_APP_MGMT:  [20251218_134751_759] init OTA progress for client = 759
+I (83664) OTA_APP_MGMT: Sending OTA task to client 759 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251218_134751_759","device_name":"Veh1_SCM2","client_id":"759","version":"v2.4.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_759_v2.4.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (83694) OTA_APP_MGMT: Client 759 state updated to UPDATING
+W (83694) OTA_APP_MGMT: Task 20251218_134751_759 not found for update
+I (83704) WEB_OTAGW: User have response to task: 20251218_134751_759
+I (83744) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_progress","task_id":"20251218_134751_759","state":"DWLD_DONE"}
+I (83744) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (83754) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (83764) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (84754) OTA_APP_MGMT:  progress upgrading :: 20% 
+I (85754) OTA_APP_MGMT:  progress upgrading :: 25% 
+I (86564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack186"}
+I (86564) GW_MSG_HANDLER: non known json data rxed.
+I (86564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack186
+I (86564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (86754) OTA_APP_MGMT:  progress upgrading :: 30% 
+I (87754) OTA_APP_MGMT:  progress upgrading :: 35% 
+I (88754) OTA_APP_MGMT:  progress upgrading :: 40% 
+I (89754) OTA_APP_MGMT:  progress upgrading :: 45% 
+I (90754) OTA_APP_MGMT:  progress upgrading :: 50% 
+I (91564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack187"}
+I (91564) GW_MSG_HANDLER: non known json data rxed.
+I (91564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack187
+I (91574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (91754) OTA_APP_MGMT:  progress upgrading :: 55% 
+I (92754) OTA_APP_MGMT:  progress upgrading :: 60% 
+I (93754) OTA_APP_MGMT:  progress upgrading :: 65% 
+I (94754) OTA_APP_MGMT:  progress upgrading :: 70% 
+I (95754) OTA_APP_MGMT:  progress upgrading :: 75% 
+I (96564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack188"}
+I (96564) GW_MSG_HANDLER: non known json data rxed.
+I (96574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack188
+I (96574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (96754) OTA_APP_MGMT:  progress upgrading :: 80% 
+I (97754) OTA_APP_MGMT:  progress upgrading :: 85% 
+I (98754) OTA_APP_MGMT:  progress upgrading :: 90% 
+I (100314) wifi:station: dc:b4:d9:10:5f:a8 leave, AID = 2, reason = 8, bss_flags is 756835, bss:0x3c0d1f50
+I (100314) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (100324) wifi:<ba-del>idx:3, tid:0
+I (100324) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (101014) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (101014) wifi:station: dc:b4:d9:10:5f:a8 join, AID=2, bgn, 40U
+I (101084) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (101564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack189"}
+I (101564) GW_MSG_HANDLER: non known json data rxed.
+I (101564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack189
+I (101564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (102124) wifi:<ba-add>idx:3 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+E (102124) GW_TCP_Sock: recv failed : errno: 104 
+I (102124) GW_TCP_Sock: Closing client socket : 44
+I (102124) GW_TCP_Sock: Client connected, sock = 46, ip = 192.168.4.3, port = 62630
+I (102134) GW_TCP_Sock: tcp_client_task started for sock = 46
+I (102144) GW_MSG_HANDLER: Processing message from sock 46 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.3"}
+I (102154) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.3, ver=1.1.0, sock=46
+I (102164) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (102174) GW_MSG_HANDLER: Processing message from sock 46 (role=2): {"msg_type":"ota_result","task_id":"20251218_134751_759","state":"complete"}
+I (102184) OTA_APP_MGMT: Rx client [759] tx ota task [20251218_134751_759], result complete
+I (102194) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (106564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack190"}
+I (106564) GW_MSG_HANDLER: non known json data rxed.
+I (106564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack190
+I (106574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (106574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (111564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack191"}
+I (111564) GW_MSG_HANDLER: non known json data rxed.
+I (111564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack191
+I (111564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (111564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (116564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack192"}
+I (116564) GW_MSG_HANDLER: non known json data rxed.
+I (116564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack192
+I (116564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (116564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (121564) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack193"}
+I (121564) GW_MSG_HANDLER: non known json data rxed.
+I (121564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack193
+I (121574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (121574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (126574) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack194"}
+I (126574) GW_MSG_HANDLER: non known json data rxed.
+I (126574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (126574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack194
+I (126584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (131564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (131564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (131614) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack195"}
+I (131614) GW_MSG_HANDLER: non known json data rxed.
+I (131614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack195
+I (136564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (136564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 46
+I (136634) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack196"}
+I (136634) GW_MSG_HANDLER: non known json data rxed.
+I (136644) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack196
+I (136964) OTA_APP_MGMT:  [20251218_134755_760] init OTA progress for client = 760
+I (136964) OTA_APP_MGMT: Sending OTA task to client 760 (IP=192.168.4.4): {"msg_type":"ota_task","task_id":"20251218_134755_760","device_name":"Veh2_SCM3","client_id":"760","version":"v2.4.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_760_v2.4.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (136994) OTA_APP_MGMT: Client 760 state updated to UPDATING
+W (136994) OTA_APP_MGMT: Task 20251218_134755_760 not found for update
+I (137004) WEB_OTAGW: User have response to task: 20251218_134755_760
+
+assert failed: tlsf_free tlsf.c:630 (!block_is_free(block) && "block already marked as free")
+HINT: CORRUPT HEAP: heap metadata corrupted resulting in TLSF malfunction.
+Make sure you are not making out of bound writing on the memory you allocate in your application.
+Make sure you are not writing on freed memory.
+For more information run 'idf.py docs -sp api-reference/system/heap_debug.html'.
+
+
+Backtrace: 0x4037d0ad:0x3fcd3330 0x4037d075:0x3fcd3350 0x40383465:0x3fcd3370 0x40380eca:0x3fcd3490 0x40380d70:0x3fcd34b0 0x40376022:0x3fcd34d0 0x40383501:0x3fcd34f0 0x42036a55:0x3fcd3510 0x42036afa:0x3fcd3530 0x42035521:0x3fcd3570 0x42034766:0x3fcd3590 0x420928db:0x3fcd35b0 0x42034f20:0x3fcd35d0 0x42034f8f:0x3fcd3620 0x4209a992:0x3fcd3640
+--- 0x4037d0ad: panic_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/panic.c:480
+--- 0x4037d075: esp_system_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/esp_system_chip.c:87
+--- 0x40383465: __assert_func at /Users/maochun/esp32prj/esp-idf/components/newlib/src/assert.c:81
+--- 0x40380eca: tlsf_free at /Users/maochun/esp32prj/esp-idf/components/heap/tlsf/tlsf.c:630
+--- 0x40380d70: multi_heap_free_impl at /Users/maochun/esp32prj/esp-idf/components/heap/multi_heap.c:240
+--- 0x40376022: heap_caps_free at /Users/maochun/esp32prj/esp-idf/components/heap/heap_caps_base.c:86
+--- 0x40383501: free at /Users/maochun/esp32prj/esp-idf/components/newlib/src/heap.c:34
+--- 0x42036a55: httpd_req_cleanup at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_parse.c:750
+--- 0x42036afa: httpd_req_delete at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_parse.c:864
+--- 0x42035521: httpd_sess_process at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_sess.c:433
+--- 0x42034766: httpd_process_session at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_main.c:268
+--- 0x420928db: httpd_sess_enum at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_sess.c:50
+--- 0x42034f20: httpd_server at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_main.c:318
+--- 0x42034f8f: httpd_thread at /Users/maochun/esp32prj/esp-idf/components/esp_http_server/src/httpd_main.c:340
+--- 0x4209a992: vPortTaskWrapper at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:139
+
+
+
+
+ELF file SHA256: 203baab5b
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037d24d
+--- 0x4037d24d: esp_restart_noos at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/soc/esp32s3/system_internal.c:164
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x16fc
+load:0x403c8700,len:0xf14
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x3214
+entry 0x403c8930
+--- 0x403c8930: call_start_cpu0 at /Users/maochun/esp32prj/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+I (29) boot: ESP-IDF v6.0-dev-2039-g2044fba6e7 2nd stage bootloader
+I (29) boot: compile time Dec 17 2025 10:19:24
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v0.2
+I (34) boot: efuse block revision: v1.3
+I (37) qio_mode: Enabling default flash chip QIO
+I (42) boot.esp32s3: Boot SPI Speed : 80MHz
+I (46) boot.esp32s3: SPI Mode       : QIO
+I (49) boot.esp32s3: SPI Flash Size : 16MB
+I (53) boot: Enabling RNG early entropy source...
+I (58) boot: Partition Table:
+I (60) boot: ## Label            Usage          Type ST Offset   Length
+I (67) boot:  0 nvs              WiFi data        01 02 00009000 00005000
+I (73) boot:  1 otadata          OTA data         01 00 0000e000 00002000
+I (80) boot:  2 app0             OTA app          00 10 00010000 00400000
+I (86) boot:  3 app1             OTA app          00 11 00410000 00400000
+I (93) boot:  4 spiffs           Unknown data     01 82 00810000 00770000
+I (99) boot: End of partition table
+I (103) esp_image: segment 0: paddr=00010020 vaddr=3c0a0020 size=1ed30h (126256) map
+I (129) esp_image: segment 1: paddr=0002ed58 vaddr=3fc99800 size=012c0h (  4800) load
+I (130) esp_image: segment 2: paddr=00030020 vaddr=42000020 size=9e0e0h (647392) map
+I (231) esp_image: segment 3: paddr=000ce108 vaddr=3fc9aac0 size=03e98h ( 16024) load
+I (234) esp_image: segment 4: paddr=000d1fa8 vaddr=40374000 size=1575ch ( 87900) load
+I (252) esp_image: segment 5: paddr=000e770c vaddr=50000000 size=00020h (    32) load
+I (261) boot: Loaded app from partition at offset 0x10000
+I (261) boot: Disabling RNG early entropy source...
+I (271) octal_psram: vendor id    : 0x0d (AP)
+I (272) octal_psram: dev id       : 0x02 (generation 3)
+I (272) octal_psram: density      : 0x03 (64 Mbit)
+I (274) octal_psram: good-die     : 0x01 (Pass)
+I (278) octal_psram: Latency      : 0x01 (Fixed)
+I (282) octal_psram: VCC          : 0x01 (3V)
+I (286) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (291) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (296) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (301) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (306) octal_psram: DriveStrength: 0x00 (1/1)
+I (311) MSPI Timing: PSRAM timing tuning index: 5
+I (315) esp_psram: Found 8MB PSRAM device
+I (318) esp_psram: Speed: 80MHz
+I (321) cpu_start: Multicore app
+I (757) esp_psram: SPI SRAM memory test OK
+I (765) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (765) cpu_start: Pro cpu start user code
+I (766) cpu_start: cpu freq: 160000000 Hz
+I (767) app_init: Application information:
+I (771) app_init: Project name:     ota_gw
+I (775) app_init: App version:      2.1.1
+I (779) app_init: Compile time:     Dec 17 2025 10:20:30
+I (784) app_init: ELF file SHA256:  203baab5b...
+I (788) app_init: ESP-IDF:          v6.0-dev-2039-g2044fba6e7
+I (793) efuse_init: Min chip rev:     v0.0
+I (797) efuse_init: Max chip rev:     v0.99 
+I (801) efuse_init: Chip rev:         v0.2
+I (805) heap_init: Initializing. RAM available for dynamic allocation:
+I (811) heap_init: At 3FCA6408 len 00043308 (268 KiB): RAM
+I (817) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (822) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (827) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (832) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (839) spi_flash: detected chip: boya
+I (842) spi_flash: flash io: qio
+W (845) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`
+I (855) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (861) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (868) main_task: Started on CPU0
+I (888) main_task: Calling app_main()
+ESP32S3 Boot Success...
+I (908) pp: pp rom version: e7ae62f
+I (908) net80211: net80211 rom version: e7ae62f
+I (918) wifi:wifi driver task: 3fcb7718, prio:23, stack:6656, core=0
+I (918) wifi:wifi firmware version: df85326
+I (918) wifi:wifi certification version: v7.0
+I (918) wifi:config NVS flash: enabled
+I (918) wifi:config nano formatting: disabled
+I (928) wifi:Init data frame dynamic rx buffer num: 64
+I (928) wifi:Init static rx mgmt buffer num: 5
+I (938) wifi:Init management short buffer num: 32
+I (938) wifi:Init static tx buffer num: 32
+I (948) wifi:Init tx cache buffer num: 32
+I (948) wifi:Init static tx FG buffer num: 2
+I (948) wifi:Init static rx buffer size: 1600
+I (958) wifi:Init static rx buffer num: 16
+I (958) wifi:Init dynamic rx buffer num: 64
+I (968) wifi_init: rx ba win: 6
+I (968) wifi_init: accept mbox: 6
+I (968) wifi_init: tcpip mbox: 32
+I (968) wifi_init: udp mbox: 6
+I (978) wifi_init: tcp mbox: 6
+I (978) wifi_init: tcp tx win: 5760
+I (978) wifi_init: tcp rx win: 5760
+I (988) wifi_init: tcp mss: 1440
+I (988) wifi_init: WiFi/LWIP prefer SPIRAM
+I (988) wifi_init: WiFi IRAM OP enabled
+I (998) wifi_init: WiFi RX IRAM OP enabled
+I (1008) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
+I (1038) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
+I (1058) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
+I (1058) wifi:Total power save buffer number: 16
+I (1058) wifi:Init max length of beacon: 752/752
+I (1058) wifi:Init max length of beacon: 752/752
+I (1058) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (1068) wifi_ap: SoftAP started: SSID=OTA-GW, gateway=192.168.4.1, netmask=255.255.255.0, protocol=b/g/n, PMF=capable/not-required
+I (1078) PSRAM: PSRAM size: 8388608 bytes
+I (1088) PSRAM: Free heap: 8476232 bytes
+I (1088) PSRAM: PSRAM is initialized and ready.
+I (1088) PSRAM: Successfully allocated 1KB from PSRAM.
+I (1548) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (1548) wifi:station: 5c:5f:67:ed:16:1a join, AID=1, bgn, 40U
+I (1558) SPIFFS: SPIFFS mounted successfully
+I (1558) SPIFFS: Partition size: total=7161281, used=2940716
+I (1558) common_gpio: Starting GPIO initialization...
+I (1568) common_gpio: STBY GPIO 17 set to HIGH
+I (1568) common_gpio: Motor GPIOs initialized
+I (1568) common_gpio: All GPIOs initialized
+I (1578) common_gpio: LEDC channels initialized
+I (1578) GW_TCP_Sock: tcp_server_task started on port : 9001
+I (1588) GW_TCP_Sock: TCP_Server listening on port : 9001 
+I (1588) GW_TCP_Sock: tcp_server_task started on port : 9002
+I (1588) WEB_OTAGW: OTA Gateway Webserver started
+I (1598) GW_TCP_Sock: TCP_Server listening on port : 9002 
+系统初始化完成，等待客户端连接...
+I (1608) main_task: Returned from app_main()
+I (1618) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (1728) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (1728) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 40U
+I (1738) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (1738) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 40U
+I (1808) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (1808) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (2838) wifi:<ba-add>idx:2 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (2848) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.3, port = 56211
+I (2848) wifi:<ba-add>idx:3 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+I (2858) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (2858) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.4, port = 62631
+I (2868) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (2878) GW_TCP_Sock: tcp_client_task started for sock = 38
+I (2888) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=37
+I (2888) GW_MSG_HANDLER: Processing message from sock 38 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (2898) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (2918) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=38
+I (2938) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (3088) GW_MSG_HANDLER: Processing message from sock 38 (role=2): {"msg_type":"ota_result","task_id":"20251218_134751_759","state":"complete"}
+I (3088) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"20251217_124436_760","state":"complete"}
+I (3088) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (3098) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (6588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (6648) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (11588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (11608) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (16588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (16618) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (17568) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 2, reason = 8, bss_flags is 756835, bss:0x3c0d164c
+I (17578) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (17578) wifi:<ba-del>idx:2, tid:0
+I (17578) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (18278) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (18278) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 40U
+I (18338) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (19368) wifi:<ba-add>idx:2 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (19368) GW_TCP_Sock: Client connected, sock = 39, ip = 192.168.4.3, port = 56184
+I (19378) GW_TCP_Sock: tcp_client_task started for sock = 39
+I (19398) GW_MSG_HANDLER: Processing message from sock 39 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (19398) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=39
+I (19418) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (19588) GW_MSG_HANDLER: Processing message from sock 39 (role=2): {"msg_type":"ota_result","task_id":"20251218_134755_760","state":"complete"}
+I (19588) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+E (21588) GW_TCP_Sock: recv failed : errno: 104 
+I (21588) GW_TCP_Sock: Closing client socket : 37
+I (21588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (21588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (26588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (26598) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (31588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (31588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (36588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+I (36588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (41598) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (41598) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+W (44928) OTA_APP_MGMT: Task 20251218_134755_760 not found for update
+I (44938) WEB_OTAGW: User have response to task: 20251218_134755_760
+I (46588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (46588) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 38
+
+
+
+
+I (91678) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack205
+I (96658) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (96658) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (96798) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack206"}
+I (96798) GW_MSG_HANDLER: non known json data rxed.
+I (96798) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack206
+I (98268) OTA_APP_MGMT:  [20251218_173148_760] init OTA progress for client = 760
+I (98268) OTA_APP_MGMT: Sending OTA task to client 760 (IP=192.168.4.4): {"msg_type":"ota_task","task_id":"20251218_173148_760","device_name":"Veh2_SCM3","client_id":"760","version":"v2.3.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_760_v2.3.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (98298) OTA_APP_MGMT: Client 760 state updated to UPDATING
+W (98298) OTA_APP_MGMT: Task 20251218_173148_760 not found for update
+I (98308) WEB_OTAGW: User have response to task: 20251218_173148_760
+I (98348) GW_MSG_HANDLER: Processing message from sock 40 (role=2): {"msg_type":"ota_progress","task_id":"20251218_173148_760","state":"DWLD_DONE"}
+I (98348) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (98358) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (98368) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (99358) OTA_APP_MGMT:  progress upgrading :: 20% 
+I (100358) OTA_APP_MGMT:  progress upgrading :: 25% 
+I (101358) OTA_APP_MGMT:  progress upgrading :: 30% 
+I (101648) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (101648) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (101708) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack207"}
+I (101718) GW_MSG_HANDLER: non known json data rxed.
+I (101718) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack207
+I (102358) OTA_APP_MGMT:  progress upgrading :: 35% 
+I (103358) OTA_APP_MGMT:  progress upgrading :: 40% 
+I (104358) OTA_APP_MGMT:  progress upgrading :: 45% 
+I (105358) OTA_APP_MGMT:  progress upgrading :: 50% 
+I (106358) OTA_APP_MGMT:  progress upgrading :: 55% 
+I (106638) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack208"}
+I (106638) GW_MSG_HANDLER: non known json data rxed.
+I (106638) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack208
+I (106638) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (106668) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (107358) OTA_APP_MGMT:  progress upgrading :: 60% 
+I (108358) OTA_APP_MGMT:  progress upgrading :: 65% 
+I (109358) OTA_APP_MGMT:  progress upgrading :: 70% 
+I (110358) OTA_APP_MGMT:  progress upgrading :: 75% 
+I (111358) OTA_APP_MGMT:  progress upgrading :: 80% 
+I (111638) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack209"}
+I (111638) GW_MSG_HANDLER: non known json data rxed.
+I (111638) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack209
+I (111638) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (111678) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (112358) OTA_APP_MGMT:  progress upgrading :: 85% 
+
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+
+
+Backtrace: 0x4037d0ad:0x3fcb6bd0 0x4037d075:0x3fcb6bf0 0x4209aa42:0x3fcb6c10 0x4037e3ab:0x3fcb6c90 0x4037d928:0x3fcb6cb0 0x4037d91e:0x00000000 |<-CORRUPTED
+--- 0x4037d0ad: panic_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/panic.c:480
+--- 0x4037d075: esp_system_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/esp_system_chip.c:87
+--- 0x4209aa42: vApplicationStackOverflowHook at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:563
+--- 0x4037e3ab: vTaskSwitchContext at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/tasks.c:3698
+--- 0x4037d928: _frxt_dispatch at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:451
+--- 0x4037d91e: _frxt_int_exit at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:246
+
+
+
+
+ELF file SHA256: 69917f93a
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037d548
+--- 0x4037d548: spinlock_acquire at /Users/maochun/esp32prj/esp-idf/components/esp_hw_support/include/spinlock.h:133
+--- (inlined by) xPortEnterCriticalTimeout at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:479
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x16fc
+load:0x403c8700,len:0xf14
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x3214
+entry 0x403c8930
+--- 0x403c8930: call_start_cpu0 at /Users/maochun/esp32prj/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+I (29) boot: ESP-IDF v6.0-dev-2039-g2044fba6e7 2nd stage bootloader
+I (29) boot: compile time Dec 17 2025 10:19:24
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v0.2
+I (34) boot: efuse block revision: v1.3
+I (37) qio_mode: Enabling default flash chip QIO
+I (42) boot.esp32s3: Boot SPI Speed : 80MHz
+I (46) boot.esp32s3: SPI Mode       : QIO

@@ -1,0 +1,87 @@
+
+
+
+I (91678) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack205
+I (96658) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (96658) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (96798) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack206"}
+I (96798) GW_MSG_HANDLER: non known json data rxed.
+I (96798) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack206
+I (98268) OTA_APP_MGMT:  [20251218_173148_760] init OTA progress for client = 760
+I (98268) OTA_APP_MGMT: Sending OTA task to client 760 (IP=192.168.4.4): {"msg_type":"ota_task","task_id":"20251218_173148_760","device_name":"Veh2_SCM3","client_id":"760","version":"v2.3.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_760_v2.3.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (98298) OTA_APP_MGMT: Client 760 state updated to UPDATING
+W (98298) OTA_APP_MGMT: Task 20251218_173148_760 not found for update
+I (98308) WEB_OTAGW: User have response to task: 20251218_173148_760
+I (98348) GW_MSG_HANDLER: Processing message from sock 40 (role=2): {"msg_type":"ota_progress","task_id":"20251218_173148_760","state":"DWLD_DONE"}
+I (98348) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (98358) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (98368) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (99358) OTA_APP_MGMT:  progress upgrading :: 20% 
+I (100358) OTA_APP_MGMT:  progress upgrading :: 25% 
+I (101358) OTA_APP_MGMT:  progress upgrading :: 30% 
+I (101648) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (101648) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (101708) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack207"}
+I (101718) GW_MSG_HANDLER: non known json data rxed.
+I (101718) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack207
+I (102358) OTA_APP_MGMT:  progress upgrading :: 35% 
+I (103358) OTA_APP_MGMT:  progress upgrading :: 40% 
+I (104358) OTA_APP_MGMT:  progress upgrading :: 45% 
+I (105358) OTA_APP_MGMT:  progress upgrading :: 50% 
+I (106358) OTA_APP_MGMT:  progress upgrading :: 55% 
+I (106638) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack208"}
+I (106638) GW_MSG_HANDLER: non known json data rxed.
+I (106638) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack208
+I (106638) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (106668) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (107358) OTA_APP_MGMT:  progress upgrading :: 60% 
+I (108358) OTA_APP_MGMT:  progress upgrading :: 65% 
+I (109358) OTA_APP_MGMT:  progress upgrading :: 70% 
+I (110358) OTA_APP_MGMT:  progress upgrading :: 75% 
+I (111358) OTA_APP_MGMT:  progress upgrading :: 80% 
+I (111638) GW_MSG_HANDLER: Processing message from sock 38 (role=1): {"msg_type": "keep_alive_ack209"}
+I (111638) GW_MSG_HANDLER: non known json data rxed.
+I (111638) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack209
+I (111638) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 39
+I (111678) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 40
+I (112358) OTA_APP_MGMT:  progress upgrading :: 85% 
+
+***ERROR*** A stack overflow in task Tmr Svc has been detected.
+
+
+Backtrace: 0x4037d0ad:0x3fcb6bd0 0x4037d075:0x3fcb6bf0 0x4209aa42:0x3fcb6c10 0x4037e3ab:0x3fcb6c90 0x4037d928:0x3fcb6cb0 0x4037d91e:0x00000000 |<-CORRUPTED
+--- 0x4037d0ad: panic_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/panic.c:480
+--- 0x4037d075: esp_system_abort at /Users/maochun/esp32prj/esp-idf/components/esp_system/port/esp_system_chip.c:87
+--- 0x4209aa42: vApplicationStackOverflowHook at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:563
+--- 0x4037e3ab: vTaskSwitchContext at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/tasks.c:3698
+--- 0x4037d928: _frxt_dispatch at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:451
+--- 0x4037d91e: _frxt_int_exit at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/portasm.S:246
+
+
+
+
+ELF file SHA256: 69917f93a
+
+Rebooting...
+���ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4037d548
+--- 0x4037d548: spinlock_acquire at /Users/maochun/esp32prj/esp-idf/components/esp_hw_support/include/spinlock.h:133
+--- (inlined by) xPortEnterCriticalTimeout at /Users/maochun/esp32prj/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c:479
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x16fc
+load:0x403c8700,len:0xf14
+--- 0x403c8700: _stext at ??:?
+load:0x403cb700,len:0x3214
+entry 0x403c8930
+--- 0x403c8930: call_start_cpu0 at /Users/maochun/esp32prj/esp-idf/components/bootloader/subproject/main/bootloader_start.c:25
+I (29) boot: ESP-IDF v6.0-dev-2039-g2044fba6e7 2nd stage bootloader
+I (29) boot: compile time Dec 17 2025 10:19:24
+I (29) boot: Multicore bootloader
+I (31) boot: chip revision: v0.2
+I (34) boot: efuse block revision: v1.3
+I (37) qio_mode: Enabling default flash chip QIO
+I (42) boot.esp32s3: Boot SPI Speed : 80MHz
+I (46) boot.esp32s3: SPI Mode       : QIO

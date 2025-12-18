@@ -12,6 +12,31 @@ static const char *TAG = "OTA_APP_MGMT";
 
 static ota_task_t task_lists[MAX_TASKS] ;
 
+static void ota_cleanup_task_entry(ota_task_t *t){
+    if(!t) return;
+    if(t->life_timer){
+        xTimerStop(t->life_timer, 0);
+        xTimerDelete(t->life_timer, 0);
+        t->life_timer =NULL;
+    }
+    if(t->upgrade_timer){
+        xTimerStop(t->upgrade_timer, 0);
+        xTimerDelete(t->upgrade_timer, 0);
+        t->upgrade_timer = NULL;
+    }
+    memset(t, 0, sizeof(*t));
+}
+
+static void ota_task_valid_check(){
+    for (int i=0; i < MAX_TASKS; i++){
+        if (task_lists[i].status == OTA_STATUS_SUCCESS ||
+            task_lists[i].percentage == 100 ||
+            task_lists[i].active == false){
+                ota_cleanup_task_entry(&task_lists[i]);
+            }
+    }
+}
+
 
 
 
@@ -97,7 +122,7 @@ void ota_dispatch_user_reject( ota_task_t *task ) {
 // after user accept, when otaapp trigger, only execution task will maintain the struct.
 void ota_handler_on_accept(ota_task_t *task){
     // setup the change, eliminate the invalid task before task dispatch;
-    ota_task_valid_check();
+    //ota_task_valid_check();
     //-----setup new task progress
     task->ota_progress_state = OTA_PROGRESS_INIT;
     task->percentage = 5 ;
@@ -236,37 +261,13 @@ void ota_handler_client_result_after_ota(const char *task_id ){
 }
 
 
-static void ota_task_valid_check(){
-    for (int i=0; i < MAX_TASKS; i++){
-        if (task_lists[i].status == OTA_STATUS_SUCCESS ||
-            task_lists[i].percentage == 100 ||
-            task_lists[i].active == false){
-                ota_cleanup_task_entry(&task_lists[i]);
-            }
-    }
-}
-
-
-static void ota_cleanup_task_entry(ota_task_t *t){
-    if(!t) return;
-    if(t->life_timer){
-        xTimerStop(t->life_timer, 0);
-        xTimerDelete(t->life_timer, 0);
-        t->life_timer =NULL;
-    }
-    if(t->upgrade_timer){
-        xTimerStop(t->upgrade_timer, 0);
-        xTimerDelete(t->upgrade_timer, 0);
-        t->upgrade_timer = NULL;
-    }
-    memset(t, 0, sizeof(*t));
-}
 
 
 
 // this function for webserver to check and call the result to display in UI.. 
 size_t ota_handler_get_progress_json(char *buf,  size_t buflen){
     size_t len =0;
+
     for (int i =0; i< MAX_TASKS; i++){
         if (task_lists[i].ota_progress_state != OTA_PROGRESS_IDLE){
             cJSON *root = cJSON_CreateObject();
@@ -288,6 +289,9 @@ size_t ota_handler_get_progress_json(char *buf,  size_t buflen){
             }
             cJSON_Delete(root);
             if (json_str) free(json_str);
+            break;
+        }else{
+            continue;
         }
     }
     return len;  // 

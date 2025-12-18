@@ -142,6 +142,7 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     if (len >0){
         httpd_resp_send(req, json_buf, len);
+        ESP_LOGI(TAG, "progress sync to web: json: %s", json_buf);
     }else {
         httpd_resp_send(req, "{}", strlen("{}"));
     }
