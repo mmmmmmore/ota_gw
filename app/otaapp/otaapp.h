@@ -97,7 +97,7 @@ void ota_dispatch_user_reject( ota_task_t *task);
 
 
 // this function for webserver to check and call the result to display in UI.. 
-size_t ota_handler_get_progress_json(char *buf,  size_t buflen);
+size_t ota_handler_get_progress_json(const char *task_id,char *buf,  size_t buflen);
 
 
 

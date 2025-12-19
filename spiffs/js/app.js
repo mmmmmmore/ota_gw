@@ -1,5 +1,6 @@
 let progressTimer =null;
 let upgradeTimerOutFlag = null;
+let currentTaskId =null;
 
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
@@ -20,7 +21,9 @@ function updateotaprogressBar(percentage){
 
 
 function fetchProgress(){
-  fetch("/progress_info")
+  if (!currentTaskId) return;
+  //const params = new URLSearchParams({task_id: currentTaskId});
+  fetch(`/progress_info?task_id=${encodeURIComponent(currentTaskId)}`)
     .then(response => response.json())
     .then(data =>{
       updateotaprogressBar(data.progress); // need matching with the ota_handler progress data
@@ -104,7 +107,8 @@ function sendUserResponse(response_value, task_id_value) {
       document.getElementById("progressModal").classList.remove("hidden");
       //cycle check and update the value
       upgradeTimerOutFlag = Date.now();   // timer out trigger start.
-      progressTimer = setInterval(fetchProgress, 500);
+      currentTaskId = task_id_value;
+      progressTimer = setInterval(fetchProgress, 2000);
       console.log("ota upgrade under progress... ")
     }else if(response_value ==='reject'){
       console.log(" User Reject this task", task_id_value);

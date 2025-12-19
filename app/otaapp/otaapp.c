@@ -68,7 +68,7 @@ void otaapp_add_task( ota_task_t *task) {
     // variant transfer not use const
     // 找到空槽位
     for (int i = 0; i < MAX_TASKS; i++) {
-        if (task_lists[i].task_id[0] == '\0') {
+        if (task_lists[i].active == false) {
             task_lists[i] = *task;
             task_lists[i].user_response = USER_RESPONSE_WAIT;
             // 创建定时器，600s 后触发
@@ -164,6 +164,7 @@ void otahandler_upgrade_response(const char *task_id, user_response_t response) 
             } else {
                 ESP_LOGI(TAG, "Task %s waiting ", task_lists[i].task_id);
             }
+            return;
         }
     }
     ESP_LOGW(TAG, "Task %s not found for update", task_id);
@@ -217,12 +218,12 @@ static void ota_handler_upgrade_timer_cb(TimerHandle_t xTimer){
     if (task->ota_progress_state == OTA_PROGRESS_DWLD_DONE ||
         task->ota_progress_state == OTA_PROGRESS_UPGRADING){
             task->ota_progress_state = OTA_PROGRESS_UPGRADING;
-            uint32_t elapsed = esp_log_timestamp() - task->created_ms ;
-            int pct = 15 + (elapsed / 1000) * 5;  // +5 / s
-            if(pct > 90) pct = 90;
-            if (pct > task->percentage){
-                task->percentage = pct ;
-                ESP_LOGI(TAG, " progress upgrading :: %d%% ", task->percentage);
+            task->percentage +=10;
+            if (task->percentage >=90){
+                task->percentage = 90;
+                xTimerStop(task->upgrade_timer, 0);
+                xTimerDelete(task->upgrade_timer,0);
+                task->upgrade_timer = NULL;
             }
         }
 }
@@ -236,7 +237,7 @@ void ota_handler_on_client_dwld_done(const char *task_id){
             task_lists[i].ota_progress_state = OTA_PROGRESS_DWLD_DONE;
             task_lists[i].created_ms = esp_log_timestamp();
             if (!task_lists[i].upgrade_timer) {
-                task_lists[i].upgrade_timer= xTimerCreate("ota_upgrade_time", pdMS_TO_TICKS(1000), pdTRUE, (void*)&task_lists[i], ota_handler_upgrade_timer_cb);
+                task_lists[i].upgrade_timer= xTimerCreate("ota_upgrade_time", pdMS_TO_TICKS(2000), pdTRUE, (void*)&task_lists[i], ota_handler_upgrade_timer_cb);
                 xTimerStart(task_lists[i].upgrade_timer,0);
             }
         }
@@ -248,13 +249,10 @@ void ota_handler_client_result_after_ota(const char *task_id ){
     for (int i =0; i<MAX_TASKS; i++){
         if (strcmp(task_id, task_lists[i].task_id) == 0){
             ESP_LOGI(TAG, "Rx client [%s] tx ota task [%s], result complete", task_lists[i].client_id, task_lists[i].task_id);
-
             task_lists[i].percentage = 100;
             task_lists[i].active = false;
             task_lists[i].ota_progress_state = OTA_PROGRESS_COMPLETE;
             task_lists[i].status = OTA_STATUS_SUCCESS;
-            xTimerStop(task_lists[i].upgrade_timer,0);
-            xTimerDelete(task_lists[i].upgrade_timer,0);
             //need cleanup the resource afterwards before next task;
         }
     }
@@ -265,11 +263,9 @@ void ota_handler_client_result_after_ota(const char *task_id ){
 
 
 // this function for webserver to check and call the result to display in UI.. 
-size_t ota_handler_get_progress_json(char *buf,  size_t buflen){
-    size_t len =0;
-
+size_t ota_handler_get_progress_json( const char *task_id,char *buf,  size_t buflen){
     for (int i =0; i< MAX_TASKS; i++){
-        if (task_lists[i].ota_progress_state != OTA_PROGRESS_IDLE){
+        if (strcmp(task_lists[i].task_id, task_id) == 0){
             cJSON *root = cJSON_CreateObject();
             cJSON_AddStringToObject(root, "task_id", task_lists[i].task_id);
             cJSON_AddNumberToObject(root, "progress", task_lists[i].percentage);
@@ -281,7 +277,7 @@ size_t ota_handler_get_progress_json(char *buf,  size_t buflen){
             
             cJSON_AddStringToObject(root, "state", state);
             char *json_str = cJSON_PrintUnformatted(root);
-            len = json_str? strlen(json_str) :0 ;
+            size_t len = json_str? strlen(json_str) :0 ;
             if (json_str && len < buflen) {
                 memcpy(buf, json_str, len+1);
             }else if ( buflen > 0){
@@ -289,12 +285,12 @@ size_t ota_handler_get_progress_json(char *buf,  size_t buflen){
             }
             cJSON_Delete(root);
             if (json_str) free(json_str);
-            break;
+            return len;  // 
         }else{
             continue;
         }
     }
-    return len;  // 
+    return 0;
 }
 
 

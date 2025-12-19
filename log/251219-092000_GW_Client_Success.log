@@ -1,0 +1,734 @@
+Multi task managed success in task queue:
+
+
+I (838) spi_flash: flash io: qio
+W (841) i2c: This driver is an old driver, please migrate your application code to adapt `driver/i2c_master.h`
+I (851) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (857) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (864) main_task: Started on CPU0
+I (884) main_task: Calling app_main()
+ESP32S3 Boot Success...
+I (904) pp: pp rom version: e7ae62f
+I (904) net80211: net80211 rom version: e7ae62f
+I (914) wifi:wifi driver task: 3fcb7718, prio:23, stack:6656, core=0
+I (914) wifi:wifi firmware version: df85326
+I (914) wifi:wifi certification version: v7.0
+I (914) wifi:config NVS flash: enabled
+I (914) wifi:config nano formatting: disabled
+I (924) wifi:Init data frame dynamic rx buffer num: 64
+I (924) wifi:Init static rx mgmt buffer num: 5
+I (934) wifi:Init management short buffer num: 32
+I (934) wifi:Init static tx buffer num: 32
+I (944) wifi:Init tx cache buffer num: 32
+I (944) wifi:Init static tx FG buffer num: 2
+I (944) wifi:Init static rx buffer size: 1600
+I (954) wifi:Init static rx buffer num: 16
+I (954) wifi:Init dynamic rx buffer num: 64
+I (964) wifi_init: rx ba win: 6
+I (964) wifi_init: accept mbox: 6
+I (964) wifi_init: tcpip mbox: 32
+I (964) wifi_init: udp mbox: 6
+I (974) wifi_init: tcp mbox: 6
+I (974) wifi_init: tcp tx win: 5760
+I (974) wifi_init: tcp rx win: 5760
+I (984) wifi_init: tcp mss: 1440
+I (984) wifi_init: WiFi/LWIP prefer SPIRAM
+I (984) wifi_init: WiFi IRAM OP enabled
+I (994) wifi_init: WiFi RX IRAM OP enabled
+I (1004) phy_init: phy_version 701,f4f1da3a,Mar  3 2025,15:50:10
+I (1034) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
+I (1054) wifi:mode : softAP (dc:b4:d9:10:4d:b1)
+I (1054) wifi:Total power save buffer number: 16
+I (1054) wifi:Init max length of beacon: 752/752
+I (1054) wifi:Init max length of beacon: 752/752
+I (1054) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (1064) wifi_ap: SoftAP started: SSID=OTA-GW, gateway=192.168.4.1, netmask=255.255.255.0, protocol=b/g/n, PMF=capable/not-required
+I (1074) PSRAM: PSRAM size: 8388608 bytes
+I (1084) PSRAM: Free heap: 8476232 bytes
+I (1084) PSRAM: PSRAM is initialized and ready.
+I (1084) PSRAM: Successfully allocated 1KB from PSRAM.
+I (1534) SPIFFS: SPIFFS mounted successfully
+I (1534) SPIFFS: Partition size: total=7161281, used=2940967
+I (1534) common_gpio: Starting GPIO initialization...
+I (1544) common_gpio: STBY GPIO 17 set to HIGH
+I (1544) common_gpio: Motor GPIOs initialized
+I (1544) common_gpio: All GPIOs initialized
+I (1554) common_gpio: LEDC channels initialized
+I (1554) GW_TCP_Sock: tcp_server_task started on port : 9001
+I (1564) GW_TCP_Sock: TCP_Server listening on port : 9001 
+I (1564) GW_TCP_Sock: tcp_server_task started on port : 9002
+I (1574) WEB_OTAGW: OTA Gateway Webserver started
+I (1574) GW_TCP_Sock: TCP_Server listening on port : 9002 
+系统初始化完成，等待客户端连接...
+I (1584) main_task: Returned from app_main()
+I (9834) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (9834) wifi:station: 5c:5f:67:ed:16:1a join, AID=1, bgn, 40U
+I (9934) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (13494) wifi:<ba-add>idx:2 (ifx:1, 5c:5f:67:ed:16:1a), tid:0, ssn:77, winSize:64
+I (18954) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.2, port = 57903
+I (18964) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (18964) GW_TCP_SERVER: OTA Server socket set: 37
+I (18964) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (18974) GW_MSG_HANDLER: OTA server hello received on sock 37
+I (18984) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (21654) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack0"}
+I (21654) GW_MSG_HANDLER: non known json data rxed.
+I (21654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack0
+I (26604) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack1"}
+I (26604) GW_MSG_HANDLER: non known json data rxed.
+I (26604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack1
+I (31584) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack2"}
+I (31584) GW_MSG_HANDLER: non known json data rxed.
+I (31584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack2
+I (36534) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (36534) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 40U
+I (36534) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (36544) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 40U
+I (36574) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "keep_alive_ack3"}
+I (36574) GW_MSG_HANDLER: non known json data rxed.
+I (36574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack3
+I (36604) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (36624) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (37524) GW_TCP_Sock: Client connected, sock = 43, ip = 192.168.4.2, port = 57920
+I (37524) GW_TCP_Sock: tcp_client_task started for sock = 43
+W (37524) GW_TCP_SERVER: OTA server already connected on sock=37, closing old one
+E (37534) GW_TCP_Sock: recv failed : errno: 128 
+I (37534) GW_TCP_SERVER: OTA Server socket set: 43
+I (37534) GW_TCP_Sock: Closing client socket : 37
+I (37544) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (37554) GW_MSG_HANDLER: OTA server hello received on sock 43
+I (37564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (37634) wifi:<ba-add>idx:3 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (37644) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.3, port = 57422
+I (37644) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (37654) wifi:<ba-add>idx:4 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+I (37664) GW_TCP_Sock: Client connected, sock = 44, ip = 192.168.4.4, port = 50230
+I (37664) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (37674) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=37
+I (37684) GW_TCP_Sock: tcp_client_task started for sock = 44
+I (37694) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (37694) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (37704) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"20251219_085407_760","state":"complete"}
+I (37724) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=44
+I (37734) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (37744) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (37754) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_result","task_id":"20251219_090250_759","state":"complete"}
+I (37774) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (41564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack0"}
+I (41564) GW_MSG_HANDLER: non known json data rxed.
+I (41564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack0
+I (41564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (41574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (46564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack1"}
+I (46564) GW_MSG_HANDLER: non known json data rxed.
+I (46564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack1
+I (46574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (46574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (51564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (51574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (51654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack2"}
+I (51654) GW_MSG_HANDLER: non known json data rxed.
+I (51654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack2
+I (56574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (56574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (56574) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack3"}
+I (56584) GW_MSG_HANDLER: non known json data rxed.
+I (56584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack3
+I (61564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (61564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (61584) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack4"}
+I (61594) GW_MSG_HANDLER: non known json data rxed.
+I (61594) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack4
+I (65884) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "ota_task", "task_id": "20251219_091347_760", "device_name": "Veh2_SCM3", "client_id": "760", "version": "v2.3.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_760_v2.3.0.bin", "timestamp": "20251219_091347", "status": "pending"}
+I (65904) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (65914) OTA_APP_MGMT: New Task [20251219_091347_760] created in Queue, wait for User response 
+I (65924) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (66564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (66564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (66604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack5"}
+I (66604) GW_MSG_HANDLER: non known json data rxed.
+I (66614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack5
+I (68844) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "ota_task", "task_id": "20251219_091350_759", "device_name": "Veh1_SCM2", "client_id": "759", "version": "v2.3.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_759_v2.3.0.bin", "timestamp": "20251219_091350", "status": "pending"}
+I (68864) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (68874) OTA_APP_MGMT: New Task [20251219_091350_759] created in Queue, wait for User response 
+I (68884) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (71564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack6"}
+I (71564) GW_MSG_HANDLER: non known json data rxed.
+I (71564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack6
+I (71574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (71574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (71684) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "ota_task", "task_id": "20251219_091352_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.3.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_758_v2.3.0.bin", "timestamp": "20251219_091352", "status": "pending"}
+I (71704) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (71714) OTA_APP_MGMT: New Task [20251219_091352_758] created in Queue, wait for User response 
+I (71724) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (76564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (76574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (76664) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack7"}
+I (76664) GW_MSG_HANDLER: non known json data rxed.
+I (76674) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack7
+I (81124) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "ota_task", "task_id": "20251219_091402_760", "device_name": "Veh2_SCM3", "client_id": "760", "version": "v2.4.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_760_v2.4.0.bin", "timestamp": "20251219_091402", "status": "pending"}
+I (81134) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (81144) OTA_APP_MGMT: New Task [20251219_091402_760] created in Queue, wait for User response 
+I (81154) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (81564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (81564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (81654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack8"}
+I (81654) GW_MSG_HANDLER: non known json data rxed.
+I (81654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack8
+I (84454) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "ota_task", "task_id": "20251219_091405_759", "device_name": "Veh1_SCM2", "client_id": "759", "version": "v2.4.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_759_v2.4.0.bin", "timestamp": "20251219_091405", "status": "pending"}
+I (84474) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (84474) OTA_APP_MGMT: New Task [20251219_091405_759] created in Queue, wait for User response 
+I (84484) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (86564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (86564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (86584) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack9"}
+I (86584) GW_MSG_HANDLER: non known json data rxed.
+I (86584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack9
+I (86604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "ota_task", "task_id": "20251219_091407_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.2.0", "firmware_url": "https://192.168.4.2:8080/firmware/ota_client_758_v2.2.0.bin", "timestamp": "20251219_091407", "status": "pending"}
+I (86624) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (86624) OTA_APP_MGMT: New Task [20251219_091407_758] created in Queue, wait for User response 
+I (86634) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (91564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (91574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (91584) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack10"}
+I (91584) GW_MSG_HANDLER: non known json data rxed.
+I (91594) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack10
+I (93234) OTA_APP_MGMT:  [20251219_091347_760] init OTA progress for client = 760
+I (93244) OTA_APP_MGMT: Sending OTA task to client 760 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251219_091347_760","device_name":"Veh2_SCM3","client_id":"760","version":"v2.3.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_760_v2.3.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (93264) OTA_APP_MGMT: Client 760 state updated to UPDATING
+I (93274) WEB_OTAGW: User have response to task: 20251219_091347_760
+I (93314) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_progress","task_id":"20251219_091347_760","state":"DWLD_DONE"}
+I (93324) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (93324) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (93334) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (95404) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":25,"state":"upgrading"}
+I (96564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (96604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack11"}
+I (96604) GW_MSG_HANDLER: non known json data rxed.
+I (96604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack11
+I (97394) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":35,"state":"upgrading"}
+I (99404) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":45,"state":"upgrading"}
+I (101394) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":55,"state":"upgrading"}
+I (101564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack12"}
+I (101564) GW_MSG_HANDLER: non known json data rxed.
+I (101564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack12
+I (101574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (103384) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":65,"state":"upgrading"}
+I (105384) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":75,"state":"upgrading"}
+I (106564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack13"}
+I (106564) GW_MSG_HANDLER: non known json data rxed.
+I (106564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack13
+I (106564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (107404) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":85,"state":"upgrading"}
+I (109384) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":90,"state":"upgrading"}
+I (110784) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 2, reason = 8, bss_flags is 756835, bss:0x3c0d13a4
+I (110784) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (110794) wifi:<ba-del>idx:3, tid:0
+I (110794) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (111394) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":90,"state":"upgrading"}
+I (111484) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (111484) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 40U
+I (111544) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (111564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack14"}
+I (111564) GW_MSG_HANDLER: non known json data rxed.
+I (111564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack14
+I (111564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (112594) wifi:<ba-add>idx:3 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+E (112594) GW_TCP_Sock: recv failed : errno: 104 
+I (112594) GW_TCP_Sock: Closing client socket : 37
+I (112594) GW_TCP_Sock: Client connected, sock = 45, ip = 192.168.4.3, port = 64763
+I (112604) GW_TCP_Sock: tcp_client_task started for sock = 45
+I (112624) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (112624) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=45
+I (112644) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (112704) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"ota_result","task_id":"20251219_091347_760","state":"complete"}
+I (112704) OTA_APP_MGMT: Rx client [760] tx ota task [20251219_091347_760], result complete
+I (112714) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (113404) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091347_760","progress":100,"state":"complete"}
+I (116574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (116574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (116574) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack15"}
+I (116584) GW_MSG_HANDLER: non known json data rxed.
+I (116584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack15
+I (121564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (121564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (121594) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack16"}
+I (121594) GW_MSG_HANDLER: non known json data rxed.
+I (121594) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack16
+I (122814) OTA_APP_MGMT:  [20251219_091350_759] init OTA progress for client = 759
+I (122814) OTA_APP_MGMT: Sending OTA task to client 759 (IP=192.168.4.4): {"msg_type":"ota_task","task_id":"20251219_091350_759","device_name":"Veh1_SCM2","client_id":"759","version":"v2.3.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_759_v2.3.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (122844) OTA_APP_MGMT: Client 759 state updated to UPDATING
+I (122854) WEB_OTAGW: User have response to task: 20251219_091350_759
+I (122894) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_progress","task_id":"20251219_091350_759","state":"DWLD_DONE"}
+I (122904) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (122904) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (122914) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (125014) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":25,"state":"upgrading"}
+I (126564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (126604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack17"}
+I (126604) GW_MSG_HANDLER: non known json data rxed.
+I (126614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack17
+I (127004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":35,"state":"upgrading"}
+I (129004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":45,"state":"upgrading"}
+I (131004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":55,"state":"upgrading"}
+I (131564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack18"}
+I (131564) GW_MSG_HANDLER: non known json data rxed.
+I (131564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack18
+I (131564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (133004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":65,"state":"upgrading"}
+I (135014) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":75,"state":"upgrading"}
+I (136564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack19"}
+I (136564) GW_MSG_HANDLER: non known json data rxed.
+I (136564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack19
+I (136574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (136994) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":85,"state":"upgrading"}
+I (139004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":90,"state":"upgrading"}
+I (139804) wifi:station: dc:b4:d9:10:5f:a8 leave, AID = 3, reason = 8, bss_flags is 756835, bss:0x3c0d1ea8
+I (139814) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (139814) wifi:<ba-del>idx:4, tid:0
+I (139814) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (140514) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (140514) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 40U
+I (140574) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (140994) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":90,"state":"upgrading"}
+I (141564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (141584) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack20"}
+I (141584) GW_MSG_HANDLER: non known json data rxed.
+I (141584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack20
+I (141604) wifi:<ba-add>idx:4 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+E (141604) GW_TCP_Sock: recv failed : errno: 104 
+I (141604) GW_TCP_Sock: Closing client socket : 44
+I (141624) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.4, port = 65115
+I (141624) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (141644) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (141644) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=37
+I (141654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (141704) GW_MSG_HANDLER: Processing message from sock 37 (role=2): {"msg_type":"ota_result","task_id":"20251219_091350_759","state":"complete"}
+I (141704) OTA_APP_MGMT: Rx client [759] tx ota task [20251219_091350_759], result complete
+I (141714) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (143004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091350_759","progress":100,"state":"complete"}
+I (146564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (146564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (146574) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack21"}
+I (146584) GW_MSG_HANDLER: non known json data rxed.
+I (146584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack21
+I (149364) OTA_APP_MGMT:  [20251219_091352_758] init OTA progress for client = 758
+W (149364) OTA_APP_MGMT: Client 758 not found or offline
+I (149374) WEB_OTAGW: User have response to task: 20251219_091352_758
+I (151484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (151564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack22"}
+I (151564) GW_MSG_HANDLER: non known json data rxed.
+I (151564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack22
+I (151564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (151564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (153474) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (155484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (156564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (156564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (156614) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack23"}
+I (156614) GW_MSG_HANDLER: non known json data rxed.
+I (156614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack23
+I (157494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (159484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (161474) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (161564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack24"}
+I (161564) GW_MSG_HANDLER: non known json data rxed.
+I (161564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack24
+I (161564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (161574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (163494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (165484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (166564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (166564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (166644) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack25"}
+I (166644) GW_MSG_HANDLER: non known json data rxed.
+I (166654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack25
+I (167484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (169494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (171484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (171564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack26"}
+I (171564) GW_MSG_HANDLER: non known json data rxed.
+I (171564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack26
+I (171564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (171564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (173484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (175484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (176564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (176564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (176684) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack27"}
+I (176684) GW_MSG_HANDLER: non known json data rxed.
+I (176684) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack27
+I (177484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (179484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (181494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (181564) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack28"}
+I (181564) GW_MSG_HANDLER: non known json data rxed.
+I (181564) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack28
+I (181564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (181584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (182144) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (182144) wifi:station: dc:b4:d9:04:7c:04 join, AID=4, bgn, 40U
+I (182204) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.5
+I (183234) wifi:<ba-add>idx:5 (ifx:1, dc:b4:d9:04:7c:04), tid:0, ssn:0, winSize:64
+I (183244) GW_TCP_Sock: Client connected, sock = 44, ip = 192.168.4.5, port = 57496
+I (183244) GW_TCP_Sock: tcp_client_task started for sock = 44
+I (183264) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","version":"1.1.0","ip":"192.168.4.5"}
+I (183274) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=DC:B4:D9:04:7C:04, ip=192.168.4.5, ver=1.1.0, sock=44
+I (183284) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (183454) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_result","task_id":"20251218_200411_758","state":"complete"}
+I (183464) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (183484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (185494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (186574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (186584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (186584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (186614) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack29"}
+I (186614) GW_MSG_HANDLER: non known json data rxed.
+I (186614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack29
+I (187484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (189484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (191534) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (191574) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack30"}
+I (191574) GW_MSG_HANDLER: non known json data rxed.
+I (191574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack30
+I (191574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (191574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (191584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (193504) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (195484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (196574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (196584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (196584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (196654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack31"}
+I (196654) GW_MSG_HANDLER: non known json data rxed.
+I (196654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack31
+I (197484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (199484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (201494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (201574) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack32"}
+I (201574) GW_MSG_HANDLER: non known json data rxed.
+I (201574) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack32
+I (201574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (201574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (201584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (203494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (205494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (206584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (206584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (206584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (206584) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack33"}
+I (206604) GW_MSG_HANDLER: non known json data rxed.
+I (206604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack33
+I (207484) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (209494) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091352_758","progress":5,"state":"init"}
+I (211574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (211574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (211584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (211604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack34"}
+I (211604) GW_MSG_HANDLER: non known json data rxed.
+I (211604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack34
+I (216584) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack35"}
+I (216584) GW_MSG_HANDLER: non known json data rxed.
+I (216584) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack35
+I (216584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (216614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (216624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (221604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (221614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (221614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (221644) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack36"}
+I (221644) GW_MSG_HANDLER: non known json data rxed.
+I (221644) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack36
+I (224114) OTA_APP_MGMT:  [20251219_091402_760] init OTA progress for client = 760
+I (224114) OTA_APP_MGMT: Sending OTA task to client 760 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251219_091402_760","device_name":"Veh2_SCM3","client_id":"760","version":"v2.4.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_760_v2.4.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (224134) OTA_APP_MGMT: Client 760 state updated to UPDATING
+I (224144) WEB_OTAGW: User have response to task: 20251219_091402_760
+I (224194) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"ota_progress","task_id":"20251219_091402_760","state":"DWLD_DONE"}
+I (224194) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (224204) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (224204) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (226294) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":25,"state":"upgrading"}
+I (226604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (226614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (226654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack37"}
+I (226654) GW_MSG_HANDLER: non known json data rxed.
+I (226654) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack37
+I (228294) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":35,"state":"upgrading"}
+I (230284) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":45,"state":"upgrading"}
+I (231604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack38"}
+I (231604) GW_MSG_HANDLER: non known json data rxed.
+I (231604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack38
+I (231604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (231614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (232294) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":55,"state":"upgrading"}
+I (234284) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":65,"state":"upgrading"}
+I (236284) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":75,"state":"upgrading"}
+I (236604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack39"}
+I (236604) GW_MSG_HANDLER: non known json data rxed.
+I (236614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack39
+I (236614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (236614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (238284) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":85,"state":"upgrading"}
+I (240294) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":90,"state":"upgrading"}
+I (240964) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 2, reason = 8, bss_flags is 756835, bss:0x3c0d13a4
+I (240964) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (240974) wifi:<ba-del>idx:3, tid:0
+I (240974) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (241604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (241604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (241684) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (241684) wifi:station: 1c:db:d4:af:1f:60 join, AID=2, bgn, 40U
+I (241714) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack40"}
+I (241714) GW_MSG_HANDLER: non known json data rxed.
+I (241714) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack40
+I (241744) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (242284) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":90,"state":"upgrading"}
+I (242794) wifi:<ba-add>idx:3 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+E (242794) GW_TCP_Sock: recv failed : errno: 104 
+I (242794) GW_TCP_Sock: Closing client socket : 45
+I (242794) GW_TCP_Sock: Client connected, sock = 45, ip = 192.168.4.3, port = 62268
+I (242804) GW_TCP_Sock: tcp_client_task started for sock = 45
+I (242814) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.3"}
+I (242824) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.3, ver=1.1.0, sock=45
+I (242834) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (242954) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"ota_result","task_id":"20251219_091402_760","state":"complete"}
+I (242954) OTA_APP_MGMT: Rx client [760] tx ota task [20251219_091402_760], result complete
+I (242964) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (244294) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091402_760","progress":100,"state":"complete"}
+I (246604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (246614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (246614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (246624) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack41"}
+I (246624) GW_MSG_HANDLER: non known json data rxed.
+I (246634) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack41
+I (251614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (251614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (251614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (251634) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack42"}
+I (251634) GW_MSG_HANDLER: non known json data rxed.
+I (251644) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack42
+I (255694) OTA_APP_MGMT:  [20251219_091407_758] init OTA progress for client = 758
+I (255694) OTA_APP_MGMT: Sending OTA task to client 758 (IP=192.168.4.5): {"msg_type":"ota_task","task_id":"20251219_091407_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.2.0","firmware_url":"https://192.168.4.2:8080/firmware/ota_client_758_v2.2.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (255724) OTA_APP_MGMT: Client 758 state updated to UPDATING
+I (255724) WEB_OTAGW: User have response to task: 20251219_091407_758
+I (255774) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_progress","task_id":"20251219_091407_758","state":"DWLD_DONE"}
+I (255774) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (255784) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (255794) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (256604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (256614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (256654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack43"}
+I (256654) GW_MSG_HANDLER: non known json data rxed.
+I (256664) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack43
+I (257904) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":25,"state":"upgrading"}
+I (259914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":35,"state":"upgrading"}
+I (261614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (261614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (261674) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack44"}
+I (261674) GW_MSG_HANDLER: non known json data rxed.
+I (261674) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack44
+I (261894) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":45,"state":"upgrading"}
+I (263914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":55,"state":"upgrading"}
+I (265924) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":65,"state":"upgrading"}
+I (266604) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack45"}
+I (266604) GW_MSG_HANDLER: non known json data rxed.
+I (266604) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack45
+I (266604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (266604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (267914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":75,"state":"upgrading"}
+I (269904) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":85,"state":"upgrading"}
+I (271614) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack46"}
+I (271614) GW_MSG_HANDLER: non known json data rxed.
+I (271624) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack46
+I (271624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (271624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (271904) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (273894) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (275914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (276614) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack47"}
+I (276614) GW_MSG_HANDLER: non known json data rxed.
+I (276614) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack47
+I (276614) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (276624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (277904) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (279904) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (281624) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack48"}
+I (281624) GW_MSG_HANDLER: non known json data rxed.
+I (281624) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack48
+I (281624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (281634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (281894) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (282524) wifi:station: dc:b4:d9:04:7c:04 leave, AID = 4, reason = 8, bss_flags is 756835, bss:0x3c0d24c4
+I (282524) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (282524) wifi:<ba-del>idx:5, tid:0
+I (282534) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (283314) wifi:new:<1,1>, old:<1,1>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (283314) wifi:station: dc:b4:d9:04:7c:04 join, AID=4, bgn, 40U
+I (283384) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.5
+I (283914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":90,"state":"upgrading"}
+I (284424) wifi:<ba-add>idx:5 (ifx:1, dc:b4:d9:04:7c:04), tid:0, ssn:0, winSize:64
+I (284434) GW_TCP_Sock: Client connected, sock = 47, ip = 192.168.4.5, port = 53590
+I (284434) GW_TCP_Sock: tcp_client_task started for sock = 47
+I (284454) GW_MSG_HANDLER: Processing message from sock 47 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","version":"1.1.0","ip":"192.168.4.5"}
+I (284454) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=DC:B4:D9:04:7C:04, ip=192.168.4.5, ver=1.1.0, sock=47
+I (284474) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (284474) GW_MSG_HANDLER: Processing message from sock 47 (role=2): {"msg_type":"ota_result","task_id":"20251219_091407_758","state":"complete"}
+I (284484) OTA_APP_MGMT: Rx client [758] tx ota task [20251219_091407_758], result complete
+I (284494) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+W (285794) GW_TCP_Sock:  Socket 44 time out , closing
+I (285794) GW_TCP_Sock: Closing client socket : 44
+I (285914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251219_091407_758","progress":100,"state":"complete"}
+I (286634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (286634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (286644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (286664) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack49"}
+I (286664) GW_MSG_HANDLER: non known json data rxed.
+I (286664) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack49
+I (291684) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack50"}
+I (291684) GW_MSG_HANDLER: non known json data rxed.
+I (291684) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack50
+I (291684) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (291684) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (291684) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (293034) OTA_APP_MGMT: Task 20251219_091405_759 rejected
+W (293034) OTA_APP_MGMT: User rejected OTA task 20251219_091405_759 
+I (293034) OTA_APP_MGMT: Sending reject result to OTA Server: {"msg_type":"ota_task_ack","task_id":"20251219_091405_759","status":"rejected","version":"v2.4.0"}
+
+I (293044) WEB_OTAGW: User have response to task: 20251219_091405_759
+I (295594) OTA_APP_MGMT: Task 20251219_091352_758 rejected
+W (295594) OTA_APP_MGMT: User rejected OTA task 20251219_091352_758 
+I (295594) OTA_APP_MGMT: Sending reject result to OTA Server: {"msg_type":"ota_task_ack","task_id":"20251219_091352_758","status":"rejected","version":"v2.3.0"}
+
+I (295604) WEB_OTAGW: User have response to task: 20251219_091352_758
+I (296634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (296644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (296644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (296694) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack51"}
+I (296694) GW_MSG_HANDLER: non known json data rxed.
+I (296694) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack51
+I (301634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (301634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (301644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (301714) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack52"}
+I (301714) GW_MSG_HANDLER: non known json data rxed.
+I (301724) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack52
+I (306644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (306644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (306644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (306734) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack53"}
+I (306734) GW_MSG_HANDLER: non known json data rxed.
+I (306734) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack53
+I (311634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (311634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (311644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (311644) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack54"}
+I (311654) GW_MSG_HANDLER: non known json data rxed.
+I (311664) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack54
+I (316634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (316644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (316644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (316664) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack55"}
+I (316664) GW_MSG_HANDLER: non known json data rxed.
+I (316664) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack55
+I (321634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (321644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (321644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (321684) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack56"}
+I (321684) GW_MSG_HANDLER: non known json data rxed.
+I (321684) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack56
+I (326634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (326634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (326644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (326704) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack57"}
+I (326704) GW_MSG_HANDLER: non known json data rxed.
+I (326704) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack57
+I (331634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (331634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (331644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (331744) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack58"}
+I (331744) GW_MSG_HANDLER: non known json data rxed.
+I (331744) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack58
+I (336634) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack59"}
+I (336634) GW_MSG_HANDLER: non known json data rxed.
+I (336634) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack59
+I (336634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (336634) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (336654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (341654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack60"}
+I (341654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (341654) GW_MSG_HANDLER: non known json data rxed.
+I (341664) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (341664) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (341664) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack60
+I (346644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (346644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (346654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (346664) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack61"}
+I (346664) GW_MSG_HANDLER: non known json data rxed.
+I (346674) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack61
+I (351644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (351644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (351654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (351724) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack62"}
+I (351724) GW_MSG_HANDLER: non known json data rxed.
+I (351724) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack62
+I (356644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (356654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (356654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (356704) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack63"}
+I (356704) GW_MSG_HANDLER: non known json data rxed.
+I (356704) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack63
+I (361644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (361644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (361654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (361714) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack64"}
+I (361714) GW_MSG_HANDLER: non known json data rxed.
+I (361724) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack64
+I (366644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (366644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (366654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (366734) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack65"}
+I (366734) GW_MSG_HANDLER: non known json data rxed.
+I (366734) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack65
+I (371644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (371654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (371644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (371654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack66"}
+I (371664) GW_MSG_HANDLER: non known json data rxed.
+I (371674) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack66
+I (376644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (376654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (376654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (376674) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack67"}
+I (376674) GW_MSG_HANDLER: non known json data rxed.
+I (376674) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack67
+I (381644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (381654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (381654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (381684) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack68"}
+I (381694) GW_MSG_HANDLER: non known json data rxed.
+I (381694) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack68
+I (386644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (386644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (386654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (386704) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack69"}
+I (386704) GW_MSG_HANDLER: non known json data rxed.
+I (386704) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack69
+I (391644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (391644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (391654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (391724) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack70"}
+I (391724) GW_MSG_HANDLER: non known json data rxed.
+I (391724) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack70
+I (396644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (396654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (396654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (396744) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack71"}
+I (396744) GW_MSG_HANDLER: non known json data rxed.
+I (396744) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack71
+I (401644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 37
+I (401644) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (401654) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 47
+I (401654) GW_MSG_HANDLER: Processing message from sock 43 (role=1): {"msg_type": "keep_alive_ack72"}
+I (401664) GW_MSG_HANDLER: non known json data rxed.
+I (401674) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = keep_alive_ack72

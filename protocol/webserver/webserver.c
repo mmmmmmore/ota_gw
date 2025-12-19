@@ -57,18 +57,13 @@ char *webserver_get_task_list_json(void) {
     ota_task_t *task_lists = otaapp_get_task_list();
     for (int i = 0; i < MAX_TASKS; i++) {
         ota_task_t *t = &task_lists[i];
-        if (t->task_id[0] == '\0') continue; // 空槽位跳过
-
-        // 检查是否过期
-        if (esp_log_timestamp() - t->created_ms > 60000) continue;
-
+        if (t->active == false) continue;
         cJSON *obj = cJSON_CreateObject();
         cJSON_AddStringToObject(obj, "task_id", t->task_id);
         cJSON_AddStringToObject(obj, "client_id", t->client_id);
         cJSON_AddStringToObject(obj, "version", t->version);
         cJSON_AddStringToObject(obj, "features", t->features);
         cJSON_AddNumberToObject(obj, "user_response", t->user_response);
-
         cJSON_AddItemToArray(root, obj);
     }
 
@@ -89,6 +84,7 @@ static esp_err_t task_info_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     char *json_str = webserver_get_task_list_json();
     httpd_resp_sendstr(req, json_str ? json_str : "{}");
+
     if (json_str) free(json_str);
     return ESP_OK;
 }
@@ -137,8 +133,19 @@ static esp_err_t user_response_handler(httpd_req_t *req) {
 
 // ---------- 进度信息 ----------
 static esp_err_t progress_info_handler(httpd_req_t *req) {
+    char task_id[64] ={0}; 
+    //decode the task_id from url:
+    size_t qs_len = httpd_req_get_url_query_len(req) +1;
+    if(qs_len > 1){
+        char *qs = malloc(qs_len);
+        if (httpd_req_get_url_query_str(req, qs, qs_len) == ESP_OK){
+            httpd_query_key_value(qs, "task_id", task_id, sizeof(task_id));
+        }
+        free(qs);
+    }
+    
     char json_buf[256];
-    size_t len = ota_handler_get_progress_json(json_buf, sizeof(json_buf));
+    size_t len = ota_handler_get_progress_json(task_id,json_buf, sizeof(json_buf));
     httpd_resp_set_type(req, "application/json");
     if (len >0){
         httpd_resp_send(req, json_buf, len);
