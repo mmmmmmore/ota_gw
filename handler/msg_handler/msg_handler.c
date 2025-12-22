@@ -64,6 +64,9 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
             client_register_save(sock, root);
             //
             //ota_handler_check_result();
+
+
+            /////
         } else if(strcmp(msg_type->valuestring, "hello") == 0){
             ESP_LOGI(TAG, "OTA server hello received on sock %d", sock);
             //tsp_server_set_ota_sock(sock);

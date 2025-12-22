@@ -255,6 +255,33 @@ void ota_handler_client_result_after_ota(const char *task_id ){
             task_lists[i].status = OTA_STATUS_SUCCESS;
             //need cleanup the resource afterwards before next task;
         }
+           // 构造反馈 JSON 给 OTA Server
+        cJSON *root = cJSON_CreateObject();        
+        cJSON_AddStringToObject(root, "msg_type", "ota_task_ack");
+        cJSON_AddStringToObject(root, "task_id", task_lists[i].task_id);
+        cJSON_AddStringToObject(root, "status", "success");
+        cJSON_AddStringToObject(root, "version", task_lists[i].version);
+        char *json_str = cJSON_PrintUnformatted(root);
+        
+        size_t len = strlen(json_str);
+        char *send_buf = malloc(len + 2); 
+        if (send_buf) {
+            memcpy(send_buf, json_str, len);
+            send_buf[len] = '\n';
+            send_buf[len+1] = '\0';
+        }
+
+        int ota_sock = tcp_server_get_ota_sock();
+        if (ota_sock >= 0) {
+            ESP_LOGI(TAG, "Sending ota success result to OTA Server: %s", send_buf);
+            tcp_server_send(ota_sock, send_buf);
+        } else {
+            ESP_LOGW(TAG, "No OTA Server socket available, cannot send reject result");
+        }
+        free(send_buf);
+        cJSON_Delete(root);
+        free(json_str);
+        break;
     }
 }
 

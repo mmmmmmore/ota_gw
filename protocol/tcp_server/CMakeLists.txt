@@ -3,6 +3,6 @@ idf_component_register(
     INCLUDE_DIRS "."
     REQUIRES 
         esp_wifi esp_http_server nvs_flash driver 
-        otaapp msg_handler msg_handler
+        otaapp msg_handler msg_handler client_register
         cJSON
     )

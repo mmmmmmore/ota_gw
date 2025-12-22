@@ -12,8 +12,6 @@ typedef enum {
     CLIENT_OFFLINE = 0,
     CLIENT_ONLINE,
     CLIENT_UPDATING,
-    CLIENT_SUCCESS,
-    CLIENT_FAIL
 } client_state_t;
 
 // Client 信息结构体
@@ -39,6 +37,8 @@ void client_register_save(int sock, cJSON *root);
 // 查找函数
 client_info_t* client_register_find_by_client_id(const char *client_id);
 client_info_t* client_register_find_by_mac(const char *mac);
+
+void client_offline_info(int client_sock);
 
 #endif // CLIENT_REGISTER_H
 

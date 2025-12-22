@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "msg_handler.h"
 #include "cJSON.h"
+#include "client_register.h"
 
 #define RX_BUF_SIZE 1024
 #define MAX_SOCKS 10
@@ -390,6 +391,7 @@ static void tcp_client_task(void *pvParameters){
     ESP_LOGI(TAG_Sock, "Closing client socket : %d", client_sock);
     shutdown(client_sock, SHUT_RDWR);
     close(client_sock);
+    client_offline_info(client_sock);
     unregister_sock(client_sock);
     vTaskDelete(NULL);
 }
