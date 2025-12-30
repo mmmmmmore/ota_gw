@@ -59,18 +59,11 @@ static void update_last_seen(int sock) {
 static void register_sock(int sock, msg_role_t role) {
     lock();
     if (role == ROLE_OTA_SERVER && ota_server_sock > 0 && ota_server_sock != sock) {
-        ESP_LOGW(TAG, "OTA server already connected on sock=%d, closing old one", ota_server_sock);
-        shutdown(ota_server_sock, SHUT_RDWR);
-        close(ota_server_sock);
-        int old = find_sock_index(ota_server_sock);
-        if (old >= 0) {
-            sock_table[old].sock = -1;
-            sock_table[old].role = ROLE_UNKNOWN;
-            sock_table[old].last_seen_ms = 0;
-            sock_table[old].rx_len = 0;
-            memset(sock_table[old].rx_buffer, 0, RX_BUF_SIZE);
-        }
-        ota_server_sock = -1;
+        ESP_LOGW(TAG, "OTA server already connected on sock=%d, reject new one %d", ota_server_sock, sock);
+        shutdown(sock, SHUT_RDWR);
+        close(sock);
+        unlock();
+        return;
     }
 
     // allocate the slot
@@ -454,10 +447,10 @@ static void tcp_server_task(void *pvParameters) {
         msg_role_t role =   (port == 9001) ? ROLE_OTA_SERVER :
                             (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
         
+
         client_arg_t *arg = malloc(sizeof(client_arg_t));
         arg->sock = client_sock;
         arg->role = role;
-        
         xTaskCreate(tcp_client_task, "tcp_client_task started", 4096, arg, 5, NULL);
         
     }
@@ -465,125 +458,6 @@ static void tcp_server_task(void *pvParameters) {
     
 }
 
-
-
-static void tcp_server_task_legacy(void *pvParameters) {
-    int port = (int)(intptr_t)pvParameters;
-    ESP_LOGI(TAG, "tcp_server_task started on port %d", port);
-
-    struct sockaddr_in dest_addr = {0};
-    dest_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    dest_addr.sin_family = AF_INET;
-    dest_addr.sin_port = htons(port);
-
-    int listen_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
-    if (listen_sock < 0) {
-        ESP_LOGE(TAG, "Unable to create socket: errno %d", errno);
-        vTaskDelete(NULL);
-        return;
-    }
-
-    int opt = 1;
-    setsockopt(listen_sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-
-    if (bind(listen_sock, (struct sockaddr *)&dest_addr, sizeof(dest_addr)) < 0) {
-        ESP_LOGE(TAG, "Socket unable to bind: errno %d", errno);
-        close(listen_sock);
-        vTaskDelete(NULL);
-        return;
-    }
-
-    if (listen(listen_sock, 8) < 0) {
-        ESP_LOGE(TAG, "Error occurred during listen: errno %d", errno);
-        close(listen_sock);
-        vTaskDelete(NULL);
-        return;
-    }
-
-    ESP_LOGI(TAG, "TCP Server listening on port %d", port);
-
-    //int big_while_loop_seq = 0;
-    //int sec_while_loop_seq = 0;
-    //int sec_while_lens0_seq =0;
-    //int sec_while_lenis0_seq =0;
-    //int sec_while_lenb0_seq =0;
-    //int sec_while_process_seq =0;
-    while (1) {
-        //big_while_loop_seq ++;
-        struct sockaddr_in source_addr;
-        socklen_t addr_len = sizeof(source_addr);
-        int client_sock = accept(listen_sock, (struct sockaddr *)&source_addr, &addr_len);
-        if (client_sock < 0) {
-            ESP_LOGE(TAG, "Unable to accept connection: errno %d", errno);
-            continue;
-        }
-
-        ESP_LOGI(TAG, "Client connected, sock=%d, ip=%s, port=%d",
-                 client_sock, inet_ntoa(source_addr.sin_addr), ntohs(source_addr.sin_port));
-        
-        int one = 1;
-        setsockopt(client_sock, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
-        
-        set_socket_opts(client_sock, 15000);
-
-        msg_role_t role = (port == 9001) ? ROLE_OTA_SERVER :
-                          (port == 9002) ? ROLE_CLIENT : ROLE_UNKNOWN;
-        register_sock(client_sock, role);
-        //ESP_LOGW(TAG_Sock, "Big while loop seq is [%d]", big_while_loop_seq);
-        //char rx_buffer[512];
-
-        while (1) {
-            //sec_while_loop_seq++;
-            char chunk[512];
-            int len = recv(client_sock, chunk, sizeof(chunk) ,0);  // 251208 optimize the tcp rx buffer method. 
-        //    int len = recv(client_sock, rx_buffer, sizeof(rx_buffer) - 1, 0);
-            if (len < 0) {
-                //sec_while_lens0_seq++;
-                //ESP_LOGW(TAG_Sock, "smaller 0 len seq is [%d]", sec_while_lenis0_seq);
-                if (errno == EWOULDBLOCK || errno == EAGAIN) {
-                    uint32_t now = esp_log_timestamp();
-                    uint32_t last = 0;
-                    lock();
-                    int idx = find_sock_index(client_sock);
-                    if (idx >=0) last = sock_table[idx].last_seen_ms;
-                    //ESP_LOGW(TAG_Sock, "smaller than 0 socket data received! ");
-                    unlock();
-                    if (last == 0 || (now - last) > 20000) {
-                        ESP_LOGW(TAG, "Sock %d timed out (no keep_alive_ack), closing", client_sock);
-                        break;
-                        }
-                        continue;
-                    } else {
-                        ESP_LOGE(TAG, "recv failed: errno %d", errno);
-                        break;
-                    }
-                } else if (len == 0) {
-                    //sec_while_lenis0_seq++;
-                    ESP_LOGW(TAG, "Client disconnected");
-                    //ESP_LOGW(TAG_Sock,"socket len is 0 seq : [%d]", sec_while_lenis0_seq);
-                    break;
-                } else {
-                    //sec_while_lenb0_seq++;
-                    //ESP_LOGI(TAG, "TCP__10__tcp rx all raw data:  :: len = %d,  raw = %.*s", len, len, chunk);
-                    //for(int i=0;i<len;i++){
-                    //    printf("%02X ",(unsigned char)chunk[i]);
-                    //}
-                    //ESP_LOGW(TAG_Sock, "recv Rx seq is [%d]",sec_while_lenb0_seq);
-                    //printf("\n");
-                    // per-role framing and parse the stream
-                    process_stream_json(client_sock, role, chunk, len);
-                    //sec_while_process_seq++;
-                    //ESP_LOGW(TAG_Sock, "recv function exec data to process stream function seq [%d]",sec_while_process_seq);
-                    
-                }
-            }
-
-        ESP_LOGI(TAG, "Closing client socket %d", client_sock);
-        shutdown(client_sock, SHUT_RDWR);
-        close(client_sock);
-        unregister_sock(client_sock);
-    }
-}
 
 
 esp_err_t tcp_server_send(int client_sock, const char *json_str) {

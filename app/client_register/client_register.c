@@ -139,7 +139,13 @@ void client_offline_info(int client_sock){
     }
     //construct the info to OTA server
     if(!info){
-        ESP_LOGW(TAG, "Client : %s, not found by socket: %d", info->client_id, info->sock);
+        ESP_LOGW(TAG, "Client , not found by socket: %d", client_sock);
+        return; //avoid null point
+    }
+
+    int ota_sock= tcp_server_get_ota_sock();
+    if (ota_sock == client_sock){
+        ESP_LOGI(TAG, "OTA Server disconnected, skip offline notify");
     }
 
     info->state = CLIENT_OFFLINE;
@@ -157,7 +163,7 @@ void client_offline_info(int client_sock){
         send_buf[len] = '\n';
         send_buf[len+1] = '\0';
     }
-    int ota_sock = tcp_server_get_ota_sock();
+    
     if (ota_sock >= 0) {
         ESP_LOGI(TAG, "Sending register data offline info to OTA Server: %s", send_buf);
         tcp_server_send(ota_sock, send_buf);

@@ -117,6 +117,7 @@ void ota_handler_on_accept(const ota_task_t *task){
     ota_handler_progress.percentage = 5 ;
     ota_handler_progress.start_ms = esp_log_timestamp();
     ota_handler_progress.active = true;
+    ota_handler_progress.
     ESP_LOGI(TAG, " [%s] init OTA progress for client = ", ota_handler_progress.task_id_sts );
 
     ota_dispatch_send_task(task);
@@ -192,7 +193,7 @@ esp_err_t ota_dispatch_send_task(ota_task_t *task) {
     cJSON_AddStringToObject(root, "user_response", user_response_to_str(task->user_response));
 
     char *json_str = cJSON_PrintUnformatted(root);
-    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", client_id, client->ip, json_str, user_response_to_str(task->user_response));
+    ESP_LOGI(TAG, "Sending OTA task to client %s (IP=%s): %s,  UI response: %s", task->client_id, client->ip, json_str, user_response_to_str(task->user_response));
 
     esp_err_t ret = tcp_server_send(client->sock, json_str);
 

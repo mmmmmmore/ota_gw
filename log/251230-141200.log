@@ -1,0 +1,632 @@
+GW sock monitor function have something wrong
+
+
+
+
+I (1564) GW_TCP_Sock: tcp_server_task started on port : 9002
+I (1564) WEB_OTAGW: OTA Gateway Webserver started
+I (1564) GW_TCP_Sock: TCP_Server listening on port : 9002 
+系统初始化完成，等待客户端连接...
+I (1584) main_task: Returned from app_main()
+I (3844) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (3844) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
+I (3884) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (4974) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (8474) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (15734) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.2, port = 53939
+I (15734) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (15734) GW_TCP_SERVER: OTA Server socket set: 37
+I (15744) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (15744) GW_MSG_HANDLER: OTA server hello received on sock 37
+I (15754) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (16614) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (17164) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.2, port = 53940
+I (17164) GW_TCP_Sock: tcp_client_task started for sock = 38
+W (17164) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 38
+E (17174) GW_TCP_Sock: recv failed : errno: 9 
+I (17174) GW_TCP_Sock: Closing client socket : 38
+W (17184) CLIENT_REGISTER: Client , not found by socket: 38
+I (21564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (22204) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.2, port = 53996
+I (22214) GW_TCP_Sock: tcp_client_task started for sock = 38
+W (22214) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 38
+E (22224) GW_TCP_Sock: recv failed : errno: 9 
+I (22224) GW_TCP_Sock: Closing client socket : 38
+W (22224) CLIENT_REGISTER: Client , not found by socket: 38
+I (26584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (27244) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.2, port = 54035
+I (27244) GW_TCP_Sock: tcp_client_task started for sock = 38
+W (27244) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 38
+E (27254) GW_TCP_Sock: recv failed : errno: 9 
+I (27254) GW_TCP_Sock: Closing client socket : 38
+W (27264) CLIENT_REGISTER: Client , not found by socket: 38
+I (31564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (32374) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.2, port = 54081
+I (32384) GW_TCP_Sock: tcp_client_task started for sock = 38
+W (32384) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 38
+E (32384) GW_TCP_Sock: recv failed : errno: 9 
+I (32394) GW_TCP_Sock: Closing client socket : 38
+W (32394) CLIENT_REGISTER: Client , not found by socket: 38
+I (36564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (37394) GW_TCP_Sock: Client connected, sock = 38, ip = 192.168.4.2, port = 54143
+I (37394) GW_TCP_Sock: tcp_client_task started for sock = 38
+W (37394) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 38
+E (37404) GW_TCP_Sock: recv failed : errno: 9 
+I (37404) GW_TCP_Sock: Closing client socket : 38
+W (37414) CLIENT_REGISTER: Client , not found by socket: 38
+I (41564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (42414) GW_TCP_Sock: Client connected, sock = 40, ip = 192.168.4.2, port = 54195
+I (42424) GW_TCP_Sock: tcp_client_task started for sock = 40
+W (42424) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 40
+E (42424) GW_TCP_Sock: recv failed : errno: 9 
+I (42424) GW_TCP_Sock: Closing client socket : 40
+W (42434) CLIENT_REGISTER: Client , not found by socket: 40
+I (43844) wifi:<ba-add>idx:4 (ifx:1, a4:5e:60:c5:69:75), tid:1, ssn:0, winSize:64
+W (44564) httpd_txrx: httpd_sock_err: error in recv : 104
+I (46564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (47444) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54236
+I (47444) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (47444) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (47454) GW_TCP_Sock: recv failed : errno: 9 
+I (47454) GW_TCP_Sock: Closing client socket : 42
+W (47464) CLIENT_REGISTER: Client , not found by socket: 42
+I (51574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (52464) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54279
+I (52464) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (52464) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (52474) GW_TCP_Sock: recv failed : errno: 9 
+I (52484) GW_TCP_Sock: Closing client socket : 42
+W (52484) CLIENT_REGISTER: Client , not found by socket: 42
+I (56564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (57484) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54336
+I (57484) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (57484) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (57494) GW_TCP_Sock: recv failed : errno: 9 
+I (57494) GW_TCP_Sock: Closing client socket : 42
+W (57494) CLIENT_REGISTER: Client , not found by socket: 42
+I (61564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (62494) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54383
+I (62494) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (62504) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (62504) GW_TCP_Sock: recv failed : errno: 9 
+I (62514) GW_TCP_Sock: Closing client socket : 42
+W (62514) CLIENT_REGISTER: Client , not found by socket: 42
+W (66194) GW_TCP_Sock: Client disconnected sock = 37
+I (66204) GW_TCP_Sock: Closing client socket : 37
+W (66204) CLIENT_REGISTER: Client , not found by socket: 37
+W (66204) GW_TCP_SERVER: OTA Server disconnected
+I (69264) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.2, port = 54436
+I (69264) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (69264) GW_TCP_SERVER: OTA Server socket set: 37
+I (69274) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (69284) GW_MSG_HANDLER: OTA server hello received on sock 37
+I (69284) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (70214) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54457
+I (70224) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (70224) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (70234) GW_TCP_Sock: recv failed : errno: 9 
+I (70234) GW_TCP_Sock: Closing client socket : 42
+W (70234) CLIENT_REGISTER: Client , not found by socket: 42
+I (71564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (75234) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54488
+I (75234) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (75234) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (75244) GW_TCP_Sock: recv failed : errno: 9 
+I (75244) GW_TCP_Sock: Closing client socket : 42
+W (75254) CLIENT_REGISTER: Client , not found by socket: 42
+I (76564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (80254) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54519
+I (80254) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (80254) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (80264) GW_TCP_Sock: recv failed : errno: 9 
+I (80264) GW_TCP_Sock: Closing client socket : 42
+W (80274) CLIENT_REGISTER: Client , not found by socket: 42
+I (81564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (85274) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54528
+I (85274) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (85274) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (85284) GW_TCP_Sock: recv failed : errno: 9 
+I (85284) GW_TCP_Sock: Closing client socket : 42
+W (85284) CLIENT_REGISTER: Client , not found by socket: 42
+I (86594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (90284) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54533
+I (90294) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (90294) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (90294) GW_TCP_Sock: recv failed : errno: 9 
+I (90304) GW_TCP_Sock: Closing client socket : 42
+W (90304) CLIENT_REGISTER: Client , not found by socket: 42
+I (91584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (95304) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.2, port = 54549
+I (95304) GW_TCP_Sock: tcp_client_task started for sock = 42
+W (95304) GW_TCP_SERVER: OTA server already connected on sock=37, reject new one 42
+E (95314) GW_TCP_Sock: recv failed : errno: 9 
+I (95314) GW_TCP_Sock: Closing client socket : 42
+W (95324) CLIENT_REGISTER: Client , not found by socket: 42
+I (96564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (107794) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (107794) wifi:station: dc:b4:d9:04:7c:04 join, AID=2, bgn, 20
+I (107824) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (107824) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 20
+I (107834) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (107834) wifi:station: 1c:db:d4:af:1f:60 join, AID=4, bgn, 20
+I (107874) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (107894) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (107904) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.5
+I (108904) wifi:<ba-add>idx:5 (ifx:1, dc:b4:d9:04:7c:04), tid:0, ssn:0, winSize:64
+I (108904) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.3, port = 60321
+I (108914) GW_TCP_Sock: tcp_client_task started for sock = 42
+I (108934) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","version":"1.1.0","ip":"192.168.4.3"}
+I (108934) wifi:<ba-add>idx:6 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+I (108944) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=DC:B4:D9:04:7C:04, ip=192.168.4.3, ver=1.1.0, sock=42
+I (108954) wifi:<ba-add>idx:7 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+I (108954) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","ip":"192.168.4.3","connect_state":"Online"}
+
+I (108954) GW_TCP_Sock: Client connected, sock = 43, ip = 192.168.4.4, port = 50871
+I (108984) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (108994) GW_TCP_Sock: tcp_client_task started for sock = 43
+I (108994) GW_TCP_Sock: Client connected, sock = 44, ip = 192.168.4.5, port = 57755
+I (108994) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"ota_result","task_id":"Null","state":"NA"}
+I (109004) GW_MSG_HANDLER: Processing message from sock 43 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (109004) GW_TCP_Sock: tcp_client_task started for sock = 44
+I (109014) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"","status":"success","version":""}
+
+I (109034) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=43
+I (109044) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.5"}
+I (109054) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (109064) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","ip":"192.168.4.4","connect_state":"Online"}
+
+I (109084) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.5, ver=1.1.0, sock=44
+I (109104) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (109124) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","ip":"192.168.4.5","connect_state":"Online"}
+
+I (109124) GW_MSG_HANDLER: Processing message from sock 43 (role=2): {"msg_type":"ota_result","task_id":"20251219_091350_759","state":"complete"}
+I (109144) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (109154) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"","status":"success","version":""}
+
+I (109174) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (109244) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_result","task_id":"20251229_160802_760","state":"complete"}
+I (109244) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"","status":"success","version":""}
+
+I (109254) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (111564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (111574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (111574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (116564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (116564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (116564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (119534) wifi:starting SA query procedure with STA(a4:5e:60:c5:69:75)
+I (119534) wifi:Send SA Query req with transaction id 951b
+I (119734) wifi:Send SA Query req with transaction id 951c
+I (119934) wifi:Send SA Query req with transaction id 951d
+I (120134) wifi:Send SA Query req with transaction id 951e
+I (120334) wifi:Send SA Query req with transaction id 951f
+I (120534) wifi:Send SA Query req with transaction id 9520
+I (120554) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (120564) wifi:station: a4:5e:60:c5:69:75 leave, AID = 1, reason = 209, bss_flags is 691315, bss:0x3c0d0e7c
+I (120564) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (120574) wifi:<ba-del>idx:3, tid:0
+I (120574) wifi:<ba-del>idx:4, tid:1
+I (120584) wifi:<ba-del>idx:2, tid:6
+I (120594) wifi:new:<1,1>, old:<1,0>, ap:<1,1>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (121564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (121564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (121574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+E (121994) GW_TCP_Sock: recv failed : errno: 113 
+I (121994) GW_TCP_Sock: Closing client socket : 37
+W (121994) CLIENT_REGISTER: Client , not found by socket: 37
+W (121994) GW_TCP_SERVER: OTA Server disconnected
+I (126564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (126564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (126564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (128774) wifi:new:<1,0>, old:<1,1>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (128774) wifi:station: a4:5e:60:c5:69:75 join, AID=1, bgn, 20
+I (128804) wifi:<ba-add>idx:2 (ifx:1, a4:5e:60:c5:69:75), tid:6, ssn:2, winSize:64
+I (128804) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2
+I (129984) wifi:<ba-add>idx:3 (ifx:1, a4:5e:60:c5:69:75), tid:0, ssn:0, winSize:64
+I (130334) GW_TCP_Sock: Client connected, sock = 37, ip = 192.168.4.2, port = 55356
+I (130334) GW_TCP_Sock: tcp_client_task started for sock = 37
+I (130334) GW_TCP_SERVER: OTA Server socket set: 37
+I (130344) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "hello", "role": "ota_server"}
+I (130354) GW_MSG_HANDLER: OTA server hello received on sock 37
+I (130354) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = hello
+I (131564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (131564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (131564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (131584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (136574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (136574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (136574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (136644) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (141574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (141574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (141574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (141574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (146564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (146564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (146564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (146664) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+
+
+I (146564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (146664) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (151564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (151564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (151574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (151664) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (156564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (156574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (156574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (156674) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (161564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (161564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (161574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (161614) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (166564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (166564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (166574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (166574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (171584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (171584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (171584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (171584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (176564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (176564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (176574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (176574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (181564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (181574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (181574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (181584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (186574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (186574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (186574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (186584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (191564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (191564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (191564) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (191574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (196564) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (196574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (196584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (196584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (201574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (201584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (201584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (201584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (206504) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "ota_task", "task_id": "20251230_141313_758", "device_name": "Veh1_SCM1", "client_id": "758", "version": "v2.2.0", "firmware_url": "https://192.168.4.2:8443/firmware/ota_client_758_v2.2.0.bin", "timestamp": "20251230_141313", "result": "0x01 0x00", "feature": "initial_LED_Flash"}
+I (206524) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (206534) OTA_APP_MGMT: New Task [20251230_141313_758] created in Queue, wait for User response 
+I (206544) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (206574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (206574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (206584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (206584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (209004) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "ota_task", "task_id": "20251230_141315_759", "device_name": "Veh1_SCM2", "client_id": "759", "version": "v2.2.0", "firmware_url": "https://192.168.4.2:8443/firmware/ota_client_759_v2.2.0.bin", "timestamp": "20251230_141315", "result": "0x01 0x00", "feature": "initial_LED_Flash"}
+I (209024) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (209024) OTA_APP_MGMT: New Task [20251230_141315_759] created in Queue, wait for User response 
+I (209034) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (211004) GW_MSG_HANDLER: Processing message from sock 37 (role=1): {"msg_type": "ota_task", "task_id": "20251230_141317_760", "device_name": "Veh2_SCM3", "client_id": "760", "version": "v2.2.0", "firmware_url": "https://192.168.4.2:8443/firmware/ota_client_760_v2.2.0.bin", "timestamp": "20251230_141317", "result": "0x01 0x00", "feature": "initial_LED_Flash"}
+I (211024) GW_MSG_HANDLER: GW Rx ota task, schedule delay dispatch to otaapp 
+I (211034) OTA_APP_MGMT: New Task [20251230_141317_760] created in Queue, wait for User response 
+I (211044) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_task
+I (211574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (211584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (211584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (211584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (215754) OTA_APP_MGMT:  [20251230_141313_758] init OTA progress for client = 758
+I (215754) OTA_APP_MGMT: Sending OTA task to client 758 (IP=192.168.4.3): {"msg_type":"ota_task","task_id":"20251230_141313_758","device_name":"Veh1_SCM1","client_id":"758","version":"v2.2.0","firmware_url":"https://192.168.4.2:8443/firmware/ota_client_758_v2.2.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (215784) OTA_APP_MGMT: Client 758 state updated to UPDATING
+I (215794) WEB_OTAGW: User have response to task: 20251230_141313_758
+I (215834) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"ota_progress","task_id":"20251230_141313_758","state":"DWLD_DONE"}
+I (215834) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (215844) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (215854) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (216584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (216584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (216584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (217834) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":15,"state":"dwld_done"}
+I (219834) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":25,"state":"upgrading"}
+I (221574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (221584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (221584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (221834) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":35,"state":"upgrading"}
+I (223834) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":45,"state":"upgrading"}
+I (225844) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":55,"state":"upgrading"}
+I (226574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (226584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (226584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (227844) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":65,"state":"upgrading"}
+I (229884) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":85,"state":"upgrading"}
+I (231574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (231574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (231584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (231904) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":90,"state":"upgrading"}
+I (233924) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":90,"state":"upgrading"}
+I (235924) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":90,"state":"upgrading"}
+I (236574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (236574) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (236584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (237934) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":90,"state":"upgrading"}
+I (239544) wifi:station: dc:b4:d9:04:7c:04 leave, AID = 2, reason = 8, bss_flags is 756835, bss:0x3c0d2c98
+I (239544) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (239554) wifi:<ba-del>idx:5, tid:0
+I (239944) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":90,"state":"upgrading"}
+I (240334) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (240334) wifi:station: dc:b4:d9:04:7c:04 join, AID=2, bgn, 20
+I (240394) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.3
+I (241434) wifi:<ba-add>idx:4 (ifx:1, dc:b4:d9:04:7c:04), tid:0, ssn:0, winSize:64
+I (241434) GW_TCP_Sock: Client connected, sock = 45, ip = 192.168.4.3, port = 62318
+I (241434) GW_TCP_Sock: tcp_client_task started for sock = 45
+I (241454) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","version":"1.1.0","ip":"192.168.4.3"}
+I (241464) CLIENT_REGISTER: Saving client register: name=Veh1_SCM1, id=758, mac=DC:B4:D9:04:7C:04, ip=192.168.4.3, ver=1.1.0, sock=45
+I (241474) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh1_SCM1","client_id":"758","mac":"DC:B4:D9:04:7C:04","ip":"192.168.4.3","connect_state":"Online"}
+
+I (241494) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (241504) GW_MSG_HANDLER: Processing message from sock 45 (role=2): {"msg_type":"ota_result","task_id":"20251230_141313_758","state":"complete"}
+I (241514) OTA_APP_MGMT: Rx client [758] tx ota task [20251230_141313_758], result complete
+I (241524) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"20251230_141313_758","status":"success","version":"v2.2.0"}
+
+I (241534) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (241574) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+E (241574) GW_TCP_Sock: recv failed : errno: 104 
+I (241574) GW_TCP_Sock: Closing client socket : 42
+W (241574) CLIENT_REGISTER: Client , not found by socket: 42
+I (241594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (241594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (241594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (241944) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141313_758","progress":100,"state":"complete"}
+I (246584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (246594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (246594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (246594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (251584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (251594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (251594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (251594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (254024) OTA_APP_MGMT:  [20251230_141315_759] init OTA progress for client = 759
+I (254024) OTA_APP_MGMT: Sending OTA task to client 759 (IP=192.168.4.4): {"msg_type":"ota_task","task_id":"20251230_141315_759","device_name":"Veh1_SCM2","client_id":"759","version":"v2.2.0","firmware_url":"https://192.168.4.2:8443/firmware/ota_client_759_v2.2.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (254054) OTA_APP_MGMT: Client 759 state updated to UPDATING
+I (254054) WEB_OTAGW: User have response to task: 20251230_141315_759
+I (254104) GW_MSG_HANDLER: Processing message from sock 43 (role=2): {"msg_type":"ota_progress","task_id":"20251230_141315_759","state":"DWLD_DONE"}
+I (254104) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (254114) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (254114) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (256084) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":15,"state":"dwld_done"}
+I (256584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (256594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (256594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (258084) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":25,"state":"upgrading"}
+I (260104) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":35,"state":"upgrading"}
+I (261584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (261594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (261594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (262104) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":45,"state":"upgrading"}
+I (264124) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":65,"state":"upgrading"}
+I (266134) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":75,"state":"upgrading"}
+I (266584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (266594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (266594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (268134) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":85,"state":"upgrading"}
+I (270154) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (270374) wifi:station: dc:b4:d9:10:5f:a8 leave, AID = 3, reason = 8, bss_flags is 756835, bss:0x3c0d25e8
+I (270374) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (270384) wifi:<ba-del>idx:6, tid:0
+I (271094) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (271094) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 20
+I (271174) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (271584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (271594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (271604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (272174) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (272204) wifi:<ba-add>idx:5 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+E (272204) GW_TCP_Sock: recv failed : errno: 104 
+I (272214) GW_TCP_Sock: Closing client socket : 43
+I (272214) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.4, port = 58278
+I (272214) CLIENT_REGISTER: Sending register data offline info to OTA Server: {"msg_type":"register","client_id":"759","connect_state":"Offline"}
+
+I (272224) GW_TCP_Sock: tcp_client_task started for sock = 42
+I (272244) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (272254) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=42
+I (272264) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","ip":"192.168.4.4","connect_state":"Online"}
+
+I (272284) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (272294) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"ota_result","task_id":"20251230_141315_759","state":"complete"}
+I (272304) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"20251230_141313_758","status":"success","version":"v2.2.0"}
+
+I (272324) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (274184) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (276194) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (276584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (276584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (276594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (276594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (278194) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (280214) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (281584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (281594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (281594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (281634) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (282214) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (284224) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (286224) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (286584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (286584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (286594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (286594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (288224) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (290254) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (291584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (291584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (291594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (291594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (292264) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (294264) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (296264) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (296584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (296714) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (296724) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (297034) wifi:starting SA query procedure with STA(dc:b4:d9:10:5f:a8)
+I (297034) wifi:Send SA Query req with transaction id 71d9
+I (297234) wifi:Send SA Query req with transaction id 71da
+I (297434) wifi:Send SA Query req with transaction id 71db
+I (297634) wifi:Send SA Query req with transaction id 71dc
+I (297834) wifi:Send SA Query req with transaction id 71dd
+I (298034) wifi:Send SA Query req with transaction id 71de
+I (298064) wifi:STA not responded to 6 SA Query attempts, Reset connection sending disassoc
+I (298064) wifi:station: dc:b4:d9:10:5f:a8 leave, AID = 3, reason = 209, bss_flags is 756835, bss:0x3c0d25e8
+I (298064) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (298074) wifi:<ba-del>idx:5, tid:0
+I (298264) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (298684) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (298684) wifi:station: dc:b4:d9:10:5f:a8 join, AID=3, bgn, 20
+I (298744) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.4
+I (299784) wifi:<ba-add>idx:5 (ifx:1, dc:b4:d9:10:5f:a8), tid:0, ssn:0, winSize:64
+I (299794) GW_TCP_Sock: Client connected, sock = 43, ip = 192.168.4.4, port = 52565
+I (299794) GW_TCP_Sock: tcp_client_task started for sock = 43
+I (299814) GW_MSG_HANDLER: Processing message from sock 43 (role=2): {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","version":"1.1.0","ip":"192.168.4.4"}
+I (299824) CLIENT_REGISTER: Saving client register: name=Veh1_SCM2, id=759, mac=DC:B4:D9:10:5F:A8, ip=192.168.4.4, ver=1.1.0, sock=43
+I (299834) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh1_SCM2","client_id":"759","mac":"DC:B4:D9:10:5F:A8","ip":"192.168.4.4","connect_state":"Online"}
+
+I (299854) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (299994) GW_MSG_HANDLER: Processing message from sock 43 (role=2): {"msg_type":"ota_result","task_id":"20251230_141315_759","state":"complete"}
+I (299994) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"20251230_141313_758","status":"success","version":"v2.2.0"}
+
+I (300014) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (300274) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+E (300994) GW_TCP_Sock: recv failed : errno: 104 
+I (300994) GW_TCP_Sock: Closing client socket : 42
+W (300994) CLIENT_REGISTER: Client , not found by socket: 42
+I (301584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (301584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (301594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (301594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (302394) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (304414) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (306414) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (306584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (306584) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (306594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (306594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (308414) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (310434) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (311584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (311594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (311594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (311594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (312454) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141315_759","progress":90,"state":"upgrading"}
+I (316584) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (316594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (316604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (316604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (321604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (321604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (321604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 44
+I (321674) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (324804) OTA_APP_MGMT:  [20251230_141317_760] init OTA progress for client = 760
+I (324804) OTA_APP_MGMT: Sending OTA task to client 760 (IP=192.168.4.5): {"msg_type":"ota_task","task_id":"20251230_141317_760","device_name":"Veh2_SCM3","client_id":"760","version":"v2.2.0","firmware_url":"https://192.168.4.2:8443/firmware/ota_client_760_v2.2.0.bin","features":"","user_response":"User_Accept"},  UI response: User_Accept
+I (324834) OTA_APP_MGMT: Client 760 state updated to UPDATING
+I (324844) WEB_OTAGW: User have response to task: 20251230_141317_760
+I (324884) GW_MSG_HANDLER: Processing message from sock 44 (role=2): {"msg_type":"ota_progress","task_id":"20251230_141317_760","state":"DWLD_DONE"}
+I (324894) OTA_APP_MGMT: OTA module Rx Client send download finish signal
+I (324894) GW_MSG_HANDLER: msg_handler tx the ota_progress to otaapp finished
+I (324904) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_progress
+I (326594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (326604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (326614) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (326864) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":15,"state":"dwld_done"}
+I (328864) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":25,"state":"upgrading"}
+I (330884) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":35,"state":"upgrading"}
+I (331594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (331604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (331604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (332894) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":55,"state":"upgrading"}
+I (334914) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":65,"state":"upgrading"}
+I (336594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (336594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (336604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (336924) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":75,"state":"upgrading"}
+I (338944) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":85,"state":"upgrading"}
+I (340954) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (341594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (341594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (341604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (341834) wifi:station: 1c:db:d4:af:1f:60 leave, AID = 4, reason = 8, bss_flags is 756835, bss:0x3c0d33cc
+I (341834) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (341844) wifi:<ba-del>idx:7, tid:0
+I (342554) wifi:new:<1,0>, old:<1,0>, ap:<1,0>, sta:<255,255>, prof:1, snd_ch_cfg:0x0
+I (342554) wifi:station: 1c:db:d4:af:1f:60 join, AID=4, bgn, 20
+I (342614) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.5
+I (342954) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (343654) wifi:<ba-add>idx:6 (ifx:1, 1c:db:d4:af:1f:60), tid:0, ssn:0, winSize:64
+E (343664) GW_TCP_Sock: recv failed : errno: 104 
+I (343664) GW_TCP_Sock: Closing client socket : 44
+I (343664) CLIENT_REGISTER: Sending register data offline info to OTA Server: {"msg_type":"register","client_id":"760","connect_state":"Offline"}
+
+I (343664) GW_TCP_Sock: Client connected, sock = 42, ip = 192.168.4.5, port = 55310
+I (343684) GW_TCP_Sock: tcp_client_task started for sock = 42
+I (343694) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","version":"1.1.0","ip":"192.168.4.5"}
+I (343704) CLIENT_REGISTER: Saving client register: name=Veh2_SCM3, id=760, mac=1C:DB:D4:AF:1F:60, ip=192.168.4.5, ver=1.1.0, sock=42
+I (343714) CLIENT_REGISTER: Sending register data to OTA Server: {"msg_type":"register","device_name":"Veh2_SCM3","client_id":"760","mac":"1C:DB:D4:AF:1F:60","ip":"192.168.4.5","connect_state":"Online"}
+
+I (343734) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = register
+I (343744) GW_MSG_HANDLER: Processing message from sock 42 (role=2): {"msg_type":"ota_result","task_id":"20251230_141317_760","state":"complete"}
+I (343754) OTA_APP_MGMT: Sending ota success result to OTA Server: {"msg_type":"ota_task_ack","task_id":"20251230_141313_758","status":"success","version":"v2.2.0"}
+
+I (343774) GW_MSG_HANDLER: Msg_handler Finish parse for msg_type = ota_result
+I (344964) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (346594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (346604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (346604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (346604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (346964) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (348974) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (350974) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (351594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (351594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (351604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (351604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (352974) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (354984) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (356604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (356604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (356604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (356634) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (356984) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (359004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (361004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (361594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (361604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (361604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (361604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (363004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (365004) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (366594) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (366604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (366604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (366604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (367014) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (369014) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (371014) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (371614) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (371624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (371624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (371624) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (373024) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (375024) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (376594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (376594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (376604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (376644) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (377024) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (379034) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (381034) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (381594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (381594) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (381604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (381694) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
+I (383034) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (385074) WEB_OTAGW: progress sync to web: json: {"task_id":"20251230_141317_760","progress":90,"state":"upgrading"}
+I (386604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 42
+I (386604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 43
+I (386604) GW_TCP_SERVER: Rx_from_Role::->[CLIENT] Rx keep_alive_ack from sock: 45
+I (386654) GW_TCP_SERVER: Rx_from_Role::->[OTA] Rx keep_alive_ack from sock: 37
