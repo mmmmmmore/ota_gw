@@ -246,6 +246,12 @@ void ota_handler_on_client_dwld_done(const char *task_id){
 
 
 void ota_handler_client_result_after_ota(const char *task_id ){
+    if (!task_id){
+        ESP_LOGW(TAG, "task_id is invalid");
+        return;
+    }
+    bool found = false;
+
     for (int i =0; i<MAX_TASKS; i++){
         if (strcmp(task_id, task_lists[i].task_id) == 0){
             ESP_LOGI(TAG, "Rx client [%s] tx ota task [%s], result complete", task_lists[i].client_id, task_lists[i].task_id);
@@ -254,34 +260,46 @@ void ota_handler_client_result_after_ota(const char *task_id ){
             task_lists[i].ota_progress_state = OTA_PROGRESS_COMPLETE;
             task_lists[i].status = OTA_STATUS_SUCCESS;
             //need cleanup the resource afterwards before next task;
-        }
-           // 构造反馈 JSON 给 OTA Server
-        cJSON *root = cJSON_CreateObject();        
-        cJSON_AddStringToObject(root, "msg_type", "ota_task_ack");
-        cJSON_AddStringToObject(root, "task_id", task_lists[i].task_id);
-        cJSON_AddStringToObject(root, "status", "success");
-        cJSON_AddStringToObject(root, "version", task_lists[i].version);
-        char *json_str = cJSON_PrintUnformatted(root);
-        
-        size_t len = strlen(json_str);
-        char *send_buf = malloc(len + 2); 
-        if (send_buf) {
-            memcpy(send_buf, json_str, len);
-            send_buf[len] = '\n';
-            send_buf[len+1] = '\0';
-        }
+            // 构造反馈 JSON 给 OTA Server
+            cJSON *root = cJSON_CreateObject();        
+            cJSON_AddStringToObject(root, "msg_type", "ota_task_ack");
+            cJSON_AddStringToObject(root, "task_id", task_lists[i].task_id);
+            cJSON_AddStringToObject(root, "status", "success");
+            cJSON_AddStringToObject(root, "version", task_lists[i].version);
+            char *json_str = cJSON_PrintUnformatted(root);
 
-        int ota_sock = tcp_server_get_ota_sock();
-        if (ota_sock >= 0) {
-            ESP_LOGI(TAG, "Sending ota success result to OTA Server: %s", send_buf);
-            tcp_server_send(ota_sock, send_buf);
-        } else {
-            ESP_LOGW(TAG, "No OTA Server socket available, cannot send reject result");
-        }
-        free(send_buf);
-        cJSON_Delete(root);
-        free(json_str);
-        break;
+            if (!json_str) {
+                ESP_LOGE(TAG, "Failed to create JSON string");
+                cJSON_Delete(root);
+                break;
+            }
+            size_t len = strlen(json_str);
+            char *send_buf = malloc(len + 2); 
+            if (send_buf) {
+                memcpy(send_buf, json_str, len);
+                send_buf[len] = '\n';
+                send_buf[len+1] = '\0';
+
+                int ota_sock = tcp_server_get_ota_sock();
+                if (ota_sock >= 0) {
+                    ESP_LOGI(TAG, "Sending ota success result to OTA Server: %s", send_buf);
+                    tcp_server_send(ota_sock, send_buf);
+                } else {
+                    ESP_LOGW(TAG, "No OTA Server socket available, cannot send reject result");
+                }
+                free(send_buf);
+            } else{
+                ESP_LOGE(TAG, "Faile to allocate send buffer to OTA server");
+            }
+            cJSON_Delete(root);
+            free(json_str);
+
+            found = true;
+            break;
+        }   
+    }
+    if (!found){
+        ESP_LOGW(TAG, "Task ID [%s] not found in task list", task_id);
     }
 }
 

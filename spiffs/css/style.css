@@ -77,6 +77,14 @@ button:hover {
   border-radius: 5px;
 }
 
+#progressBar.failed {
+  background-color:#e53935; 
+}
+
+#progressBar.timeout {
+  background-color: #ff9800;
+}
+
 .hidden{display: none;}
 
 

@@ -2,6 +2,10 @@ let progressTimer =null;
 let upgradeTimerOutFlag = null;
 let currentTaskId =null;
 
+let lastProgress = -1;
+let stuckCounter =0;
+
+
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
   document.getElementById(sectionId).classList.remove('hidden');
@@ -27,30 +31,34 @@ function fetchProgress(){
     .then(response => response.json())
     .then(data =>{
       updateotaprogressBar(data.progress); // need matching with the ota_handler progress data
+      const progress = Number(data.progress) || 0;
+
       if (data.progress >= 100 && data.state == "complete"){
-        clearInterval(progressTimer);
-        progressTimer = null;
-        document.getElementById("confirmBtn").style.display = "inline-block";
-        console.log("Upgrade_Success_Finished");
+        finishProgress("success");
         return;
       }
+
+      if (progress === lastProgress){
+        stuckCounter++;
+        if (stuckCounter >=5){
+          finishProgress("failed", "Upgrade Failed : Progress Stuck");
+          return;
+        }
+      }else {
+        stuckCounter =0;
+        lastProgress= progress;
+      }
+
       const elapsed = Date.now() - upgradeTimerOutFlag;  //calculate the time interval;
       if (elapsed > 60000){
-        clearInterval(progressTimer);
-        progressTimer=null;
-        console.log("Upgrade_Time_Out");
-        //
-        document.getElementById("progressBar").clearList.add("Failed");
-        document.getElementById("confirmBtn").style.display = "inline-block";
-        alert("Upgrade_Failed: Time_Out");
+        finishProgress("timeout", "Upgrade Failed: Timeout");
+        return;
       }
       console.log("State:", data.state, "Progress: ", data.progress);
     })
     .catch(err => {
       console.error("Error fetching progress", err);
-      clearInterval(progressTimer);
-      progressTimer = null;
-      alert("Upgrade_Fail: Fail Get Progress Info");
+      finishProgress("failed", " Upgrade Failed: Cannot get Progress");
     });
 }
 
@@ -119,14 +127,40 @@ function sendUserResponse(response_value, task_id_value) {
   });
 }
 
+function finishProgress(status, message) {
+  clearInterval(progressTimer);
+  progressTimer = null;
 
+  const bar = document.getElementById("progressBar");
+  if (status === "failed"){
+    bar.classList.add("failed");
+  }else if (status === "timeout"){
+    bar.classList.add("timeout");
+  }
+
+  document.getElementById("confirmBtn").style.display = "inline-block";
+
+  if (message) {
+    alert(message);
+  }
+
+  console.log("OTA finished with status: ", status);
+
+}
 
 //update the upgrade progress percentage by cycle query the status.
 document.getElementById("confirmBtn").addEventListener("click", ()=>{  
   document.getElementById("confirmBtn").style.display = "none";
   clearInterval(progressTimer);
   progressTimer = null;
+
+  lastProgress = -1;
+  stuckCounter =0;
+  currentTaskId = null;
+  const bar = document.getElementById("progressBar");
+  bar.classList.remove("failed", "timeout");
   updateotaprogressBar(0);
+  
   document.getElementById("progressModal").classList.add("hidden");
 });
 
