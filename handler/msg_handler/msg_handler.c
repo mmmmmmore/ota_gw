@@ -35,19 +35,7 @@ static ota_client_task_t* find_or_create_task(const char *task_id) {
     }
     return NULL;
 }
-///-- this is only for pending 10s test ---//
-//static void delayed_send_task(void *param) {
-//    ota_task_t *task = (ota_task_t *) param;
-//    vTaskDelay(pdMS_TO_TICKS(10000));
-//    ESP_LOGI(TAG, "Delayed dispatch: sending task %s to client %s",
-//             task->task_id, task->client_id);
-//    ota_dispatch_send_task(task->client_id, task);
-//    // vPortFree(task);
-//    vTaskDelete(NULL);
-//}
-// 在 msg_handler_process() 的 ota_task 分支
 
-////
 
 void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     ESP_LOGI(TAG, "Processing message from sock %d (role=%d): %s", sock, role, json_str);
@@ -129,24 +117,6 @@ void msg_handler_process(int sock, const char *json_str, msg_role_t role) {
     ESP_LOGI(TAG, "Msg_handler Finish parse for msg_type = %s", msg_type->valuestring);
     cJSON_Delete(root);
 }
-
-// ---------- 提供给 webserver 的接口 ----------
-//const char* msg_handler_get_pending_task_json(void) {
-//    ota_task_t *task = otaapp_get_pending_task();
-//    if (!task) return NULL;
-//    cJSON *root = cJSON_CreateObject();
-//    cJSON_AddStringToObject(root, "task_id", task->task_id);
-//    cJSON_AddStringToObject(root, "device_name", task->device_name);
-//    cJSON_AddStringToObject(root, "client_id", task->client_id);
-//    cJSON_AddStringToObject(root, "version", task->version);
-//    cJSON_AddStringToObject(root, "url", task->url);
-//    cJSON_AddStringToObject(root, "features", task->features);
-//    char *json_str = cJSON_PrintUnformatted(root);
-//    cJSON_Delete(root);
-//    return json_str;
-//}
-/// ----------251209 disable this function, since all task status was transfer to otaapp realize and maintain. 
-/// ----------this function callback in webserver also disable. 
 
 
 

@@ -46,14 +46,12 @@ void client_register_save(int sock, cJSON *root) {
     cJSON *mac = cJSON_GetObjectItem(root, "mac");
     cJSON *ver = cJSON_GetObjectItem(root, "version");
     cJSON *ip  = cJSON_GetObjectItem(root, "ip");
+    cJSON *conn = cJSON_GetObjectItem(root, "connection");
 
     if (!cJSON_IsString(cid)) {
         ESP_LOGW(TAG, "Register missing client_id; ignore");
         return;
     }
-
-
-
 
     // 优先根据 client_id 查找已有记录
     client_info_t *slot = client_register_find_by_client_id(cid->valuestring);
@@ -77,17 +75,51 @@ void client_register_save(int sock, cJSON *root) {
         return;
     }
 
-    // 保存字段
-    copy_str(slot->device_name, sizeof(slot->device_name), cJSON_IsString(dev) ? dev->valuestring : "");
+    // 保存字段 (更新已有信息，如果字段不存在则保留原值)
+    if (cJSON_IsString(dev))  copy_str(slot->device_name, sizeof(slot->device_name), dev->valuestring);
     copy_str(slot->client_id,   sizeof(slot->client_id),   cid->valuestring);
-    copy_str(slot->mac,         sizeof(slot->mac),         cJSON_IsString(mac) ? mac->valuestring : "");
-    copy_str(slot->version,     sizeof(slot->version),     cJSON_IsString(ver) ? ver->valuestring : "");
-    copy_str(slot->ip,          sizeof(slot->ip),          cJSON_IsString(ip) ? ip->valuestring : "");
+    if (cJSON_IsString(mac))  copy_str(slot->mac,         sizeof(slot->mac),         mac->valuestring);
+    if (cJSON_IsString(ver))  copy_str(slot->version,     sizeof(slot->version),     ver->valuestring);
+    if (cJSON_IsString(ip))   copy_str(slot->ip,          sizeof(slot->ip),          ip->valuestring);
     slot->sock  = sock;
-    slot->state = CLIENT_ONLINE;
 
+    // If client indicates Offline explicitly, send offline notify; otherwise treat as Online
+    if (cJSON_IsString(conn) && strcmp(conn->valuestring, "Offline") == 0) {
+        slot->state = CLIENT_OFFLINE;
+        ESP_LOGI(TAG, "Register Offline received for id=%s on sock %d", slot->client_id, sock);
+
+        // construct offline JSON to OTA server
+        cJSON *root_offline= cJSON_CreateObject();
+        cJSON_AddStringToObject(root_offline, "msg_type", "register");
+        cJSON_AddStringToObject(root_offline, "client_id", slot->client_id);
+        cJSON_AddStringToObject(root_offline, "connect_state", client_status_str(slot->state));
+
+        char *json_str = cJSON_PrintUnformatted(root_offline);
+        size_t len = strlen(json_str);
+        char *send_buf = malloc(len + 2);
+        if (send_buf) {
+            memcpy(send_buf, json_str, len);
+            send_buf[len] = '\n';
+            send_buf[len+1] = '\0';
+        }
+        int ota_sock = tcp_server_get_ota_sock();
+        if (ota_sock >= 0) {
+            ESP_LOGI(TAG, "Sending register data offline info to OTA Server: %s", send_buf);
+            tcp_server_send(ota_sock, send_buf);
+        } else {
+            ESP_LOGW(TAG, "No OTA Server socket available, cannot send offline result");
+        }
+        free(send_buf);
+        free(json_str);
+        cJSON_Delete(root_offline);
+        return;
+    }
+
+    // Default: Online
+    slot->state = CLIENT_ONLINE;
     ESP_LOGI(TAG, "Saving client register: name=%s, id=%s, mac=%s, ip=%s, ver=%s, sock=%d",
              slot->device_name, slot->client_id, slot->mac, slot->ip, slot->version, slot->sock);
+
     // create json and send to OTA server
     cJSON *client_register = cJSON_CreateObject();
     cJSON_AddStringToObject(client_register, "msg_type", "register");
@@ -96,7 +128,8 @@ void client_register_save(int sock, cJSON *root) {
     cJSON_AddStringToObject(client_register, "mac", slot->mac);
     cJSON_AddStringToObject(client_register, "ip", slot->ip);
     cJSON_AddStringToObject(client_register, "connect_state", client_status_str(slot->state));
-    
+    cJSON_AddStringToObject(client_register, "version", slot->version);
+
     char *json_str = cJSON_PrintUnformatted(client_register);
 
     size_t len = strlen(json_str);
