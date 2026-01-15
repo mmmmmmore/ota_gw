@@ -2,10 +2,18 @@
 #include "esp_log.h"
 #include "cJSON.h"
 #include <string.h>
+#include <stdlib.h>
 #include "tcp_server.h"
 
 static const char *TAG = "CLIENT_REGISTER";
 client_info_t client_list[MAX_CLIENTS];
+
+static const char *KNOWN_DEVICE_NAMES[] = {
+    "Veh1_SCM1",
+    "Veh1_SCM2",
+    "Veh2_SCM3"
+};
+static const size_t KNOWN_DEVICE_COUNT = sizeof(KNOWN_DEVICE_NAMES) / sizeof(KNOWN_DEVICE_NAMES[0]);
 
 void client_register_init(void) {
     memset(client_list, 0, sizeof(client_list));
@@ -162,6 +170,30 @@ client_info_t* client_register_find_by_client_id(const char *client_id) {
     return NULL;
 }
 
+char *client_register_get_status_json(void) {
+    cJSON *root = cJSON_CreateArray();
+    if (!root) return NULL;
+
+    for (size_t i = 0; i < KNOWN_DEVICE_COUNT; i++) {
+        const char *name = KNOWN_DEVICE_NAMES[i];
+        client_info_t *info = client_register_find_by_device_name(name);
+        const char *version = (info && info->version[0]) ? info->version : "-";
+        const char *connection = info ? client_status_str(info->state) : "-";
+
+        cJSON *item = cJSON_CreateObject();
+        if (!item) continue;
+
+        cJSON_AddStringToObject(item, "device_name", name);
+        cJSON_AddStringToObject(item, "version", version);
+        cJSON_AddStringToObject(item, "connection", connection);
+        cJSON_AddItemToArray(root, item);
+    }
+
+    char *json_str = cJSON_PrintUnformatted(root);
+    cJSON_Delete(root);
+    return json_str;
+}
+
 void client_offline_info(int client_sock){
     client_info_t *info = NULL;
     for (int i=0;i<MAX_CLIENTS;i++){
@@ -206,4 +238,14 @@ void client_offline_info(int client_sock){
     free(send_buf);
     free(json_str);
     cJSON_Delete(root_offline);
+}
+
+client_info_t* client_register_find_by_device_name(const char *device_name){
+    if (!device_name) return NULL;
+    for (int i = 0; i < MAX_CLIENTS; i++) {
+        if (client_list[i].device_name[0] && strcmp(client_list[i].device_name, device_name) == 0) {
+            return &client_list[i];
+        }
+    }
+    return NULL;
 }

@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>GW OTA Gateway</title>
+  <title>Vehicle_HUT</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -39,37 +39,67 @@
     <!-- System -->
     <div id="system" class="section hidden">
       <h3>System Information</h3>
-      <p>当前网关状态：负责 OTA 任务转发与设备管理。</p>
+      <p>Current HUT:  for OTA Task,  check Device Status, Push and update the OTA task。</p>
     </div>
 
     <!-- Update -->
     <div id="update" class="section hidden">
-      <h3>设备更新</h3>
-      <button id="refresh-btn">刷新任务</button>
+      <h3>ECU_Check</h3>
+      <button id="refresh-btn">Fresh_Task</button>
       <table>
         <thead>
           <tr>
-            <th>任务ID</th>
+            <th>TASK_ID</th>
             <th>ECUID</th>
             <th>Version</th>
-            <th>变化描述</th>
-            <th>操作</th>
+            <th>Changes</th>
+            <th>Option</th>
           </tr>
         </thead>
         <tbody id="update-tbody">
           <!-- 动态填充，后续与 app/client_register 对接 -->
         </tbody>
       </table>
+
+      <div class="device-status">
+        <h4>Device Status</h4>
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>DEVICE_NAME</th>
+              <th>VERSION</th>
+              <th>CONNECTION_STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="device-status-tbody">
+            <tr>
+              <td>Veh1_SCM1</td>
+              <td>-</td>
+              <td><span class="status-badge status-unknown">-</span></td>
+            </tr>
+            <tr>
+              <td>Veh1_SCM2</td>
+              <td>-</td>
+              <td><span class="status-badge status-unknown">-</span></td>
+            </tr>
+            <tr>
+              <td>Veh2_SCM3</td>
+              <td>-</td>
+              <td><span class="status-badge status-unknown">-</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <!-- 弹窗容器 -->
   <div id="progressModal" class="modal hidden">
     <div class="modal-content">
-      <h3>升级进度</h3>
+      <h3>Upgrade Progress</h3>
       <div id="progressContainer">
         <div id="progressBar">0%</div>
       </div>
-      <button id="confirmBtn" style="display:none;">确认</button>
+      <button id="confirmBtn" style="display:none;">Confirm</button>
     </div>
   </div>
 

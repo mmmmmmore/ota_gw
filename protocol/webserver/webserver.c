@@ -3,8 +3,10 @@
 #include "esp_http_server.h"
 #include "cJSON.h"
 #include "msg_handler.h"   // 替换 otaapp/ota_handler
+#include "client_register.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "otaapp.h"
 #include "tcp_server.h"
 
@@ -156,6 +158,19 @@ static esp_err_t progress_info_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// ---------- 已注册设备状态 ----------
+static esp_err_t device_status_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "application/json");
+    char *json_str = client_register_get_status_json();
+    if (json_str) {
+        httpd_resp_sendstr(req, json_str);
+        free(json_str);
+    } else {
+        httpd_resp_sendstr(req, "[]");
+    }
+    return ESP_OK;
+}
+
 
 
 
@@ -177,6 +192,14 @@ static void register_uri_handlers(httpd_handle_t server) {
         .user_ctx  = NULL
     };
     httpd_register_uri_handler(server, &progress_info_uri);
+
+    httpd_uri_t device_status_uri = {
+        .uri       = "/device_status",
+        .method    = HTTP_GET,
+        .handler   = device_status_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &device_status_uri);
 
     httpd_uri_t user_response_uri = {
         .uri       = "/ota_user_response",

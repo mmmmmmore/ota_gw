@@ -5,6 +5,12 @@ let currentTaskId =null;
 let lastProgress = -1;
 let stuckCounter =0;
 
+const DEFAULT_DEVICE_STATUS = [
+  { device_name: "Veh1_SCM1", version: "-", connection: "-" },
+  { device_name: "Veh1_SCM2", version: "-", connection: "-" },
+  { device_name: "Veh2_SCM3", version: "-", connection: "-" }
+];
+
 
 function showSection(sectionId) {
   document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
@@ -13,6 +19,7 @@ function showSection(sectionId) {
   // 如果进入 update 区域，加载任务信息
   if (sectionId === 'update') {
     loadPendingTask();
+    loadDeviceStatus();
   }
 }
 
@@ -63,6 +70,44 @@ function fetchProgress(){
 }
 
 
+function statusBadge(status){
+  const label = (typeof status === "string" && status.trim()) ? status : "-";
+  const normalized = label.toLowerCase();
+  let badgeClass = "status-unknown";
+  if (normalized === "online") {
+    badgeClass = "status-online";
+  } else if (normalized === "offline") {
+    badgeClass = "status-offline";
+  }
+  return `<span class="status-badge ${badgeClass}">${label}</span>`;
+}
+
+
+function renderDeviceStatus(devices){
+  const tbody = document.getElementById('device-status-tbody');
+  if (!tbody) return;
+  const rows = (Array.isArray(devices) && devices.length) ? devices : DEFAULT_DEVICE_STATUS;
+  tbody.innerHTML = rows.map(dev => `
+    <tr>
+      <td>${dev.device_name || '-'}</td>
+      <td>${dev.version || '-'}</td>
+      <td>${statusBadge(dev.connection)}</td>
+    </tr>
+  `).join('');
+}
+
+
+function loadDeviceStatus(){
+  fetch('/device_status')
+    .then(resp => resp.json())
+    .then(devices => {
+      renderDeviceStatus(devices);
+    })
+    .catch(err => {
+      console.error('Failed to load device status', err);
+      renderDeviceStatus(DEFAULT_DEVICE_STATUS);
+    });
+}
 
 
 // 加载待确认任务
@@ -82,23 +127,23 @@ function loadPendingTask() {
               <td>${task.version}</td>
               <td>${task.features || '-'}</td>
               <td>
-                <button onclick="sendUserResponse('accept', '${task.task_id}')">接受</button>
-                <button onclick="sendUserResponse('reject', '${task.task_id}')">拒绝</button>
+                <button onclick="sendUserResponse('accept', '${task.task_id}')">Accept</button>
+                <button onclick="sendUserResponse('reject', '${task.task_id}')">Reject</button>
               </td>
             </tr>
           `;
 
         });
       } else {
-        tbody.innerHTML = '<tr><td colspan="5">当前没有待确认任务</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5">No pending tasks</td></tr>';
       }
     })
     .catch(err => {
-      console.error('加载任务失败', err);
+      console.error('Failed to load tasks', err);
     });
 }
 
-// 提交用户选择
+// Submit user response
 function sendUserResponse(response_value, task_id_value) {
   fetch('/ota_user_response', {
     method: 'POST',
@@ -170,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
       loadPendingTask();
+      loadDeviceStatus();
     });
   }
 });

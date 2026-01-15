@@ -37,6 +37,10 @@ void client_register_save(int sock, cJSON *root);
 // 查找函数
 client_info_t* client_register_find_by_client_id(const char *client_id);
 client_info_t* client_register_find_by_mac(const char *mac);
+client_info_t* client_register_find_by_device_name(const char *device_name);
+
+// 返回 JSON 字符串，调用者负责 free
+char *client_register_get_status_json(void);
 
 void client_offline_info(int client_sock);
 
