@@ -36,7 +36,7 @@ body {
 
 .sidebar h2 {
   margin: 0 0 12px;
-  font-size: 18px;
+  font-size: 32px;
   letter-spacing: 0.6px;
   color: var(--accent);
 }
@@ -49,6 +49,7 @@ body {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid transparent;
   transition: all 0.18s ease;
+  font-size: 32px;
 }
 
 .menu-item:hover {
@@ -76,10 +77,12 @@ h3, h2 {
   margin-top: 0;
   letter-spacing: 0.4px;
   color: #f5f7ff;
+  font-size: 30px;
 }
 
 p {
   color: var(--muted);
+  font-size: 20px;
 }
 
 img {

@@ -180,11 +180,23 @@ char *client_register_get_status_json(void) {
         const char *version = (info && info->version[0]) ? info->version : "-";
         const char *connection = info ? client_status_str(info->state) : "-";
 
+        char version_buf[sizeof(client_list[0].version)];
+        const char *version_to_emit = version;
+        const char *underscore = strchr(version, '_');
+        if (info && version[0] && version[0] != '-' && underscore) {
+            size_t prefix_len = (size_t)(underscore - version);
+            size_t copy_len = prefix_len;
+            if (copy_len >= sizeof(version_buf)) copy_len = sizeof(version_buf) - 1;
+            memcpy(version_buf, version, copy_len);
+            version_buf[copy_len] = '\0';
+            version_to_emit = version_buf;
+        }
+
         cJSON *item = cJSON_CreateObject();
         if (!item) continue;
 
         cJSON_AddStringToObject(item, "device_name", name);
-        cJSON_AddStringToObject(item, "version", version);
+        cJSON_AddStringToObject(item, "version", version_to_emit);
         cJSON_AddStringToObject(item, "connection", connection);
         cJSON_AddItemToArray(root, item);
     }
