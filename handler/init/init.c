@@ -7,6 +7,7 @@
 #include "esp_log.h"
 #include "client_register.h"
 #include "msg_handler.h"
+#include "gnss_handler.h"
 #include "esp_system.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -18,7 +19,10 @@ void platform_init(void) {
     
     //initiated the GPIOs and setup default config
     common_gpio_init();               // 初始化所有 GPIO from components/common_gpio
-    ledc_init();
+    
+    //initialize GNSS handler for time calibration
+    gnss_handler_init();              // 初始化 GNSS 处理器
+    gnss_handler_start_task();        // 启动 GNSS 数据接收任务
     
     //start the tcp server
     gw_tcp_servers_init();

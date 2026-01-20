@@ -39,7 +39,49 @@
     <!-- System -->
     <div id="system" class="section hidden">
       <h3>System Information</h3>
-      <p>Current HUT:  for OTA Task,  check Device Status, Push and update the OTA task。</p>
+      <p>Current HUT: for OTA Task, check Device Status, Push and update the OTA task。</p>
+      
+      <!-- GNSS/Time Section -->
+      <div class="gnss-section">
+        <h4>GNSS Time Calibration</h4>
+        <button id="query-time-btn" onclick="queryGNSSTime()">Query Time</button>
+        <button id="sync-time-btn" onclick="syncSystemTime()">Sync System Time</button>
+        
+        <div id="gnss-data-display" class="gnss-data hidden">
+          <h5>GNSS Data</h5>
+          <div id="gnss-message" class="gnss-message"></div>
+          <table class="gnss-table">
+            <tr>
+              <td>UTC Time:</td>
+              <td id="gnss-time">-</td>
+            </tr>
+            <tr>
+              <td>Latitude:</td>
+              <td id="gnss-latitude">-</td>
+            </tr>
+            <tr>
+              <td>Longitude:</td>
+              <td id="gnss-longitude">-</td>
+            </tr>
+            <tr>
+              <td>Satellites:</td>
+              <td id="gnss-satellites">-</td>
+            </tr>
+            <tr>
+              <td>Fix Quality:</td>
+              <td id="gnss-fix-quality">-</td>
+            </tr>
+            <tr>
+              <td>Altitude:</td>
+              <td id="gnss-altitude">-</td>
+            </tr>
+            <tr>
+              <td>Status:</td>
+              <td id="gnss-status">-</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- Update -->

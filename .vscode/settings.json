@@ -2,5 +2,6 @@
     "idf.openOcdConfigs": [
         "board/esp32s3-builtin.cfg"
     ],
-    "idf.port": "/dev/tty.usbmodem5B3E0345201"
+    "idf.port": "/dev/tty.usbmodem5B3E0345201",
+    "idf.flashType": "UART"
 }

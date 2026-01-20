@@ -5,5 +5,5 @@ idf_component_register(
         driver common_gpio 
         client_register otaapp ledapp
         webserver wifi_ap tcp_server
-        cJSON msg_handler
+        cJSON msg_handler gnss_handler
     )

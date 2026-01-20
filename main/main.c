@@ -6,11 +6,14 @@
 #include "esp_event.h"
 #include "esp_spiffs.h"
 #include "common_gpio.h"
+#include "gnss_handler.h"
 #include "init.h"
 #include "esp_psram.h"
 #include "esp_heap_caps.h"
 #include <dirent.h>   // 用于目录遍历
 #include "esp_log.h"
+#include <sys/time.h>
+#include <time.h>
 
 
 
@@ -69,8 +72,35 @@ void check_psram_status() {
     }
 }
 
+// 设置默认系统时间为 2020-01-01 00:00:00
+void set_default_system_time(void) {
+    struct tm default_time = {
+        .tm_year = 2020 - 1900,  // 年份从 1900 开始计
+        .tm_mon = 0,              // 月份从 0 开始 (0 = January)
+        .tm_mday = 1,
+        .tm_hour = 0,
+        .tm_min = 0,
+        .tm_sec = 0
+    };
+    
+    time_t now = mktime(&default_time);
+    struct timeval tv = {
+        .tv_sec = now,
+        .tv_usec = 0
+    };
+    
+    if (settimeofday(&tv, NULL) == 0) {
+        ESP_LOGI("TIME", "Default system time set to 2020-01-01 00:00:00 UTC");
+    } else {
+        ESP_LOGE("TIME", "Failed to set default system time");
+    }
+}
+
 
 void app_main(void) {
+    // 设置默认系统时间 (在任何日志前设置)
+    set_default_system_time();
+    
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());

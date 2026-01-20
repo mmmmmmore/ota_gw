@@ -209,6 +209,88 @@ document.getElementById("confirmBtn").addEventListener("click", ()=>{
   document.getElementById("progressModal").classList.add("hidden");
 });
 
+// ========== GNSS/时间处理函数 ==========
+
+// 查询 GNSS 时间
+function queryGNSSTime() {
+  fetch('/query_time')
+    .then(response => response.json())
+    .then(data => {
+      displayGNSSData(data);
+    })
+    .catch(error => {
+      console.error('Error querying GNSS time:', error);
+      alert('Failed to query GNSS time');
+    });
+}
+
+// 同步系统时间
+function syncSystemTime() {
+  fetch('/sync_time', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('System time synchronized successfully!');
+        console.log(data.message);
+      } else {
+        alert('Failed to sync time: ' + data.message);
+        console.log(data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error syncing time:', error);
+      alert('Error syncing system time');
+    });
+}
+
+// 显示 GNSS 数据
+function displayGNSSData(data) {
+  const display = document.getElementById('gnss-data-display');
+  
+  if (!display) return;
+  
+  // Always show the data, even if invalid
+  document.getElementById('gnss-time').textContent = data.time || '-';
+  document.getElementById('gnss-latitude').textContent = (data.latitude + ' ' + data.ns_indicator) || '-';
+  document.getElementById('gnss-longitude').textContent = (data.longitude + ' ' + data.ew_indicator) || '-';
+  document.getElementById('gnss-satellites').textContent = data.num_satellites || '-';
+  document.getElementById('gnss-fix-quality').textContent = data.fix_quality || '-';
+  document.getElementById('gnss-altitude').textContent = (data.altitude + ' ' + data.altitude_unit) || '-';
+  
+  // Show status with visual indicator
+  let statusText = 'Invalid - No Signal';
+  let statusClass = 'status-error';
+  
+  if (data.valid) {
+    statusText = 'Valid - Fix OK';
+    statusClass = 'status-ok';
+  }
+  
+  const syncStatus = data.time_synced ? 'Synced' : 'Not Synced';
+  const statusElement = document.getElementById('gnss-status');
+  statusElement.textContent = statusText + ' (' + syncStatus + ')';
+  statusElement.className = 'gnss-status ' + statusClass;
+  
+  // Show message about GNSS status
+  const messageElement = document.getElementById('gnss-message');
+  if (messageElement) {
+    if (!data.valid) {
+      messageElement.textContent = data.message || 'Waiting for GNSS signal. Using default values (2020-01-01 00:00:00)';
+      messageElement.className = 'gnss-message warning';
+    } else {
+      messageElement.textContent = 'GNSS signal acquired and ready for time synchronization.';
+      messageElement.className = 'gnss-message success';
+    }
+  }
+  
+  display.classList.remove('hidden');
+}
+
 // 给刷新按钮绑定事件
 document.addEventListener('DOMContentLoaded', () => {
   const refreshBtn = document.getElementById('refresh-btn');

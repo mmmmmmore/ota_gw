@@ -4,6 +4,7 @@
 #include "cJSON.h"
 #include "msg_handler.h"   // 替换 otaapp/ota_handler
 #include "client_register.h"
+#include "gnss_handler.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -171,6 +172,52 @@ static esp_err_t device_status_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+// ---------- GNSS/时间查询处理 ----------
+static esp_err_t query_time_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "application/json");
+    
+    // 获取最新 GPGGA 数据
+    char *json_str = gnss_handler_get_gpgga_json();
+    
+    if (json_str) {
+        httpd_resp_sendstr(req, json_str);
+        ESP_LOGI(TAG, "GNSS data sent to web: %s", json_str);
+        free(json_str);
+    } else {
+        httpd_resp_sendstr(req, "{\"error\":\"No GNSS data available\"}");
+    }
+    
+    return ESP_OK;
+}
+
+// ---------- 时间同步处理 ----------
+static esp_err_t sync_time_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "application/json");
+    
+    // 尝试从 GNSS 数据同步系统时间
+    if (gnss_handler_sync_system_time()) {
+        cJSON *root = cJSON_CreateObject();
+        cJSON_AddBoolToObject(root, "success", true);
+        cJSON_AddStringToObject(root, "message", "System time synchronized from GNSS");
+        char *json_str = cJSON_PrintUnformatted(root);
+        httpd_resp_sendstr(req, json_str);
+        free(json_str);
+        cJSON_Delete(root);
+        ESP_LOGI(TAG, "System time synchronized from GNSS");
+    } else {
+        cJSON *root = cJSON_CreateObject();
+        cJSON_AddBoolToObject(root, "success", false);
+        cJSON_AddStringToObject(root, "message", "Failed to sync time - no valid GNSS data");
+        char *json_str = cJSON_PrintUnformatted(root);
+        httpd_resp_sendstr(req, json_str);
+        free(json_str);
+        cJSON_Delete(root);
+        ESP_LOGW(TAG, "Failed to sync time from GNSS");
+    }
+    
+    return ESP_OK;
+}
+
 
 
 
@@ -208,6 +255,23 @@ static void register_uri_handlers(httpd_handle_t server) {
         .user_ctx  = NULL
     };
     httpd_register_uri_handler(server, &user_response_uri);
+
+    // GNSS 和时间相关路由
+    httpd_uri_t query_time_uri = {
+        .uri       = "/query_time",
+        .method    = HTTP_GET,
+        .handler   = query_time_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &query_time_uri);
+
+    httpd_uri_t sync_time_uri = {
+        .uri       = "/sync_time",
+        .method    = HTTP_POST,
+        .handler   = sync_time_handler,
+        .user_ctx  = NULL
+    };
+    httpd_register_uri_handler(server, &sync_time_uri);
 
     // 静态资源通配符最后注册
     httpd_uri_t static_all = {

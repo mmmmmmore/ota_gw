@@ -246,6 +246,122 @@ button:disabled {
 #progressBar.failed { background: #e74c3c; color: #fff; }
 #progressBar.timeout { background: #f39c12; color: #0b1220; }
 
+/* ========== GNSS/时间部分样式 ========== */
+.gnss-section {
+  margin-top: 24px;
+  padding: 20px;
+  background: rgba(109, 193, 255, 0.08);
+  border: 1px solid rgba(109, 193, 255, 0.3);
+  border-radius: 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+.gnss-section h4 {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 18px;
+}
+
+.gnss-section button {
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 10px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
+}
+
+.gnss-section button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(77, 155, 255, 0.35);
+}
+
+.gnss-data {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(15, 23, 41, 0.6);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+
+.gnss-data.hidden {
+  display: none;
+}
+
+.gnss-data h5 {
+  color: var(--accent);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.gnss-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.gnss-table tr {
+  border-bottom: 1px solid rgba(109, 193, 255, 0.2);
+}
+
+.gnss-table td {
+  padding: 10px 8px;
+  color: var(--text);
+}
+
+.gnss-table td:first-child {
+  font-weight: 600;
+  color: var(--accent);
+  width: 40%;
+}
+
+.gnss-table tr:last-child {
+  border-bottom: none;
+}
+
+/* GNSS Status and Message Styling */
+.gnss-message {
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  border-left: 3px solid;
+}
+
+.gnss-message.warning {
+  background: rgba(243, 156, 18, 0.15);
+  border-color: #f39c12;
+  color: #ffc566;
+}
+
+.gnss-message.success {
+  background: rgba(95, 214, 123, 0.15);
+  border-color: #5fd67b;
+  color: #6de39a;
+}
+
+.gnss-status {
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.gnss-status.status-error {
+  background: rgba(255, 99, 99, 0.2);
+  color: #ffb3b3;
+}
+
+.gnss-status.status-ok {
+  background: rgba(95, 214, 123, 0.2);
+  color: #6de39a;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }

@@ -1,0 +1,12 @@
+idf_component_register(
+    SRCS 
+        gnss_handler.c
+    INCLUDE_DIRS 
+        .
+    REQUIRES 
+        common_gpio
+        esp_driver_uart
+        cJSON
+        freertos
+        esp_system
+)

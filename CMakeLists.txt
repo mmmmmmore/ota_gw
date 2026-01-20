@@ -13,6 +13,7 @@ set(EXTRA_COMPONENT_DIRS
         protocol/tcp_server
         handler/init 
         handler/msg_handler
+        handler/gnss_handler
         spiffs 
         utility/cJSON
         )

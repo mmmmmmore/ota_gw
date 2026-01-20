@@ -6,7 +6,8 @@ idf_component_register(
     REQUIRES 
         esp_wifi esp_http_server nvs_flash driver  
         init 
-        common_gpio json
+        common_gpio
         otaapp
         cJSON
+        gnss_handler
         )
